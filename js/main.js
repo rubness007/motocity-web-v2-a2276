@@ -63,17 +63,21 @@ function initMotocityHeroZoom(reduced){
   var SCREEN_W = 0.0647;   // width, as a fraction of image width
   var SCREEN_H = 0.0678;   // height, as a fraction of image height
   var OVERSHOOT = 1.2;     // extra zoom past "exact fit" so the screen bezel fully clears the viewport
-  var MAX_BLUR = 22;       // px of blur the background reaches — kept from updating every single
+  var MAX_BLUR = 13;       // px of blur the background reaches — kept from updating every single
                             // frame (see the rounding/dedupe in render()) so a bigger radius here
                             // doesn't cost more than a small one
   var BLUR_RAMP_END = 0.4;  // blur reaches MAX_BLUR by this fraction of the zoom, then holds flat —
                              // no point still recalculating it once the background is barely in frame
   var HEADER_SOLID_AT = 0.92; // header switches from transparent to solid Motocity blue once the
                                // zoom is essentially complete (not at the first hint of scroll)
-  // Mask that keeps the desk/laptop/rider sharp while the rest of the photo blurs behind it —
-  // an ellipse centered on the screen's focal point, feathered so the transition reads as a
-  // soft rack-focus rather than a hard cutout. Tuned by eye against assets/hero.jpg.
-  var SHARP_MASK = 'radial-gradient(ellipse 46% 50% at {x}% {y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 90%)';
+  // Sharp mask covers ONLY the laptop and the strip of desk right around it — measured from
+  // the photo, centered a little below/forward of the screen itself (the desk surface, not the
+  // chair or the tray further along the desk). Everything outside this small ellipse blurs.
+  var MASK_X = 0.4906;   // center, as a fraction of image width
+  var MASK_Y = 0.682;    // center, as a fraction of image height
+  var MASK_RX = 0.078;   // horizontal radius, as a fraction of image width
+  var MASK_RY = 0.081;   // vertical radius, as a fraction of image height
+  var SHARP_MASK = 'radial-gradient(ellipse {rx}% {ry}% at {x}% {y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)';
   var TEXT_FONT_RATIO = 0.062;    // base (rest-state) font-size, as a fraction of the screen's rendered width
   // Width/font-size stays proportional at every step (so line-wrapping never changes mid-scroll).
   // Desktop keeps long, wide lines (matches the screen's own wide aspect ratio); mobile uses
@@ -104,6 +108,13 @@ function initMotocityHeroZoom(reduced){
     var originPxX = boxFracX * boxW;
     var originPxY = boxFracY * boxH;
 
+    // Same conversion for the sharp-mask ellipse: a fraction-of-image radius maps to a
+    // fraction-of-box radius by the same cover-crop scale factor used for the offset above.
+    var maskXPct = (0.5 + (MASK_X - 0.5) * (scaledW / boxW)) * 100;
+    var maskYPct = (0.5 + (MASK_Y - 0.5) * (scaledH / boxH)) * 100;
+    var maskRxPct = MASK_RX * (scaledW / boxW) * 100;
+    var maskRyPct = MASK_RY * (scaledH / boxH) * 100;
+
     var screenPxW = SCREEN_W * scaledW;
     var screenPxH = SCREEN_H * scaledH;
     var finalScale = Math.max(boxW / screenPxW, boxH / screenPxH) * OVERSHOOT;
@@ -126,7 +137,11 @@ function initMotocityHeroZoom(reduced){
       translateY: boxH * 0.5 - originPxY,
       finalScale: finalScale,
       baseFontSize: baseFontSize,
-      finalFontSize: finalFontSize
+      finalFontSize: finalFontSize,
+      maskXPct: maskXPct,
+      maskYPct: maskYPct,
+      maskRxPct: maskRxPct,
+      maskRyPct: maskRyPct
     };
   }
 
@@ -175,7 +190,11 @@ function initMotocityHeroZoom(reduced){
     var next = computeGeometry();
     if(!next) return;
     geo = next;
-    var mask = SHARP_MASK.replace('{x}', geo.originXPct.toFixed(2)).replace('{y}', geo.originYPct.toFixed(2));
+    var mask = SHARP_MASK
+      .replace('{rx}', geo.maskRxPct.toFixed(2))
+      .replace('{ry}', geo.maskRyPct.toFixed(2))
+      .replace('{x}', geo.maskXPct.toFixed(2))
+      .replace('{y}', geo.maskYPct.toFixed(2));
     img.style.maskImage = mask;
     img.style.webkitMaskImage = mask;
     render(lastP, lastPolish);
