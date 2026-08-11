@@ -41,11 +41,17 @@ function initMotocityHeroZoom(reduced){
   var sequence = document.getElementById('motocityHeroSequence');
   var stage = document.getElementById('motocityHeroStage');
   var img = document.getElementById('motocityHeroImg');
+  var imgBg = document.getElementById('motocityHeroImgBg');
+  var clouds = document.getElementById('motocityHeroClouds');
   var text = document.getElementById('motocityHeroText');
-  if(!sequence || !stage || !img || !text) return;
+  var header = document.getElementById('siteHeader');
+  if(!sequence || !stage || !img || !imgBg || !clouds || !text) return;
 
   if(reduced || !window.gsap || !window.ScrollTrigger){
     sequence.classList.add('is-static');
+    // No scroll-driven transform to key off of here, so start the header in its "done" state
+    // (solid blue, white text) rather than leaving it transparent over non-photo content.
+    if(header) header.classList.add('is-hero-solid');
     return;
   }
 
@@ -57,6 +63,17 @@ function initMotocityHeroZoom(reduced){
   var SCREEN_W = 0.0647;   // width, as a fraction of image width
   var SCREEN_H = 0.0678;   // height, as a fraction of image height
   var OVERSHOOT = 1.2;     // extra zoom past "exact fit" so the screen bezel fully clears the viewport
+  var MAX_BLUR = 9;        // px of blur the background reaches (blur() is one of the costlier CSS
+                            // filters to repaint, so keep the radius modest and stop growing it
+                            // early — see BLUR_RAMP_END below)
+  var BLUR_RAMP_END = 0.45; // blur reaches MAX_BLUR by this fraction of the zoom, then holds flat —
+                             // no point still recalculating it once the background is barely in frame
+  var HEADER_SOLID_AT = 0.92; // header switches from transparent to solid Motocity blue once the
+                               // zoom is essentially complete (not at the first hint of scroll)
+  // Mask that keeps the desk/laptop/rider sharp while the rest of the photo blurs behind it —
+  // an ellipse centered on the screen's focal point, feathered so the transition reads as a
+  // soft rack-focus rather than a hard cutout. Tuned by eye against assets/hero.jpg.
+  var SHARP_MASK = 'radial-gradient(ellipse 46% 50% at {x}% {y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 40%, rgba(0,0,0,0) 90%)';
   var TEXT_FONT_RATIO = 0.062;    // base (rest-state) font-size, as a fraction of the screen's rendered width
   // Width/font-size stays proportional at every step (so line-wrapping never changes mid-scroll).
   // Desktop keeps long, wide lines (matches the screen's own wide aspect ratio); mobile uses
@@ -66,6 +83,7 @@ function initMotocityHeroZoom(reduced){
   var geo = null;
   var lastP = 0;
   var lastPolish = 1;
+  var lastBlurPx = -1;
 
   function computeGeometry(){
     var boxW = stage.clientWidth;
@@ -123,7 +141,22 @@ function initMotocityHeroZoom(reduced){
     var scale = (1 + (geo.finalScale - 1) * p) * polish;
     var tx = geo.translateX * p;
     var ty = geo.translateY * p;
-    img.style.transform = 'translate(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px) scale(' + scale.toFixed(4) + ')';
+    var transform = 'translate(' + tx.toFixed(2) + 'px,' + ty.toFixed(2) + 'px) scale(' + scale.toFixed(4) + ')';
+    // Background, sharp-masked foreground, and clouds are the same photo/frame stacked —
+    // sharing one transform every frame keeps them pixel-locked to each other as the camera pushes in.
+    img.style.transform = transform;
+    imgBg.style.transform = transform;
+    clouds.style.transform = transform;
+
+    if(header) header.classList.toggle('is-hero-solid', p >= HEADER_SOLID_AT);
+
+    // Round + only touch style.filter when it actually changes — re-filtering a full-bleed
+    // image is expensive, and scrub fires onUpdate on tiny sub-pixel scroll deltas.
+    var blurPx = Math.round(MAX_BLUR * Math.min(p / BLUR_RAMP_END, 1) * 4) / 4;
+    if(blurPx !== lastBlurPx){
+      lastBlurPx = blurPx;
+      imgBg.style.filter = blurPx > 0 ? 'blur(' + blurPx + 'px)' : 'none';
+    }
 
     var focalX = geo.originPxX + tx;
     var focalY = geo.originPxY + ty;
@@ -136,8 +169,15 @@ function initMotocityHeroZoom(reduced){
   }
 
   function refreshGeometry(){
-    geo = computeGeometry();
-    if(!geo) return;
+    // A transient 0×0 read (mid-reflow, e.g. right as the pin engages/disengages) is not
+    // uncommon here — keep the last good geometry rather than nulling it out and silently
+    // freezing the whole effect until some future refresh happens to land at a good moment.
+    var next = computeGeometry();
+    if(!next) return;
+    geo = next;
+    var mask = SHARP_MASK.replace('{x}', geo.originXPct.toFixed(2)).replace('{y}', geo.originYPct.toFixed(2));
+    img.style.maskImage = mask;
+    img.style.webkitMaskImage = mask;
     render(lastP, lastPolish);
   }
 

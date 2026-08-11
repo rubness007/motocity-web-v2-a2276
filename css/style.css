@@ -94,12 +94,41 @@ section{padding:96px 0;}
   position:sticky;top:0;z-index:50;
   background:rgba(255,255,255,0.97);
   border-bottom:1px solid var(--border);
+  transition:background-color .25s ease, border-color .25s ease;
 }
 .nav{display:flex;align-items:center;justify-content:space-between;height:76px;}
-.nav-logo img{height:30px;width:auto;}
+.nav-logo img{height:42px;width:auto;transition:opacity .2s ease;}
 .nav-links{display:flex;align-items:center;gap:36px;}
 .nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);transition:color .15s;}
 .nav-links a:hover,.nav-links a.active{color:var(--ink);}
+
+/* Homepage-only header treatment: starts fully transparent with white text/logo over the
+   landscape photo, then main.js adds --hero-solid once the scroll-zoom reaches the end (the
+   background has turned into the white hero by then) — background becomes Motocity blue,
+   text/logo stay white throughout since white reads fine on both transparent and blue. */
+.site-header--hero{background:transparent;border-bottom-color:transparent;position:relative;}
+/* The photo's sky is light in places, so plain white text can go nearly invisible right at
+   the top — a soft scrim + text-shadow keeps the logo/nav legible no matter what's behind it,
+   without hiding the photo outright. Fades away once the header goes solid blue. */
+.site-header--hero::before{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(to bottom, rgba(6,20,40,0.38), rgba(6,20,40,0.12) 70%, transparent);
+  opacity:1;transition:opacity .25s ease;
+}
+.site-header--hero.is-hero-solid::before{opacity:0;}
+.site-header--hero .nav-logo img{filter:drop-shadow(0 1px 3px rgba(0,0,0,0.35));}
+.site-header--hero .nav-links a{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.4);}
+.site-header--hero .nav-links a:hover,
+.site-header--hero .nav-links a.active{color:#fff;}
+.site-header--hero .btn--secondary{background:rgba(255,255,255,0.16);color:#fff;border-color:rgba(255,255,255,0.5);}
+.site-header--hero .btn--secondary:hover{background:rgba(255,255,255,0.26);}
+.site-header--hero .nav-toggle{color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4));}
+.site-header--hero.is-hero-solid{background:#0265bc;}
+@media (max-width:860px){
+  /* Mobile nav-links panel is an opaque white sheet regardless — transparent/blue header only
+     affects the closed top bar, never the open menu, so it stays readable either way. */
+  .site-header--hero .nav-links a{color:var(--ink-soft);text-shadow:none;}
+}
 .nav-cta{display:flex;align-items:center;gap:12px;}
 .nav-toggle{display:none;background:none;border:none;padding:8px;}
 .nav-toggle svg{width:24px;height:24px;}
@@ -133,6 +162,38 @@ section{padding:96px 0;}
   -webkit-user-drag:none;user-select:none;
   will-change:transform;
 }
+/* Two stacked copies of the same photo: --bg blurs progressively as the camera pushes in
+   (hides JPEG upscaling artifacts on the landscape and reads as a rack-focus toward the
+   desk); --fg stays sharp but is masked down to roughly the desk/laptop/rider area, so that
+   subject never blurs. Both get the identical transform every frame (see main.js render()),
+   so they stay perfectly registered on top of each other. */
+.motocity-hero-img--bg{will-change:transform,filter;}
+.motocity-hero-img--fg{
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+  -webkit-mask-size:100% 100%;mask-size:100% 100%;
+}
+.motocity-hero-clouds{
+  position:absolute;inset:0;width:100%;height:100%;
+  overflow:hidden;pointer-events:none;will-change:transform;
+}
+.motocity-hero-clouds .cloud{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(closest-side, rgba(255,255,255,0.95), rgba(255,255,255,0) 72%);
+  filter:blur(6px);
+  mix-blend-mode:screen;
+  opacity:0.5;
+  animation-name:motocity-cloud-drift;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+  animation-direction:alternate;
+}
+.motocity-hero-clouds .cloud--a{width:16%;height:7%;left:8%;top:9%;animation-duration:95s;}
+.motocity-hero-clouds .cloud--b{width:12%;height:5.5%;left:40%;top:5%;animation-duration:80s;animation-delay:-30s;}
+.motocity-hero-clouds .cloud--c{width:14%;height:6%;left:66%;top:12%;animation-duration:110s;animation-delay:-55s;}
+@keyframes motocity-cloud-drift{
+  0%{transform:translateX(-2.5%);}
+  100%{transform:translateX(2.5%);}
+}
 /* Text lives OUTSIDE the transformed image layer on purpose: a CSS transform:scale()
    composites as a cached bitmap, which blurs text at high zoom. Growing it via font-size
    instead (see main.js) forces a real repaint at every size, so it stays sharp throughout. */
@@ -149,10 +210,16 @@ section{padding:96px 0;}
   .motocity-hero-sequence{height:240vh;}
 }
 
-/* Accessible / no-JS fallback: reduced motion, or GSAP failing to load (main.js adds .is-static). */
+/* Accessible / no-JS fallback: reduced motion, or GSAP failing to load (main.js adds .is-static).
+   Only the sharp foreground photo shows, full and unmasked — no blur layer, no cloud drift. */
 .motocity-hero-sequence.is-static{height:auto;background:none;}
 .motocity-hero-sequence.is-static .motocity-hero-stage{position:relative;height:auto;min-height:0;background:none;}
-.motocity-hero-sequence.is-static .motocity-hero-img{position:relative;height:64vh;min-height:360px;transform:none !important;object-position:center 42%;}
+.motocity-hero-sequence.is-static .motocity-hero-img--bg,
+.motocity-hero-sequence.is-static .motocity-hero-clouds{display:none;}
+.motocity-hero-sequence.is-static .motocity-hero-img--fg{
+  position:relative;height:64vh;min-height:360px;transform:none !important;object-position:center 42%;
+  -webkit-mask-image:none;mask-image:none;
+}
 .motocity-hero-sequence.is-static .motocity-hero-text{
   position:relative;left:auto;top:auto;transform:none;
   width:auto;max-width:620px;margin:-140px auto 0;padding:22px 28px;
@@ -163,7 +230,12 @@ section{padding:96px 0;}
 @media (prefers-reduced-motion:reduce){
   .motocity-hero-sequence{height:auto;background:none;}
   .motocity-hero-stage{position:relative;height:auto;min-height:0;background:none;}
-  .motocity-hero-img{position:relative;height:64vh;min-height:360px;transform:none !important;object-position:center 42%;}
+  .motocity-hero-img--bg,
+  .motocity-hero-clouds{display:none;}
+  .motocity-hero-img--fg{
+    position:relative;height:64vh;min-height:360px;transform:none !important;object-position:center 42%;
+    -webkit-mask-image:none;mask-image:none;
+  }
   .motocity-hero-text{
     position:relative;left:auto;top:auto;transform:none;
     width:auto;max-width:620px;margin:-140px auto 0;padding:22px 28px;

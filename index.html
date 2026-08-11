@@ -13,9 +13,9 @@
 </head>
 <body>
 
-<header class="site-header">
+<header class="site-header site-header--hero" id="siteHeader">
   <div class="w nav">
-    <a href="index.html" class="nav-logo"><img src="assets/logo.svg" alt="Motocity"></a>
+    <a href="index.html" class="nav-logo"><img src="assets/logo-header-white.png" alt="Motocity"></a>
     <nav class="nav-links">
       <a href="servicios/index.html">Servicios</a>
       <a href="seguridad/index.html">Seguro y cobertura</a>
@@ -37,8 +37,17 @@
   <div class="motocity-hero-stage" id="motocityHeroStage">
     <picture>
       <source media="(max-width:859px)" srcset="assets/hero-mobile.jpg">
-      <img id="motocityHeroImg" class="motocity-hero-img" src="assets/hero.jpg" alt="Motorista Motocity entregando un sobre junto a un escritorio, con cordillera y lago de fondo" draggable="false" loading="eager" fetchpriority="high">
+      <img id="motocityHeroImgBg" class="motocity-hero-img motocity-hero-img--bg" src="assets/hero.jpg" alt="" draggable="false" aria-hidden="true">
     </picture>
+    <picture>
+      <source media="(max-width:859px)" srcset="assets/hero-mobile.jpg">
+      <img id="motocityHeroImg" class="motocity-hero-img motocity-hero-img--fg" src="assets/hero.jpg" alt="Motorista Motocity entregando un sobre junto a un escritorio, con cordillera y lago de fondo" draggable="false" loading="eager" fetchpriority="high">
+    </picture>
+    <div class="motocity-hero-clouds" id="motocityHeroClouds" aria-hidden="true">
+      <span class="cloud cloud--a"></span>
+      <span class="cloud cloud--b"></span>
+      <span class="cloud cloud--c"></span>
+    </div>
     <p class="motocity-hero-text" id="motocityHeroText">Relájate.<br>La mensajería de tu empresa está en manos de Motocity.</p>
   </div>
 </section>
