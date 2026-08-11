@@ -63,10 +63,10 @@ function initMotocityHeroZoom(reduced){
   var SCREEN_W = 0.0647;   // width, as a fraction of image width
   var SCREEN_H = 0.0678;   // height, as a fraction of image height
   var OVERSHOOT = 1.2;     // extra zoom past "exact fit" so the screen bezel fully clears the viewport
-  var MAX_BLUR = 9;        // px of blur the background reaches (blur() is one of the costlier CSS
-                            // filters to repaint, so keep the radius modest and stop growing it
-                            // early — see BLUR_RAMP_END below)
-  var BLUR_RAMP_END = 0.45; // blur reaches MAX_BLUR by this fraction of the zoom, then holds flat —
+  var MAX_BLUR = 22;       // px of blur the background reaches — kept from updating every single
+                            // frame (see the rounding/dedupe in render()) so a bigger radius here
+                            // doesn't cost more than a small one
+  var BLUR_RAMP_END = 0.4;  // blur reaches MAX_BLUR by this fraction of the zoom, then holds flat —
                              // no point still recalculating it once the background is barely in frame
   var HEADER_SOLID_AT = 0.92; // header switches from transparent to solid Motocity blue once the
                                // zoom is essentially complete (not at the first hint of scroll)

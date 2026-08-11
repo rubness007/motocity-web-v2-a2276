@@ -106,7 +106,10 @@ section{padding:96px 0;}
    landscape photo, then main.js adds --hero-solid once the scroll-zoom reaches the end (the
    background has turned into the white hero by then) — background becomes Motocity blue,
    text/logo stay white throughout since white reads fine on both transparent and blue. */
-.site-header--hero{background:transparent;border-bottom-color:transparent;position:relative;}
+/* position:sticky only starts "floating" once you've scrolled past it — at rest it just sits
+   in normal document flow, pushing the hero down and leaving a seam instead of overlapping the
+   sky. Fixed positioning makes it genuinely float over the hero from the very first frame. */
+.site-header--hero{background:transparent;border-bottom-color:transparent;position:fixed;top:0;left:0;right:0;width:100%;}
 /* The photo's sky is light in places, so plain white text can go nearly invisible right at
    the top — a soft scrim + text-shadow keeps the logo/nav legible no matter what's behind it,
    without hiding the photo outright. Fades away once the header goes solid blue. */
