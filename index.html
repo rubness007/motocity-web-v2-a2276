@@ -8,8 +8,8 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1786421000">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=1786446500">
 </head>
 <body>
 
@@ -36,19 +36,33 @@
 <section class="motocity-hero-sequence" id="motocityHeroSequence">
   <div class="motocity-hero-stage" id="motocityHeroStage">
     <picture>
-      <source media="(max-width:859px)" srcset="assets/hero-mobile.jpg">
-      <img id="motocityHeroImgBg" class="motocity-hero-img motocity-hero-img--bg" src="assets/hero.jpg" alt="" draggable="false" aria-hidden="true">
+      <source media="(max-width:859px)" srcset="assets/hero-mobile.jpg?v=1786446500">
+      <img id="motocityHeroImgBg" class="motocity-hero-img motocity-hero-img--bg" src="assets/hero.jpg?v=1786446500" alt="" draggable="false" aria-hidden="true">
     </picture>
     <picture>
-      <source media="(max-width:859px)" srcset="assets/hero-mobile.jpg">
-      <img id="motocityHeroImg" class="motocity-hero-img motocity-hero-img--fg" src="assets/hero.jpg" alt="Motorista Motocity entregando un sobre junto a un escritorio, con cordillera y lago de fondo" draggable="false" loading="eager" fetchpriority="high">
+      <source media="(max-width:859px)" srcset="assets/hero-mobile.jpg?v=1786446500">
+      <img id="motocityHeroImg" class="motocity-hero-img motocity-hero-img--fg" src="assets/hero.jpg?v=1786446500" alt="Motorista Motocity entregando un sobre junto a un escritorio, con cordillera y lago de fondo" draggable="false" loading="eager" fetchpriority="high">
     </picture>
     <div class="motocity-hero-clouds" id="motocityHeroClouds" aria-hidden="true">
       <span class="cloud cloud--a"></span>
       <span class="cloud cloud--b"></span>
       <span class="cloud cloud--c"></span>
     </div>
-    <p class="motocity-hero-text" id="motocityHeroText">Relájate.<br>La mensajería de tu empresa está en manos de Motocity.</p>
+    <p class="motocity-hero-text" id="motocityHeroText"><span class="motocity-hero-pin" aria-hidden="true"></span>Relájate.<br>Motocity se encarga de la mensajería de tu empresa.</p>
+
+    <div class="motocity-hero-badge" id="motocityHeroBadge">
+      <span class="motocity-hero-badge-label">Motocity</span>
+      <span class="motocity-hero-badge-colon">:</span>
+      <span class="motocity-hero-badge-cycle">
+        <span>Rápido</span>
+        <span>Seguro</span>
+        <span>Confiable</span>
+      </span>
+    </div>
+
+    <div class="motocity-hero-scrolldown" id="motocityHeroScrollDown" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
+    </div>
   </div>
 </section>
 
@@ -260,6 +274,6 @@
 
 <script src="https://unpkg.com/gsap@3.12.7/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
-<script src="js/main.js?v=1786421000"></script>
+<script src="js/main.js?v=1786446500"></script>
 </body>
 </html>

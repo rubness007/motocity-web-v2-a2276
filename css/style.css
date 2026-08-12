@@ -21,6 +21,7 @@
   --shadow-md:0 8px 24px rgba(15,30,60,0.08);
   --max:1160px;
   --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  --font-heading:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
 }
 
 *,*::before,*::after{box-sizing:border-box;}
@@ -36,7 +37,7 @@ body{
 img{max-width:100%;display:block;}
 a{color:inherit;text-decoration:none;}
 ul{list-style:none;margin:0;padding:0;}
-h1,h2,h3,h4{margin:0;line-height:1.15;letter-spacing:-0.02em;font-weight:600;}
+h1,h2,h3,h4,h5,h6{margin:0;line-height:1.15;letter-spacing:-0.02em;font-weight:600;font-family:var(--font-heading);}
 p{margin:0;}
 button{font-family:inherit;cursor:pointer;}
 
@@ -97,7 +98,7 @@ section{padding:96px 0;}
   transition:background-color .25s ease, border-color .25s ease;
 }
 .nav{display:flex;align-items:center;justify-content:space-between;height:76px;}
-.nav-logo img{height:42px;width:auto;transition:opacity .2s ease;}
+.nav-logo img{height:50px;width:auto;transition:opacity .2s ease;}
 .nav-links{display:flex;align-items:center;gap:36px;}
 .nav-links a{font-size:14.5px;font-weight:500;color:var(--ink-soft);transition:color .15s;}
 .nav-links a:hover,.nav-links a.active{color:var(--ink);}
@@ -109,14 +110,14 @@ section{padding:96px 0;}
 /* position:sticky only starts "floating" once you've scrolled past it — at rest it just sits
    in normal document flow, pushing the hero down and leaving a seam instead of overlapping the
    sky. Fixed positioning makes it genuinely float over the hero from the very first frame. */
-.site-header--hero{background:transparent;border-bottom-color:transparent;position:fixed;top:0;left:0;right:0;width:100%;}
+.site-header--hero{background:transparent;border-bottom-color:transparent;position:fixed;top:0;left:0;right:0;width:100%;transition:background-color .4s ease;}
 /* The photo's sky is light in places, so plain white text can go nearly invisible right at
    the top — a soft scrim + text-shadow keeps the logo/nav legible no matter what's behind it,
    without hiding the photo outright. Fades away once the header goes solid blue. */
 .site-header--hero::before{
   content:"";position:absolute;inset:0;z-index:-1;
   background:linear-gradient(to bottom, rgba(6,20,40,0.38), rgba(6,20,40,0.12) 70%, transparent);
-  opacity:1;transition:opacity .25s ease;
+  opacity:1;transition:opacity .4s ease;
 }
 .site-header--hero.is-hero-solid::before{opacity:0;}
 .site-header--hero .nav-logo img{filter:drop-shadow(0 1px 3px rgba(0,0,0,0.35));}
@@ -197,20 +198,109 @@ section{padding:96px 0;}
   0%{transform:translateX(-2.5%);}
   100%{transform:translateX(2.5%);}
 }
+
 /* Text lives OUTSIDE the transformed image layer on purpose: a CSS transform:scale()
    composites as a cached bitmap, which blurs text at high zoom. Growing it via font-size
    instead (see main.js) forces a real repaint at every size, so it stays sharp throughout. */
 .motocity-hero-text{
   position:absolute;left:0;top:0;margin:0;
   transform:translate(-50%,-50%);
-  text-align:center;color:var(--blue-darker);
-  font-family:'Bodoni Moda',var(--font);
-  font-weight:600;letter-spacing:-0.005em;line-height:1.32;
+  text-align:center;color:#0265bc;
+  font-family:'Plus Jakarta Sans',var(--font);
+  font-weight:700;letter-spacing:-0.01em;line-height:1.28;
   pointer-events:none;
+  /* One-time entrance on page load — fades up into place, independent of the scroll-driven
+     left/top/font-size (main.js only ever touches those, never opacity/transform), so this
+     can't fight the scroll animation. Disabled below wherever JS/motion is off, since those
+     fallbacks set transform:none and this animation's keyframe would otherwise fight that. */
+  opacity:0;
+  animation:motocity-text-rise .9s ease-out .3s forwards;
+}
+@keyframes motocity-text-rise{
+  from{opacity:0;transform:translate(-50%,-50%) translateY(14px);}
+  to{opacity:1;transform:translate(-50%,-50%) translateY(0);}
+}
+
+/* Small pulsing "live location" pin before "Relájate." — sized in em so it scales automatically
+   with the headline's own font-size as main.js grows it during the scroll-zoom (no JS needed),
+   and it inherits the text's fade/rise entrance since it's a child of the same element. */
+.motocity-hero-pin{
+  position:relative;display:inline-block;
+  width:0.42em;height:0.42em;margin:0 0.22em 0.08em 0;
+  vertical-align:middle;border-radius:50%;
+  background:currentColor;
+}
+.motocity-hero-pin::after{
+  content:"";position:absolute;inset:0;border-radius:50%;
+  background:currentColor;opacity:0.6;
+  animation:motocity-pin-ping 2s cubic-bezier(0,0,0.2,1) infinite;
+}
+@keyframes motocity-pin-ping{
+  0%{transform:scale(1);opacity:0.6;}
+  100%{transform:scale(2.6);opacity:0;}
+}
+
+/* Top badge ("Motocity: Rápido/Seguro/Confiable") and the bottom scroll-down affordance are
+   rest-state-only UI, not part of the photo — main.js fades both out fast as soon as scroll
+   starts (see FOOTER_FADE_END in main.js) rather than dragging them through the whole zoom. */
+/* Two EQUAL fixed-width columns straddling ":" — not flex:1 auto-share, which turned out to
+   NOT guarantee equal columns here: with flex-basis:0, free space is split 50/50 only until an
+   item's min-content (its un-wrappable text width) is bigger than its 50% share, at which point
+   it's clamped to that min-content and the OTHER column just absorbs whatever's left over —
+   so "Motocity" (fixed min-content) and a short word like "Seguro" ended up visibly unequal.
+   Giving both columns the SAME explicit width (sized for "Confiable", the longest word, plus a
+   little padding) makes them equal by construction regardless of content, so ":" always sits
+   exactly at the badge's horizontal center. text-align:right/left then pushes each piece to
+   its edge, one character-space (the colon's own padding) away from ":" on either side. */
+.motocity-hero-badge{
+  position:absolute;left:50%;top:17%;transform:translate(-50%,0);
+  display:flex;align-items:center;line-height:1;
+  color:rgba(255,255,255,0.88);
+  font-family:var(--font-heading);font-size:clamp(29px,3.5vw,37px);font-weight:600;letter-spacing:0.02em;
+  pointer-events:none;white-space:nowrap;
+}
+.motocity-hero-badge-label{flex:0 0 5.2em;text-align:right;}
+.motocity-hero-badge-colon{flex:none;padding:0 0.3em;}
+.motocity-hero-badge-cycle{position:relative;flex:0 0 5.2em;height:1.3em;text-align:left;}
+/* Centered via top:50% + translateY(-50%) (not top:0) so the word's own line-box lines up with
+   the "Motocity"/":" baseline instead of sitting visibly lower. */
+.motocity-hero-badge-cycle span{position:absolute;left:0;top:50%;opacity:0;animation:motocity-word-cycle 6s infinite;}
+.motocity-hero-badge-cycle span:nth-child(1){animation-delay:0s;}
+.motocity-hero-badge-cycle span:nth-child(2){animation-delay:2s;}
+.motocity-hero-badge-cycle span:nth-child(3){animation-delay:4s;}
+@keyframes motocity-word-cycle{
+  0%,2%{opacity:0;transform:translate(0,calc(-50% + 6px));}
+  8%,30%{opacity:1;transform:translate(0,-50%);}
+  36%,100%{opacity:0;transform:translate(0,calc(-50% - 6px));}
+}
+
+.motocity-hero-scrolldown{
+  position:absolute;left:50%;bottom:5%;transform:translate(-50%,0);
+  width:40px;height:40px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.5);
+  color:#fff;pointer-events:none;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+}
+.motocity-hero-scrolldown svg{width:17px;height:17px;animation:motocity-scrolldown-bounce 1.8s ease-in-out infinite;}
+@keyframes motocity-scrolldown-bounce{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(5px);}
+}
+@media (prefers-reduced-motion:reduce){
+  .motocity-hero-badge-cycle span{animation:none;opacity:0;}
+  .motocity-hero-badge-cycle span:first-child{opacity:1;}
+  .motocity-hero-scrolldown svg{animation:none;}
+  .motocity-hero-pin::after{animation:none;opacity:0;}
 }
 
 @media (max-width:860px){
   .motocity-hero-sequence{height:240vh;}
+  /* object-fit:cover (fills 100vh edge-to-edge, no letterbox bars) — assets/hero-mobile.jpg is
+     a dedicated tall-portrait composite (not a crop of the desktop photo) with the laptop
+     already centered and the rider included, built specifically so a straight centered
+     cover-crop shows the whole concept without needing to shift the crop off-center. */
+  .motocity-hero-badge{top:26%;font-size:clamp(22px,5.8vw,31px);}
+  .motocity-hero-scrolldown{bottom:4%;width:34px;height:34px;}
 }
 
 /* Accessible / no-JS fallback: reduced motion, or GSAP failing to load (main.js adds .is-static).
@@ -218,7 +308,9 @@ section{padding:96px 0;}
 .motocity-hero-sequence.is-static{height:auto;background:none;}
 .motocity-hero-sequence.is-static .motocity-hero-stage{position:relative;height:auto;min-height:0;background:none;}
 .motocity-hero-sequence.is-static .motocity-hero-img--bg,
-.motocity-hero-sequence.is-static .motocity-hero-clouds{display:none;}
+.motocity-hero-sequence.is-static .motocity-hero-clouds,
+.motocity-hero-sequence.is-static .motocity-hero-badge,
+.motocity-hero-sequence.is-static .motocity-hero-scrolldown{display:none;}
 .motocity-hero-sequence.is-static .motocity-hero-img--fg{
   position:relative;height:64vh;min-height:360px;transform:none !important;object-position:center 42%;
   -webkit-mask-image:none;mask-image:none;
@@ -228,13 +320,16 @@ section{padding:96px 0;}
   width:auto;max-width:620px;margin:-140px auto 0;padding:22px 28px;
   font-size:clamp(22px,4.2vw,32px);line-height:1.3;
   background:rgba(255,255,255,0.94);border-radius:16px;
+  animation:none;opacity:1;
 }
 
 @media (prefers-reduced-motion:reduce){
   .motocity-hero-sequence{height:auto;background:none;}
   .motocity-hero-stage{position:relative;height:auto;min-height:0;background:none;}
   .motocity-hero-img--bg,
-  .motocity-hero-clouds{display:none;}
+  .motocity-hero-clouds,
+  .motocity-hero-badge,
+  .motocity-hero-scrolldown{display:none;}
   .motocity-hero-img--fg{
     position:relative;height:64vh;min-height:360px;transform:none !important;object-position:center 42%;
     -webkit-mask-image:none;mask-image:none;
@@ -244,6 +339,7 @@ section{padding:96px 0;}
     width:auto;max-width:620px;margin:-140px auto 0;padding:22px 28px;
     font-size:clamp(22px,4.2vw,32px);line-height:1.3;
     background:rgba(255,255,255,0.94);border-radius:16px;
+    animation:none;opacity:1;
   }
 }
 

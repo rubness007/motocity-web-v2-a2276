@@ -45,6 +45,8 @@ function initMotocityHeroZoom(reduced){
   var clouds = document.getElementById('motocityHeroClouds');
   var text = document.getElementById('motocityHeroText');
   var header = document.getElementById('siteHeader');
+  var badge = document.getElementById('motocityHeroBadge');
+  var scrollDown = document.getElementById('motocityHeroScrollDown');
   if(!sequence || !stage || !img || !imgBg || !clouds || !text) return;
 
   if(reduced || !window.gsap || !window.ScrollTrigger){
@@ -57,32 +59,70 @@ function initMotocityHeroZoom(reduced){
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // Measured directly from assets/hero.jpg (3200x1785): the laptop screen's bounding box.
-  var SCREEN_X = 0.4923;   // center, as a fraction of image width
-  var SCREEN_Y = 0.6552;   // center, as a fraction of image height
-  var SCREEN_W = 0.0647;   // width, as a fraction of image width
-  var SCREEN_H = 0.0678;   // height, as a fraction of image height
+  // Desktop values measured from assets/hero.jpg (3200x1785) via pixel-flood-fill of the
+  // screen's actual white area. Mobile values measured the same way from assets/hero-mobile.jpg
+  // (1800x2400, the "Hero mobile expand 2" composite) — a SEPARATE custom photo the user built
+  // for the tall portrait crop (laptop centered, rider included), not a crop of the desktop
+  // photo — so every fraction below is independent per breakpoint, not derived from the other.
+  // Desktop re-measured for "IMAGEN ALTA CON LAPTOP SOBREPUESTO" — the user's own higher-
+  // quality laptop composite replacing the previous hero.jpg's laptop cutout (same desk/rider/
+  // background, just a better laptop). Nearly identical to the old measurement (same framing),
+  // confirming the composite kept the laptop in essentially the same spot.
+  var SCREEN_X_DESKTOP = 0.4919, SCREEN_X_MOBILE = 0.4269; // center, fraction of image width
+  var SCREEN_W_DESKTOP = 0.0663, SCREEN_W_MOBILE = 0.1083; // width, fraction of image width
+  var SCREEN_Y_DESKTOP = 0.6537, SCREEN_Y_MOBILE = 0.6977; // center, fraction of image height
+  var SCREEN_H_DESKTOP = 0.0700, SCREEN_H_MOBILE = 0.0479; // height, fraction of image height
+  var SCREEN_X = SCREEN_X_DESKTOP; // active values, switched per-breakpoint in build()
+  var SCREEN_W = SCREEN_W_DESKTOP;
+  var SCREEN_Y = SCREEN_Y_DESKTOP;
+  var SCREEN_H = SCREEN_H_DESKTOP;
+  // object-position, as a fraction (0.5 = center). Both breakpoints use object-fit:cover (see
+  // USE_COVER). The laptop sits almost exactly at the horizontal center of both photos (see
+  // SCREEN_X above), so this stays centered on both — no need to shift the crop window.
+  var OBJECT_POS_X = 0.5;
+  var OBJECT_POS_Y = 0.5;
+  var USE_COVER = true;    // object-fit:cover math — kept as a named flag in computeGeometry()
+                            // in case a future breakpoint ever needs the contain variant again
   var OVERSHOOT = 1.2;     // extra zoom past "exact fit" so the screen bezel fully clears the viewport
-  var MAX_BLUR = 13;       // px of blur the background reaches — kept from updating every single
+  var MAX_BLUR = 4;        // px of blur the background reaches — kept from updating every single
                             // frame (see the rounding/dedupe in render()) so a bigger radius here
                             // doesn't cost more than a small one
   var BLUR_RAMP_END = 0.4;  // blur reaches MAX_BLUR by this fraction of the zoom, then holds flat —
                              // no point still recalculating it once the background is barely in frame
   var HEADER_SOLID_AT = 0.92; // header switches from transparent to solid Motocity blue once the
                                // zoom is essentially complete (not at the first hint of scroll)
+  var REST_UI_FADE_END = 0.06; // the top badge + scroll-down button are rest-state affordances —
+                                // fully gone within the first hint of scroll, not dragged through the zoom
   // Sharp mask covers ONLY the laptop and the strip of desk right around it — measured from
-  // the photo, centered a little below/forward of the screen itself (the desk surface, not the
+  // each photo, centered a little below/forward of the screen itself (the desk surface, not the
   // chair or the tray further along the desk). Everything outside this small ellipse blurs.
-  var MASK_X = 0.4906;   // center, as a fraction of image width
-  var MASK_Y = 0.682;    // center, as a fraction of image height
-  var MASK_RX = 0.078;   // horizontal radius, as a fraction of image width
-  var MASK_RY = 0.081;   // vertical radius, as a fraction of image height
+  var MASK_X_DESKTOP = 0.4960, MASK_X_MOBILE = 0.425;
+  var MASK_Y_DESKTOP = 0.6663, MASK_Y_MOBILE = 0.699;
+  // Radii sized so the laptop's full bbox sits entirely inside the mask's "still fully opaque"
+  // zone (the gradient holds opaque out to 55% of the radius, see SHARP_MASK below) — otherwise
+  // the laptop's own edges fall into the feather band and blur along with the background,
+  // instead of staying sharp everywhere. Mobile's laptop bbox: half-width~0.0867, half-height~0.0458.
+  var MASK_RX_DESKTOP = 0.095, MASK_RX_MOBILE = 0.1364;
+  var MASK_RY_DESKTOP = 0.11,  MASK_RY_MOBILE = 0.0701;
+  var MASK_X = MASK_X_DESKTOP;   // active values, switched per-breakpoint in build()
+  var MASK_Y = MASK_Y_DESKTOP;
+  var MASK_RX = MASK_RX_DESKTOP;
+  var MASK_RY = MASK_RY_DESKTOP;
   var SHARP_MASK = 'radial-gradient(ellipse {rx}% {ry}% at {x}% {y}%, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 55%, rgba(0,0,0,0) 100%)';
-  var TEXT_FONT_RATIO = 0.062;    // base (rest-state) font-size, as a fraction of the screen's rendered width
   // Width/font-size stays proportional at every step (so line-wrapping never changes mid-scroll).
   // Desktop keeps long, wide lines (matches the screen's own wide aspect ratio); mobile uses
   // shorter lines so the final headline can grow bigger without overflowing a narrow viewport.
   var TEXT_WIDTH_TO_FONT = 0.82 / 0.062;
+  var REST_FONT_SCALE = 1; // shrinks only the REST-state (p=0) headline size, per breakpoint —
+                            // mobile's initial "Relájate..." read too large on the small rest-
+                            // state screen; the zoomed-in end state is untouched (see baseFontSize).
+  var TEXT_Y_NUDGE = 0; // shifts the headline down from dead-center, as a multiple of its OWN
+                            // current font-size — scales with zoom instead of a fixed pixel offset.
+                            // Zero centers the text exactly on the screen's own center (SCREEN_Y),
+                            // per request — any offset here pushes it off-center or past the bezel.
+  var TEXT_Y_EXTRA_PX = 0; // additional flat offset, ramped in with p so it lands fully once the
+                             // zoom settles into the final hero layout (not applied at rest, where
+                             // the headline is still tiny and needs to stay inside the little screen)
 
   var geo = null;
   var lastP = 0;
@@ -99,21 +139,26 @@ function initMotocityHeroZoom(reduced){
     var imgRatio = naturalW / naturalH;
     var boxRatio = boxW / boxH;
     var scaledW, scaledH;
-    if(imgRatio > boxRatio){ scaledH = boxH; scaledW = boxH * imgRatio; }
+    // COVER picks the LARGER natural rendering (crops the excess); CONTAIN picks the SMALLER
+    // one (letterboxes the gap) — same "which axis wins" test, opposite dimension chosen.
+    var imgWins = imgRatio > boxRatio;
+    if(USE_COVER ? imgWins : !imgWins){ scaledH = boxH; scaledW = boxH * imgRatio; }
     else { scaledW = boxW; scaledH = boxW / imgRatio; }
-
-    // Where the screen's center lands as a fraction of the rendered box (object-position: center center).
-    var boxFracX = 0.5 + (SCREEN_X - 0.5) * (scaledW / boxW);
-    var boxFracY = 0.5 + (SCREEN_Y - 0.5) * (scaledH / boxH);
-    var originPxX = boxFracX * boxW;
-    var originPxY = boxFracY * boxH;
 
     // Same conversion for the sharp-mask ellipse: a fraction-of-image radius maps to a
     // fraction-of-box radius by the same cover-crop scale factor used for the offset above.
-    var maskXPct = (0.5 + (MASK_X - 0.5) * (scaledW / boxW)) * 100;
-    var maskYPct = (0.5 + (MASK_Y - 0.5) * (scaledH / boxH)) * 100;
+    var maskXPct = (OBJECT_POS_X + (MASK_X - OBJECT_POS_X) * (scaledW / boxW)) * 100;
+    var maskYPct = (OBJECT_POS_Y + (MASK_Y - OBJECT_POS_Y) * (scaledH / boxH)) * 100;
     var maskRxPct = MASK_RX * (scaledW / boxW) * 100;
     var maskRyPct = MASK_RY * (scaledH / boxH) * 100;
+
+    // Where the screen's center lands as a fraction of the rendered box, given the image's
+    // actual object-position (OBJECT_POS_X/Y — stays centered on both breakpoints; see the
+    // constants above for why mobile doesn't need a shift once it's using contain).
+    var boxFracX = OBJECT_POS_X + (SCREEN_X - OBJECT_POS_X) * (scaledW / boxW);
+    var boxFracY = OBJECT_POS_Y + (SCREEN_Y - OBJECT_POS_Y) * (scaledH / boxH);
+    var originPxX = boxFracX * boxW;
+    var originPxY = boxFracY * boxH;
 
     var screenPxW = SCREEN_W * scaledW;
     var screenPxH = SCREEN_H * scaledH;
@@ -125,12 +170,15 @@ function initMotocityHeroZoom(reduced){
     // (to fill height), and naively matching that scale would push the headline wider than
     // the viewport. Capping it against both boxW and boxH keeps it a well-proportioned
     // headline (like a real hero) no matter how extreme the image's own zoom had to be.
-    var baseFontSize = Math.max(3, screenPxW * TEXT_FONT_RATIO);
-    var finalFontSize = Math.max(baseFontSize, Math.min(boxW * (0.86 / TEXT_WIDTH_TO_FONT), boxH * 0.105));
+    //
+    // The base (rest-state) size must derive from the SAME width/font ratio used for the
+    // box's own `width` (TEXT_WIDTH_TO_FONT) rather than an independent TEXT_FONT_RATIO —
+    // otherwise the two disagree and the text box renders wider than the little laptop
+    // screen itself while still tiny/at-rest, spilling past its edges from frame one.
+    var baseFontSize = Math.max(3, Math.min(screenPxW * (0.86 / TEXT_WIDTH_TO_FONT), screenPxH * 0.3)) * REST_FONT_SCALE;
+    var finalFontSize = Math.max(baseFontSize, Math.min(boxW * (0.86 / TEXT_WIDTH_TO_FONT), boxH * 0.16));
 
     return {
-      originXPct: boxFracX * 100,
-      originYPct: boxFracY * 100,
       originPxX: originPxX,
       originPxY: originPxY,
       translateX: boxW * 0.5 - originPxX,
@@ -165,6 +213,10 @@ function initMotocityHeroZoom(reduced){
 
     if(header) header.classList.toggle('is-hero-solid', p >= HEADER_SOLID_AT);
 
+    var restUiOpacity = Math.max(0, 1 - p / REST_UI_FADE_END);
+    if(badge) badge.style.opacity = restUiOpacity;
+    if(scrollDown) scrollDown.style.opacity = restUiOpacity;
+
     // Round + only touch style.filter when it actually changes — re-filtering a full-bleed
     // image is expensive, and scrub fires onUpdate on tiny sub-pixel scroll deltas.
     var blurPx = Math.round(MAX_BLUR * Math.min(p / BLUR_RAMP_END, 1) * 4) / 4;
@@ -173,12 +225,13 @@ function initMotocityHeroZoom(reduced){
       imgBg.style.filter = blurPx > 0 ? 'blur(' + blurPx + 'px)' : 'none';
     }
 
+    var fontSize = (geo.baseFontSize + (geo.finalFontSize - geo.baseFontSize) * p) * polish;
+
     var focalX = geo.originPxX + tx;
-    var focalY = geo.originPxY + ty;
+    var focalY = geo.originPxY + ty + fontSize * TEXT_Y_NUDGE + TEXT_Y_EXTRA_PX * p;
     text.style.left = focalX.toFixed(2) + 'px';
     text.style.top = focalY.toFixed(2) + 'px';
 
-    var fontSize = (geo.baseFontSize + (geo.finalFontSize - geo.baseFontSize) * p) * polish;
     text.style.fontSize = fontSize.toFixed(2) + 'px';
     text.style.width = (fontSize * TEXT_WIDTH_TO_FONT).toFixed(1) + 'px';
   }
@@ -197,11 +250,41 @@ function initMotocityHeroZoom(reduced){
       .replace('{y}', geo.maskYPct.toFixed(2));
     img.style.maskImage = mask;
     img.style.webkitMaskImage = mask;
+    // Anchor the scale exactly on the screen's own point instead of the CSS fallback's fixed
+    // 49.2%/65.5% — that static guess is only close enough at modest zoom factors. Contain
+    // mode's finalScale is huge (~60x+, since the letterboxed image is much smaller than the
+    // box), and at that scale even a small mismatch between the CSS origin and the real
+    // computed origin gets amplified into a translation of thousands of px (verified: this is
+    // exactly what sent the image flying off-screen on mobile before this fix).
+    var originStr = geo.originPxX.toFixed(2) + 'px ' + geo.originPxY.toFixed(2) + 'px';
+    img.style.transformOrigin = originStr;
+    imgBg.style.transformOrigin = originStr;
+    clouds.style.transformOrigin = originStr;
     render(lastP, lastPolish);
   }
 
   function build(isDesktop){
     TEXT_WIDTH_TO_FONT = isDesktop ? (0.82 / 0.062) : 9.5;
+    REST_FONT_SCALE = isDesktop ? 1 : 0.82;
+    USE_COVER = true;   // both breakpoints fill 100vh edge-to-edge, no letterbox bars
+    // hero-mobile.jpg is a separate custom composite (laptop centered, rider included, tall
+    // portrait canvas) — not a crop of hero.jpg — so every geometry fraction swaps per breakpoint.
+    // "Hero mobile expand 2" repositioned the rider with real margin from the right edge (the
+    // first composite had him nearly touching it, forcing OBJECT_POS_X off-center to 0.68 to
+    // bring him into frame) — a dead-center crop now keeps both the laptop centered AND the
+    // rider mostly in frame, so the off-center nudge is no longer needed.
+    OBJECT_POS_X = isDesktop ? 0.5 : SCREEN_X_MOBILE;
+    var objectPosCss = (OBJECT_POS_X * 100).toFixed(1) + '% center';
+    img.style.objectPosition = objectPosCss;
+    imgBg.style.objectPosition = objectPosCss;
+    SCREEN_X = isDesktop ? SCREEN_X_DESKTOP : SCREEN_X_MOBILE;
+    SCREEN_W = isDesktop ? SCREEN_W_DESKTOP : SCREEN_W_MOBILE;
+    SCREEN_Y = isDesktop ? SCREEN_Y_DESKTOP : SCREEN_Y_MOBILE;
+    SCREEN_H = isDesktop ? SCREEN_H_DESKTOP : SCREEN_H_MOBILE;
+    MASK_X = isDesktop ? MASK_X_DESKTOP : MASK_X_MOBILE;
+    MASK_Y = isDesktop ? MASK_Y_DESKTOP : MASK_Y_MOBILE;
+    MASK_RX = isDesktop ? MASK_RX_DESKTOP : MASK_RX_MOBILE;
+    MASK_RY = isDesktop ? MASK_RY_DESKTOP : MASK_RY_MOBILE;
     refreshGeometry();
     render(0, 1);
 
