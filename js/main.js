@@ -24,7 +24,34 @@
   }
 
   initMotocityHeroZoom(reduced);
+  initTramitesGauge(reduced);
 })();
+
+/* Decorative speedometer needle next to the "Trámites y gestiones" heading — sweeps from -90°
+   (far left) to +90° (far right) as the #tramites section scrolls through the viewport (from
+   the moment it first appears at the bottom to the moment it fully exits at the top), using the
+   same GSAP ScrollTrigger already loaded for the hero. No numbers by design — it's a "speed"
+   motif, not a literal gauge reading. */
+function initTramitesGauge(reduced){
+  var section = document.getElementById('tramites');
+  var needle = document.querySelector('.speed-gauge-needle');
+  if(!section || !needle) return;
+  if(reduced || !window.gsap || !window.ScrollTrigger){
+    needle.setAttribute('transform', 'rotate(0 100 100)');
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: true,
+    onUpdate: function(self){
+      var angle = -90 + self.progress * 180;
+      needle.setAttribute('transform', 'rotate(' + angle.toFixed(2) + ' 100 100)');
+    }
+  });
+}
 
 /* ============ MOTOCITY HERO SEQUENCE ============
    Scroll-driven "camera push" into the laptop screen already present in assets/hero.jpg.

@@ -423,6 +423,22 @@ section{padding:96px 0;}
 .bcard-note{font-size:13px;color:var(--ink-soft);font-style:italic;}
 
 /* ============ TRAMITES ============ */
+/* Needle rotation is driven entirely by main.js (ScrollTrigger scrub tied to how far the
+   #tramites section has scrolled through the viewport) — no numbers on the dial on purpose,
+   it's a decorative "speed" motif, not a literal reading. Ticks/needle all rotate via the same
+   `rotate(angle 100 100)` SVG transform (not CSS transform-origin), so they stay perfectly
+   concentric with the arc regardless of any CSS scaling applied to the SVG box itself.
+   Lives inside the heading (a <span>, positioned relative to THAT element specifically — see
+   the inline `position:relative` on the <h2> in index.html) so it always aligns to the
+   title's own box regardless of how the rest of the section reflows. Floats in the open
+   space past .section-head's 600px-wide text column; hidden below that breakpoint since
+   there's no room once the column wraps full-width. */
+.speed-gauge{display:inline-flex;}
+.speed-gauge--float{
+  position:absolute;top:50%;left:calc(100% + 10px);transform:translateY(-50%);
+}
+@media (max-width:1400px){ .speed-gauge--float{display:none;} }
+
 .tramites-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
 @media (max-width:900px){ .tramites-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:560px){ .tramites-grid{grid-template-columns:1fr;} }
@@ -450,6 +466,23 @@ section{padding:96px 0;}
 .node{fill:var(--blue);}
 .node--a{fill:var(--blue-dark);}
 .node-line{stroke:var(--blue);stroke-opacity:0.25;stroke-width:1.3;}
+
+/* ============ COBERTURA (video background, same Vimeo bg video as motocity.cl) ============ */
+.coverage-section{position:relative;overflow:hidden;background:var(--blue-darker);color:#fff;}
+.coverage-video-bg{position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.coverage-video-bg iframe{
+  position:absolute;top:50%;left:50%;
+  width:100vw;height:56.25vw;      /* 16:9 cover-fit, matches Vimeo's own background-mode sizing */
+  min-height:100%;min-width:177.78vh;
+  transform:translate(-50%,-50%);
+}
+.coverage-overlay{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg, rgba(15,47,92,0.84), rgba(15,47,92,0.9));}
+.coverage-section .w{position:relative;z-index:2;}
+.coverage-section .trust-list li{border-top-color:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);}
+.coverage-section .trust-badge{background:rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.2);color:#fff;}
+/* Autoplaying background video is a real cost on mobile connections/perf — same as motocity.cl,
+   which hides it below tablet width; the dark blue background alone reads fine without it. */
+@media (max-width:860px){ .coverage-video-bg{display:none;} }
 
 /* ============ CTA FINAL ============ */
 .cta-final{
@@ -525,6 +558,12 @@ section{padding:96px 0;}
 .grid-2 > .rv:nth-child(3),.grid-3 > .rv:nth-child(3),.grid-4 > .rv:nth-child(3),.steps > .rv:nth-child(3){transition-delay:.12s;}
 .grid-3 > .rv:nth-child(4),.grid-4 > .rv:nth-child(4),.steps > .rv:nth-child(4){transition-delay:.18s;}
 .grid-4 > .rv:nth-child(5){transition-delay:.24s;}
+/* Service cards (Moto Express/Gestión/Corporativo) enter from off-screen on the side they sit
+   on, instead of the default fade-up — the extra specificity (two classes) beats .rv.on's
+   transform:none so this direction isn't clobbered by the generic reveal rule below it. */
+.card-enter-right.rv{transform:translateX(70px);}
+.card-enter-right.rv.on{transform:translateX(0);}
+@media (max-width:860px){ .card-enter-right.rv{transform:translateX(36px);} }
 @media (prefers-reduced-motion:reduce){ .rv{opacity:1;transform:none;transition-delay:0s !important;} }
 
 .mt-0{margin-top:0;}
