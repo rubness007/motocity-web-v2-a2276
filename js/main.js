@@ -25,7 +25,41 @@
 
   initMotocityHeroZoom(reduced);
   initTramitesGauge(reduced);
+  initClientLogosGuard();
 })();
+
+/* Blocks right-click / long-press "save image" on the client logo marquee — shows a small
+   "NOP!" toast next to the cursor instead of the native context menu. */
+function initClientLogosGuard(){
+  var marquee = document.querySelector('.clients-marquee');
+  if(!marquee) return;
+  marquee.addEventListener('contextmenu', function(e){
+    if(e.target.tagName !== 'IMG') return;
+    e.preventDefault();
+    showNopToast(e.clientX, e.clientY);
+  });
+
+  function showNopToast(x, y){
+    var el = document.createElement('div');
+    el.textContent = 'nop 👀';
+    el.style.cssText = [
+      'position:fixed', 'left:' + x + 'px', 'top:' + y + 'px',
+      'transform:translate(-50%,-120%)', 'background:#1a1a1a', 'color:#fff',
+      'padding:6px 14px', 'border-radius:8px', 'font-size:13px', 'font-weight:600',
+      'z-index:9999', 'pointer-events:none', 'box-shadow:0 4px 14px rgba(0,0,0,0.25)',
+      'opacity:0', 'transition:opacity .15s ease, transform .15s ease'
+    ].join(';');
+    document.body.appendChild(el);
+    requestAnimationFrame(function(){
+      el.style.opacity = '1';
+      el.style.transform = 'translate(-50%,-140%)';
+    });
+    setTimeout(function(){
+      el.style.opacity = '0';
+      setTimeout(function(){ el.remove(); }, 200);
+    }, 900);
+  }
+}
 
 /* Decorative speedometer needle next to the "Trámites y gestiones" heading — sweeps from -90°
    (far left) to +90° (far right) as the #tramites section scrolls through the viewport (from
@@ -34,10 +68,10 @@
    motif, not a literal gauge reading. */
 function initTramitesGauge(reduced){
   var section = document.getElementById('tramites');
-  var needle = document.querySelector('.speed-gauge-needle');
-  if(!section || !needle) return;
+  var needles = document.querySelectorAll('.speed-gauge-needle');
+  if(!section || !needles.length) return;
   if(reduced || !window.gsap || !window.ScrollTrigger){
-    needle.setAttribute('transform', 'rotate(0 100 100)');
+    needles.forEach(function(n){ n.setAttribute('transform', 'rotate(0 100 100)'); });
     return;
   }
   gsap.registerPlugin(ScrollTrigger);
@@ -48,7 +82,7 @@ function initTramitesGauge(reduced){
     scrub: true,
     onUpdate: function(self){
       var angle = -90 + self.progress * 180;
-      needle.setAttribute('transform', 'rotate(' + angle.toFixed(2) + ' 100 100)');
+      needles.forEach(function(n){ n.setAttribute('transform', 'rotate(' + angle.toFixed(2) + ' 100 100)'); });
     }
   });
 }
