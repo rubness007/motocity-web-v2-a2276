@@ -26,39 +26,52 @@
   initMotocityHeroZoom(reduced);
   initTramitesGauge(reduced);
   initClientLogosGuard();
+  initTecnologiaMoto(reduced);
+  initMotoIconGuard();
 })();
 
+/* Small cursor-anchored toast, shared by the right-click guards below (client logos, moto icon). */
+function showCursorToast(text, x, y){
+  var el = document.createElement('div');
+  el.textContent = text;
+  el.style.cssText = [
+    'position:fixed', 'left:' + x + 'px', 'top:' + y + 'px',
+    'transform:translate(-50%,-120%)', 'background:#1a1a1a', 'color:#fff',
+    'padding:6px 14px', 'border-radius:8px', 'font-size:13px', 'font-weight:600',
+    'z-index:9999', 'pointer-events:none', 'box-shadow:0 4px 14px rgba(0,0,0,0.25)',
+    'opacity:0', 'transition:opacity .15s ease, transform .15s ease'
+  ].join(';');
+  document.body.appendChild(el);
+  requestAnimationFrame(function(){
+    el.style.opacity = '1';
+    el.style.transform = 'translate(-50%,-140%)';
+  });
+  setTimeout(function(){
+    el.style.opacity = '0';
+    setTimeout(function(){ el.remove(); }, 200);
+  }, 900);
+}
+
 /* Blocks right-click / long-press "save image" on the client logo marquee — shows a small
-   "NOP!" toast next to the cursor instead of the native context menu. */
+   "nop" toast next to the cursor instead of the native context menu. */
 function initClientLogosGuard(){
   var marquee = document.querySelector('.clients-marquee');
   if(!marquee) return;
   marquee.addEventListener('contextmenu', function(e){
     if(e.target.tagName !== 'IMG') return;
     e.preventDefault();
-    showNopToast(e.clientX, e.clientY);
+    showCursorToast('nop 👀', e.clientX, e.clientY);
   });
+}
 
-  function showNopToast(x, y){
-    var el = document.createElement('div');
-    el.textContent = 'nop 👀';
-    el.style.cssText = [
-      'position:fixed', 'left:' + x + 'px', 'top:' + y + 'px',
-      'transform:translate(-50%,-120%)', 'background:#1a1a1a', 'color:#fff',
-      'padding:6px 14px', 'border-radius:8px', 'font-size:13px', 'font-weight:600',
-      'z-index:9999', 'pointer-events:none', 'box-shadow:0 4px 14px rgba(0,0,0,0.25)',
-      'opacity:0', 'transition:opacity .15s ease, transform .15s ease'
-    ].join(';');
-    document.body.appendChild(el);
-    requestAnimationFrame(function(){
-      el.style.opacity = '1';
-      el.style.transform = 'translate(-50%,-140%)';
-    });
-    setTimeout(function(){
-      el.style.opacity = '0';
-      setTimeout(function(){ el.remove(); }, 200);
-    }, 900);
-  }
+/* Same right-click guard on the scrolling motorcycle icon, with its own message. */
+function initMotoIconGuard(){
+  var icon = document.querySelector('.moto-scroll-icon');
+  if(!icon) return;
+  icon.addEventListener('contextmenu', function(e){
+    e.preventDefault();
+    showCursorToast('¿Te gustó la moto? 🏍️', e.clientX, e.clientY);
+  });
 }
 
 /* Decorative speedometer needle next to the "Trámites y gestiones" heading — sweeps from -90°
@@ -83,6 +96,36 @@ function initTramitesGauge(reduced){
     onUpdate: function(self){
       var angle = -90 + self.progress * 180;
       needles.forEach(function(n){ n.setAttribute('transform', 'rotate(' + angle.toFixed(2) + ' 100 100)'); });
+    }
+  });
+}
+
+/* Decorative motorcycle icon that rides left-to-right along the bottom of the "Tecnología"
+   section as it scrolls through the viewport — same scrub pattern as the trámites gauge, but
+   translating x instead of rotating. Track width is measured live (not hardcoded) so it stays
+   correct across viewport sizes/resizes without a separate resize listener — cheap enough to
+   just re-read on every scrub tick. */
+function initTecnologiaMoto(reduced){
+  var track = document.querySelector('.moto-scroll-track');
+  var icon = document.querySelector('.moto-scroll-icon');
+  if(!track || !icon) return;
+  var section = track.closest('section');
+  if(reduced || !window.gsap || !window.ScrollTrigger){
+    icon.style.transform = 'translateY(-50%)';
+    return;
+  }
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.create({
+    trigger: section,
+    start: 'top bottom',
+    end: 'bottom top',
+    scrub: true,
+    onUpdate: function(self){
+      var iconWidth = icon.getBoundingClientRect().width;
+      var startX = -iconWidth;
+      var maxX = Math.max(startX, track.clientWidth - iconWidth);
+      var x = startX + self.progress * (maxX - startX);
+      icon.style.transform = 'translate(' + x.toFixed(1) + 'px, -50%)';
     }
   });
 }

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Bodoni+Moda:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1786468000">
+<link rel="stylesheet" href="css/style.css?v=1786473800">
 </head>
 <body>
 
@@ -93,86 +93,108 @@
 </section>
 
 <!-- ============ SERVICIOS ============ -->
-<section id="servicios" style="background:var(--bg-soft);padding-bottom:24px;">
+<section id="servicios" style="background:var(--bg-soft);">
   <div class="w">
     <div class="section-head rv">
       <span class="eyebrow">Servicios</span>
-      <h2>Un servicio para cada necesidad</h2>
-      <p>Desde el envío urgente de un documento hasta un motorista dedicado a tiempo completo.</p>
+      <h2>Un servicio para cada necesidad de tu empresa</h2>
+      <p>Desde el envío urgente de un documento hasta un motorista dedicado a tiempo completo. Elige el servicio que mejor se adapte a tu operación:</p>
     </div>
-  </div>
-</section>
 
-<section id="express" style="background:var(--bg-soft);">
-  <div class="w">
-    <div class="grid-2" style="align-items:center;">
-      <div class="rv">
-        <span class="tag">On demand · cobro por km</span>
-        <h2 style="font-size:34px;margin:16px 0 8px;">Moto Express</h2>
-        <p style="font-size:16px;color:var(--blue);font-weight:500;margin-bottom:16px;">Envíos urgentes con prioridad máxima</p>
-        <p style="color:var(--ink-soft);font-size:15.5px;margin-bottom:24px;">La solución más rápida y confiable para el despacho de sobres, paquetes o artículos olvidados dentro de la Región Metropolitana. Garantiza entregas en tiempo récord, con confirmación fotográfica y seguimiento por estado.</p>
-        <a href="https://wa.me/56961455303" target="_blank" rel="noopener" class="btn btn--primary">Solicitar Moto Express</a>
-      </div>
-      <div class="card rv card-enter-right">
-        <ul class="service-list" style="gap:14px;">
+    <div class="services-preview rv">
+      <a href="#express" class="services-preview-item">
+        <span class="services-preview-ic"><img src="assets/services/moto-express.png?v=1786470500" alt=""></span>
+        <span>Moto Express</span>
+      </a>
+      <a href="#gestion" class="services-preview-item">
+        <span class="services-preview-ic"><img src="assets/services/moto-gestion.png?v=1786470500" alt=""></span>
+        <span>Moto Gestión</span>
+      </a>
+      <a href="#corporativo" class="services-preview-item">
+        <span class="services-preview-ic"><img src="assets/services/moto-corporativo.png?v=1786470500" alt=""></span>
+        <span>Moto Corporativo</span>
+      </a>
+      <a href="#financiero" class="services-preview-item">
+        <span class="services-preview-ic"><img src="assets/services/moto-financiero.png?v=1786470500" alt=""></span>
+        <span>Moto Financiero</span>
+      </a>
+    </div>
+
+    <div class="grid-4 services-grid">
+      <div class="service-card rv" id="express">
+        <div class="service-card-head">
+          <div class="service-card-ic"><img src="assets/services/moto-express.png?v=1786470500" alt=""></div>
+          <div class="service-card-head-text">
+            <span class="service-mode">On demand · cobro por km</span>
+            <h3>Moto Express</h3>
+            <p class="service-tagline">Envíos urgentes con prioridad máxima.</p>
+          </div>
+        </div>
+        <p class="service-desc">La solución más rápida para el despacho de sobres, paquetes o artículos olvidados en la Región Metropolitana, con confirmación fotográfica y seguimiento por estado.</p>
+        <ul class="service-list">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Disponible para empresas y particulares</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Pago Webpay o transferencia por servicio individual</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Confirmación de entrega con evidencia fotográfica</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Ideal para sobres, paquetes, llaves, documentos, etc.</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Opción de servicio con retorno</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Pago Webpay o transferencia por servicio</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Confirmación con evidencia fotográfica</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Tarifa según kilómetros recorridos</li>
         </ul>
-        <p style="margin-top:18px;font-size:13px;color:var(--ink-faint);font-style:italic;">¿Tienes prisa? Nosotros llegamos primero. Pregunta por convenios de pago mensual.</p>
+        <a href="https://wa.me/56961455303" target="_blank" rel="noopener" class="btn btn--primary">Cotizar<br>Moto Express</a>
       </div>
-    </div>
-  </div>
-</section>
 
-<section id="gestion" style="background:var(--bg-soft);">
-  <div class="w">
-    <div class="grid-2" style="align-items:center;">
-      <div class="card rv card-enter-right" style="order:2;">
-        <ul class="service-list" style="gap:14px;">
+      <div class="service-card rv" id="gestion">
+        <div class="service-card-head">
+          <div class="service-card-ic"><img src="assets/services/moto-gestion.png?v=1786470500" alt=""></div>
+          <div class="service-card-head-text">
+            <span class="service-mode">On demand · cobro por km</span>
+            <h3>Moto Gestión</h3>
+            <p class="service-tagline">Tu asistente en terreno para trámites y diligencias.</p>
+          </div>
+        </div>
+        <p class="service-desc">Gestión de trámites y diligencias en bancos, notarías, pagos, firmas, retiro de documentos y servicios públicos, sin moverte de tu escritorio.</p>
+        <ul class="service-list">
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Disponible para empresas y particulares</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Cobro por servicio realizado</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Modalidad facturación: pago puntual o mensual</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Acceso a plataforma con seguimiento</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Opción de servicio con retorno</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Informes y trazabilidad por centro de costos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Informes por centro de costos</li>
         </ul>
-        <p style="margin-top:18px;font-size:13px;color:var(--ink-faint);font-style:italic;">Tu tiempo vale más. Nosotros lo cuidamos. Tarifa según kilómetros recorridos.</p>
+        <a href="https://wa.me/56961455303" target="_blank" rel="noopener" class="btn btn--primary">Cotizar<br>Moto Gestión</a>
       </div>
-      <div class="rv" style="order:1;">
-        <span class="tag">On demand · más solicitado</span>
-        <h2 style="font-size:34px;margin:16px 0 8px;">Moto Gestión</h2>
-        <p style="font-size:16px;color:var(--blue);font-weight:500;margin-bottom:16px;">Tu asistente en terreno para trámites y diligencias</p>
-        <p style="color:var(--ink-soft);font-size:15.5px;margin-bottom:24px;">Servicio especializado para la gestión de trámites y diligencias en bancos, notarías, pagos, firmas, retiro de documentos, procesos aduaneros y servicios públicos de todo tipo, sin moverte de tu escritorio.</p>
-        <a href="https://wa.me/56961455303" target="_blank" rel="noopener" class="btn btn--primary">Cotizar Moto Gestión</a>
-      </div>
-    </div>
-  </div>
-</section>
 
-<section id="corporativo" style="background:var(--bg-soft);">
-  <div class="w">
-    <div class="grid-2" style="align-items:center;">
-      <div class="rv">
-        <span class="tag">Fijo mensual · exclusivo empresas</span>
-        <h2 style="font-size:34px;margin:16px 0 8px;">Moto Corporativo</h2>
-        <p style="font-size:16px;color:var(--blue);font-weight:500;margin-bottom:16px;">Un mensajero exclusivo, a tu disposición</p>
-        <p style="color:var(--ink-soft);font-size:15.5px;margin-bottom:24px;">Motorista fijo para realizar múltiples entregas, retiros o gestiones durante media jornada o jornada completa. Ideal para empresas que priorizan continuidad operativa, eficiencia y control total.</p>
-        <a href="#contacto" class="btn btn--primary">Contratar Moto Corporativo</a>
-      </div>
-      <div class="card rv card-enter-right">
-        <ul class="service-list" style="gap:14px;">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Disponibilidad media jornada o jornada completa (AM/PM)</li>
+      <div class="service-card service-card--hi rv" id="corporativo">
+        <div class="service-card-head">
+          <div class="service-card-ic"><img src="assets/services/moto-corporativo.png?v=1786470500" alt=""></div>
+          <div class="service-card-head-text">
+            <span class="service-mode">Fijo mensual · exclusivo empresas</span>
+            <h3>Moto Corporativo</h3>
+            <p class="service-tagline">Un mensajero exclusivo, a disposición de tu empresa.</p>
+          </div>
+        </div>
+        <p class="service-desc">Motorista fijo para múltiples entregas, retiros o gestiones durante media jornada o jornada completa. Ideal para continuidad operativa y control total.</p>
+        <ul class="service-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Media jornada o jornada completa (AM/PM)</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Pago y facturación mensual</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Acceso a plataforma con seguimiento y foto evidencia</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Motorista de respaldo (back up) para asegurar continuidad</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Informes y trazabilidad por centro de costos</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Tags, kilómetros y combustible ilimitados</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Motorista de respaldo garantizado</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Tags, kilómetros y combustible ilimitados*</li>
         </ul>
-        <p style="margin-top:18px;font-size:13px;color:var(--ink-faint);font-style:italic;">Tu empresa, siempre en movimiento. Pregunta por convenios de pago mensual.</p>
+        <a href="#contacto" class="btn btn--primary">Cotizar<br>Moto Corporativo</a>
+      </div>
+
+      <div class="service-card rv" id="financiero">
+        <div class="service-card-head">
+          <div class="service-card-ic"><img src="assets/services/moto-financiero.png?v=1786470500" alt=""></div>
+          <div class="service-card-head-text">
+            <span class="service-mode">On demand · Fijo mensual</span>
+            <h3>Moto Financiero</h3>
+            <p class="service-tagline">Soluciones en terreno para el sector financiero.</p>
+          </div>
+        </div>
+        <p class="service-desc">Firmas, entregas, verificaciones y gestiones que requieren llegar hasta el cliente. Motocity ejecuta cada operación con seguridad, confidencialidad y respaldo.</p>
+        <ul class="service-list">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Obtención de firmas y entrega de contratos</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Entrega de tarjetas y productos financieros</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Verificación de domicilio e identidad</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Retiro de documentación confidencial</li>
+        </ul>
+        <a href="https://wa.me/56961455303" target="_blank" rel="noopener" class="btn btn--primary">Cotizar<br>Moto Financiero</a>
       </div>
     </div>
   </div>
@@ -182,7 +204,7 @@
   <div class="w">
     <div class="section-head rv" style="position:relative;">
       <span class="speed-gauge speed-gauge--mobile" aria-hidden="true">
-        <svg viewBox="0 0 200 120" width="200" height="120">
+        <svg viewBox="0 0 200 120" width="176" height="106">
           <defs>
             <linearGradient id="redlineFadeMobile" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stop-color="var(--orange-dark)" stop-opacity="0"/>
@@ -207,9 +229,9 @@
         </svg>
       </span>
       <span class="eyebrow">Trámites y gestiones</span>
-      <h2 style="position:relative;">"Si cabe en una moto, lo podemos hacer muy rápido"
+      <h2 style="position:relative;">Gestiones que resolvemos
       <span class="speed-gauge speed-gauge--float" aria-hidden="true">
-        <svg viewBox="0 0 200 120" width="420" height="252">
+        <svg viewBox="0 0 200 120" width="370" height="222">
           <defs>
             <!-- Gradual ramp across the WHOLE zone (not just a quick fade-in at the start) —
                eases out of the light track color at 0% and builds to a clearly darker, more
@@ -241,45 +263,79 @@
         </svg>
       </span>
       </h2>
-      <p>En Motocity podemos ayudarte con una amplia gama de trámites que requieren velocidad, seguridad y trazabilidad.</p>
+      <p>Gestionamos en terreno lo que tu empresa necesita resolver.</p>
     </div>
     <div class="tramites-grid rv">
       <div class="tramites-cat">
-        <h4>Legales y notariales</h4>
+        <h4><span class="tramites-num">1.</span> Legales y notariales</h4>
         <ul>
-          <li>Retiro y entrega de escrituras notariales</li>
-          <li>Protocolización de documentos</li>
+          <li>Retiro y entrega de escrituras y documentos notariales</li>
+          <li>Protocolización y legalización de documentos</li>
           <li>Gestión de poderes notariales</li>
-          <li>Traslado de contratos firmados</li>
-          <li>Entrega y retiro de cartas certificadas</li>
+          <li>Firma, retiro y entrega de documentos legales</li>
+          <li>Entrega de cartas y documentación certificada</li>
+          <li>Gestiones ante notarías y conservadores</li>
         </ul>
       </div>
       <div class="tramites-cat">
-        <h4>Administrativos y financieros</h4>
+        <h4><span class="tramites-num">2.</span> Bancarios y financieros</h4>
         <ul>
-          <li>Depósito o retiro de cheques y vale vistas</li>
-          <li>Entrega de facturas o boletas timbradas</li>
-          <li>Tramitación de permisos municipales</li>
-          <li>Envío de documentación contable o tributaria</li>
-          <li>Gestiones en SII, aduanas, SAG, SOFOFA, CCS, CBRS</li>
+          <li>Obtención de firmas de clientes</li>
+          <li>Firma y entrega de contratos y documentación financiera</li>
+          <li>Entrega de kits y productos bancarios</li>
+          <li>Verificación de domicilio</li>
+          <li>Comprobación de identidad</li>
+          <li>Retiro de documentación firmada</li>
+          <li>Depósito y retiro de cheques y vale vistas</li>
+          <li>Entrega y retiro de documentación confidencial</li>
         </ul>
       </div>
       <div class="tramites-cat">
-        <h4>Trámites corporativos</h4>
+        <h4><span class="tramites-num">3.</span> Administrativos y organismos públicos</h4>
         <ul>
-          <li>Firma de documentos de RRHH</li>
-          <li>Envío de material corporativo a sucursales</li>
-          <li>Traspaso de acuerdos comerciales</li>
-          <li>Logística para licitaciones</li>
+          <li>Gestiones ante SII, Aduanas, SAG, Seremi, SOFOFA, CCS y CBRS</li>
+          <li>Tramitación de permisos y documentación municipal</li>
+          <li>Apostillamiento, certificación y legalización de documentos</li>
+          <li>Canje y retiro de documentación</li>
+          <li>Entrega y retiro de documentación contable y tributaria</li>
+          <li>Presentación y retiro de documentos ante organismos públicos y privados</li>
         </ul>
       </div>
       <div class="tramites-cat">
-        <h4>Trámites personales urgentes</h4>
+        <h4><span class="tramites-num">4.</span> Comerciales</h4>
         <ul>
-          <li>Entrega de exámenes médicos o recetas</li>
-          <li>Envío de documentación escolar o universitaria</li>
-          <li>Documentación de corretaje de propiedades</li>
-          <li>Llaves olvidadas y todo lo que implique ir de un punto A a un punto B</li>
+          <li>Entrega y retiro de contratos y acuerdos comerciales</li>
+          <li>Distribución de documentación a clientes y proveedores</li>
+          <li>Gestiones documentales para licitaciones</li>
+          <li>Entrega y retiro de propuestas comerciales</li>
+          <li>Retiro de órdenes de compra y documentación</li>
+          <li>Entrega de muestras y material comercial</li>
+          <li>Gestiones presenciales con clientes y proveedores</li>
+        </ul>
+      </div>
+      <div class="tramites-cat">
+        <h4><span class="tramites-num">5.</span> Corporativos y soporte operacional</h4>
+        <ul>
+          <li>Entrega y retiro de computadores, teléfonos y equipos tecnológicos</li>
+          <li>Distribución de materiales e insumos de oficina</li>
+          <li>Distribución interna de correspondencia y documentación</li>
+          <li>Entrega de documentación entre oficinas y sucursales</li>
+          <li>Entrega y recuperación de equipos de colaboradores</li>
+          <li>Entrega de kits de bienvenida y materiales de onboarding</li>
+          <li>Distribución de credenciales, uniformes y elementos corporativos</li>
+          <li>Traslado de documentación de RR.HH.</li>
+        </ul>
+      </div>
+      <div class="tramites-cat">
+        <h4><span class="tramites-num">6.</span> Logística y gestiones especiales</h4>
+        <ul>
+          <li>Entrega y retiro de documentación médica</li>
+          <li>Documentación académica y universitaria</li>
+          <li>Gestiones para corredoras de propiedades y empresas inmobiliarias</li>
+          <li>Retiro y entrega de llaves</li>
+          <li>Traslado de documentación o elementos entre múltiples puntos</li>
+          <li>Rutas programadas de retiro y distribución</li>
+          <li>Diligencias especiales que requieran retiro, traslado, entrega o gestión en terreno</li>
         </ul>
       </div>
     </div>
@@ -294,25 +350,45 @@
       <p>Modalidades de facturación y pago diseñadas para las necesidades operativas y financieras de tu empresa.</p>
     </div>
     <div class="grid-2 rv">
-      <div class="bcard">
+      <div class="bcard bcard--solid">
         <h3>Pago contado</h3>
-        <span class="tag">Sin contratos</span>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Cotización del servicio</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Pago anticipado una vez aprobada</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Se agenda y ejecuta el servicio</li>
+        <p class="bcard-desc">Ideal para Empresas o Particulares que realizan envíos ocasionales y prefieren pagar solo por lo que necesitan, sin compromisos ni contratos.</p>
+        <h4 class="bcard-subhead">¿Cómo funciona?</h4>
+        <ul class="bcard-list">
+          <li>El cliente solicita una cotización del servicio.</li>
+          <li>Una vez aprobada, realiza el pago anticipado.</li>
+          <li>Posteriormente, se agenda y ejecuta el servicio.</li>
         </ul>
-        <p class="bcard-note">Ideal para empresas o particulares que realizan envíos ocasionales, sin compromisos ni contratos.</p>
+        <div class="bcard-steps">
+          <div class="bcard-step">
+            <span class="bcard-step-num">1</span>
+            <span class="bcard-step-label">Cotización<br>del servicio</span>
+          </div>
+          <div class="bcard-step">
+            <span class="bcard-step-num">2</span>
+            <span class="bcard-step-label">Pago<br>del servicio</span>
+          </div>
+          <div class="bcard-step">
+            <span class="bcard-step-num">3</span>
+            <span class="bcard-step-label">Ejecución<br>del servicio</span>
+          </div>
+        </div>
       </div>
-      <div class="bcard bcard--hi">
+      <div class="bcard bcard--solid">
         <h3>Crédito</h3>
-        <span class="tag">Exclusivo empresas</span>
-        <ul>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Express y Gestión: facturación a mes vencido, pago a 30 días</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Corporativo: facturación el día 1, pago a 30 días, con contrato</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Ideal para alto volumen de envíos y gestiones</li>
+        <p class="bcard-tagline">Modalidad exclusiva para empresas.</p>
+        <p class="bcard-desc">Ideal para empresas con alto volumen de envíos y gestiones que buscan centralizar y administrar la gestión de sus envíos.</p>
+        <h4 class="bcard-subhead">Servicios on demand (Express, Gestión y Financiero)</h4>
+        <ul class="bcard-list">
+          <li>Facturación a mes vencido.</li>
+          <li>Pago a 30 días desde fecha emisión.</li>
         </ul>
-        <p class="bcard-note">Sujeto a evaluación crediticia de la empresa.</p>
+        <h4 class="bcard-subhead">Servicio Moto Corporativo:</h4>
+        <ul class="bcard-list">
+          <li>Facturación el día 1 de cada mes.</li>
+          <li>Pago a 30 días desde fecha emisión.</li>
+          <li>Se firma contrato de servicios.</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -321,27 +397,48 @@
 <!-- ============ TECNOLOGÍA ============ -->
 <section id="tecnologia" style="background:var(--blue-darker);color:#fff;">
   <div class="w">
-    <div class="section-head rv">
-      <span class="eyebrow" style="color:#8fc2f5;">Tecnología</span>
-      <h2 style="color:#fff;">Plataforma corporativa</h2>
-      <p style="color:rgba(255,255,255,0.65);">Gestiona, programa y revisa el historial de tus envíos desde un solo lugar.</p>
+    <div class="grid-2 tecnologia-grid" style="align-items:center;">
+      <div class="rv">
+        <span class="eyebrow" style="color:#8fc2f5;">Tecnología</span>
+        <h2 style="color:#fff;">Plataforma Tecnológica</h2>
+        <p style="color:rgba(255,255,255,0.65);margin-bottom:8px;">Gestiona, programa y revisa el historial de tus envíos desde un solo lugar.</p>
+        <div class="tecnologia-features">
+          <div class="feature feature--row">
+            <div class="ic" style="background:rgba(255,255,255,0.1);color:#8fc2f5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="2.5"/><path d="M12 22c5-3 8-6.5 8-11a8 8 0 1 0-16 0c0 4.5 3 8 8 11Z"/></svg></div>
+            <div>
+              <h3 style="color:#fff;">Seguimiento de envíos</h3>
+              <p style="color:rgba(255,255,255,0.6);">Monitorea el estado de cada envío, con actualizaciones automáticas.</p>
+            </div>
+          </div>
+          <div class="feature feature--row">
+            <div class="ic" style="background:rgba(255,255,255,0.1);color:#8fc2f5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12h8M8 16h5"/></svg></div>
+            <div>
+              <h3 style="color:#fff;">Reporte con foto</h3>
+              <p style="color:rgba(255,255,255,0.6);">Comprobante con foto de entrega y datos de quien recibe.</p>
+            </div>
+          </div>
+          <div class="feature feature--row">
+            <div class="ic" style="background:rgba(255,255,255,0.1);color:#8fc2f5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M4 20c1.5-4 5-5 8-5s6.5 1 8 5"/></svg></div>
+            <div>
+              <h3 style="color:#fff;">Centro de costos</h3>
+              <p style="color:rgba(255,255,255,0.6);">Organiza solicitudes por área, con usuarios y permisos.</p>
+            </div>
+          </div>
+          <div class="feature feature--row">
+            <div class="ic" style="background:rgba(255,255,255,0.1);color:#8fc2f5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></div>
+            <div>
+              <h3 style="color:#fff;">Historial completo</h3>
+              <p style="color:rgba(255,255,255,0.6);">Revisa el historial completo con toda la información de cada servicio.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="platform-shot rv">
+        <img src="assets/platform/dashboard-screenshot.jpg?v=1786472000" alt="Panel de administración Motocity, con listado de servicios, clientes, conductores y estado de cada envío">
+      </div>
     </div>
-    <div class="grid-3 rv">
-      <div class="feature">
-        <div class="ic" style="background:rgba(255,255,255,0.1);color:#8fc2f5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="2.5"/><path d="M12 22c5-3 8-6.5 8-11a8 8 0 1 0-16 0c0 4.5 3 8 8 11Z"/></svg></div>
-        <h3 style="color:#fff;">Seguimiento de envíos</h3>
-        <p style="color:rgba(255,255,255,0.6);">Monitorea el estado de cada envío, con actualizaciones automáticas.</p>
-      </div>
-      <div class="feature">
-        <div class="ic" style="background:rgba(255,255,255,0.1);color:#8fc2f5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 12h8M8 16h5"/></svg></div>
-        <h3 style="color:#fff;">Reporte con foto</h3>
-        <p style="color:rgba(255,255,255,0.6);">Comprobante con foto de entrega y datos de quien recibe.</p>
-      </div>
-      <div class="feature">
-        <div class="ic" style="background:rgba(255,255,255,0.1);color:#8fc2f5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3"/><path d="M4 20c1.5-4 5-5 8-5s6.5 1 8 5"/></svg></div>
-        <h3 style="color:#fff;">Centro de costos</h3>
-        <p style="color:rgba(255,255,255,0.6);">Organiza solicitudes por área, con usuarios y permisos.</p>
-      </div>
+    <div class="moto-scroll-track" aria-hidden="true">
+      <img class="moto-scroll-icon" src="assets/tecnologia/moto-scroll-icon.png?v=1786472600" alt="">
     </div>
   </div>
 </section>
@@ -349,19 +446,23 @@
 <!-- ============ QUIENES SOMOS ============ -->
 <section id="somos" class="about">
   <div class="w about-grid">
-    <div class="about-stamp rv"><strong>+12</strong><span>AÑOS</span></div>
+    <div class="about-photo rv">
+      <img src="assets/somos/foto-motorista.jpg?v=1786473400" alt="Motorista Motocity de espaldas, vista aérea, con la chaqueta corporativa Motocity">
+      <div class="about-stamp"><strong>+12</strong><span>AÑOS</span></div>
+    </div>
     <div class="about-copy rv">
       <span class="eyebrow">Quienes somos</span>
       <p>En Motocity somos especialistas en mensajería urgente para empresas, con más de 12 años de experiencia ofreciendo soluciones rápidas, seguras y confiables con cobertura en toda la Región Metropolitana.</p>
       <p>Nos especializamos en el transporte de paquetería, documentación sensible y en la gestión ágil de trámites críticos, ayudando a las empresas a optimizar tiempos operativos y enfocarse en lo que realmente importa: su core business.</p>
       <p>Nuestra plataforma corporativa permite realizar un seguimiento detallado por estados de entrega, revisar el historial de servicios, programar entregas y acceder a evidencias fotográficas, brindando control y trazabilidad en todo momento.</p>
       <p style="font-weight:600;color:var(--ink);">Motocity: rápido, seguro y confiable.</p>
+      <img class="about-signature" src="assets/somos/firma-equipo-motocity.png?v=1786473200" alt="Firma, Equipo Motocity">
     </div>
   </div>
 </section>
 
 <section style="background:var(--bg-soft);padding-top:64px;padding-bottom:64px;">
-  <p class="center-text rv" style="font-size:13.5px;color:var(--ink-faint);letter-spacing:0.03em;margin-bottom:28px;">EN 12 AÑOS, MUCHÍSIMAS EMPRESAS HAN CONFIADO EN MOTOCITY</p>
+  <p class="center-text rv" style="font-size:13.5px;color:var(--ink-faint);letter-spacing:0.03em;margin-bottom:28px;">12 años movilizando la confianza de grandes empresas.</p>
   <div class="clients-marquee rv">
    <div class="clients-track">
     <ul class="clients-row">
@@ -418,24 +519,190 @@
   </div>
 </section>
 
-<section>
+<section class="testi-section">
   <div class="w">
     <div class="section-head rv">
       <span class="eyebrow">Testimonios</span>
       <h2>Lo que dicen quienes ya trabajan con Motocity</h2>
     </div>
-    <div class="grid-3 rv">
-      <div class="testi">
-        <p class="quote">"Antes perdíamos mucho tiempo en trámites y retiros. Con Moto Gestión todo se resuelve de forma más simple."</p>
-        <div class="testi-author"><div class="testi-avatar">MR</div><div><strong>Martina R.</strong><span>Retail Nacional</span></div></div>
+  </div>
+
+  <div class="testi-marquee rv">
+    <div class="testi-marquee-row">
+      <div class="testi-marquee-track">
+        <div class="testi-group">
+          <div class="testi">
+            <p class="quote">"Antes coordinábamos cada envío por distintos canales. Ahora centralizamos las solicitudes y podemos revisar su estado fácilmente."</p>
+            <div class="testi-author"><div class="testi-avatar">CM</div><div><strong>Carolina M.</strong><span>Servicios Profesionales</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Moto Express nos ha resultado muy útil cuando necesitamos entregar documentación urgente dentro de Santiago."</p>
+            <div class="testi-author"><div class="testi-avatar">FA</div><div><strong>Felipe A.</strong><span>Estudio Jurídico</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Contar con respaldo fotográfico y los datos de recepción nos permite mantener un mejor control de cada entrega."</p>
+            <div class="testi-author"><div class="testi-avatar">DP</div><div><strong>Daniela P.</strong><span>Empresa de Tecnología</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Con Moto Gestión dejamos de destinar personal interno a bancos, notarías y otros trámites fuera de la oficina."</p>
+            <div class="testi-author"><div class="testi-avatar">AV</div><div><strong>Andrés V.</strong><span>Administración y Finanzas</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"La plataforma es clara y nos permite consultar el historial de las solicitudes sin depender de correos o planillas."</p>
+            <div class="testi-author"><div class="testi-avatar">NC</div><div><strong>Natalia C.</strong><span>Recursos Humanos</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"El motorista dedicado se integró muy bien a nuestra operación. Hoy contamos con apoyo permanente para las gestiones diarias."</p>
+            <div class="testi-author"><div class="testi-avatar">RS</div><div><strong>Rodrigo S.</strong><span>Operaciones</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"La asignación por centros de costos simplificó considerablemente nuestro control y la distribución interna de los gastos."</p>
+            <div class="testi-author"><div class="testi-avatar">MT</div><div><strong>Marcela T.</strong><span>Agencia de Aduanas</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Valoramos especialmente la rapidez de respuesta y la comunicación cuando surge algún cambio durante una gestión."</p>
+            <div class="testi-author"><div class="testi-avatar">SL</div><div><strong>Sebastián L.</strong><span>Comercio Exterior</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Coordinamos retiros de documentos y gestiones portuarias con mayor orden. El seguimiento nos permite informar avances sin perder tiempo."</p>
+            <div class="testi-author"><div class="testi-avatar">CP</div><div><strong>Camila P.</strong><span>Agencia de Aduanas</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Motocity nos apoya con la entrega de planos, contratos y materiales entre oficinas y proyectos. Siempre responden con rapidez."</p>
+            <div class="testi-author"><div class="testi-avatar">FG</div><div><strong>Fernando G.</strong><span>Empresa de Ingeniería</span></div></div>
+          </div>
+        </div>
+        <div class="testi-group" aria-hidden="true">
+          <div class="testi">
+            <p class="quote">"Antes coordinábamos cada envío por distintos canales. Ahora centralizamos las solicitudes y podemos revisar su estado fácilmente."</p>
+            <div class="testi-author"><div class="testi-avatar">CM</div><div><strong>Carolina M.</strong><span>Servicios Profesionales</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Moto Express nos ha resultado muy útil cuando necesitamos entregar documentación urgente dentro de Santiago."</p>
+            <div class="testi-author"><div class="testi-avatar">FA</div><div><strong>Felipe A.</strong><span>Estudio Jurídico</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Contar con respaldo fotográfico y los datos de recepción nos permite mantener un mejor control de cada entrega."</p>
+            <div class="testi-author"><div class="testi-avatar">DP</div><div><strong>Daniela P.</strong><span>Empresa de Tecnología</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Con Moto Gestión dejamos de destinar personal interno a bancos, notarías y otros trámites fuera de la oficina."</p>
+            <div class="testi-author"><div class="testi-avatar">AV</div><div><strong>Andrés V.</strong><span>Administración y Finanzas</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"La plataforma es clara y nos permite consultar el historial de las solicitudes sin depender de correos o planillas."</p>
+            <div class="testi-author"><div class="testi-avatar">NC</div><div><strong>Natalia C.</strong><span>Recursos Humanos</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"El motorista dedicado se integró muy bien a nuestra operación. Hoy contamos con apoyo permanente para las gestiones diarias."</p>
+            <div class="testi-author"><div class="testi-avatar">RS</div><div><strong>Rodrigo S.</strong><span>Operaciones</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"La asignación por centros de costos simplificó considerablemente nuestro control y la distribución interna de los gastos."</p>
+            <div class="testi-author"><div class="testi-avatar">MT</div><div><strong>Marcela T.</strong><span>Agencia de Aduanas</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Valoramos especialmente la rapidez de respuesta y la comunicación cuando surge algún cambio durante una gestión."</p>
+            <div class="testi-author"><div class="testi-avatar">SL</div><div><strong>Sebastián L.</strong><span>Comercio Exterior</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Coordinamos retiros de documentos y gestiones portuarias con mayor orden. El seguimiento nos permite informar avances sin perder tiempo."</p>
+            <div class="testi-author"><div class="testi-avatar">CP</div><div><strong>Camila P.</strong><span>Agencia de Aduanas</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Motocity nos apoya con la entrega de planos, contratos y materiales entre oficinas y proyectos. Siempre responden con rapidez."</p>
+            <div class="testi-author"><div class="testi-avatar">FG</div><div><strong>Fernando G.</strong><span>Empresa de Ingeniería</span></div></div>
+          </div>
+        </div>
       </div>
-      <div class="testi">
-        <p class="quote">"La plataforma es muy fácil de usar. Nos permite gestionar y hacer seguimiento de estado en todos nuestros envíos."</p>
-        <div class="testi-author"><div class="testi-avatar">RH</div><div><strong>Rafael H.</strong><span>Comunicaciones</span></div></div>
-      </div>
-      <div class="testi">
-        <p class="quote">"La opción de centro de costos nos ha ayudado a organizar mejor nuestras solicitudes y optimizar nuestros recursos."</p>
-        <div class="testi-author"><div class="testi-avatar">GB</div><div><strong>Gloria B.</strong><span>Agencia de Aduanas</span></div></div>
+    </div>
+
+    <div class="testi-marquee-row testi-marquee-row--reverse">
+      <div class="testi-marquee-track">
+        <div class="testi-group">
+          <div class="testi">
+            <p class="quote">"Necesitábamos un proveedor flexible que pudiera responder tanto a solicitudes programadas como a requerimientos urgentes."</p>
+            <div class="testi-author"><div class="testi-avatar">PG</div><div><strong>Paula G.</strong><span>Retail Nacional</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Los reportes mensuales nos ayudan a revisar los servicios realizados y mantener un mejor control administrativo."</p>
+            <div class="testi-author"><div class="testi-avatar">CR</div><div><strong>Cristóbal R.</strong><span>Servicios Financieros</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Necesitábamos retirar unos documentos con poca anticipación y respondieron muy rápido. Todo llegó dentro del plazo acordado."</p>
+            <div class="testi-author"><div class="testi-avatar">JM</div><div><strong>Javiera M.</strong><span>Consultora</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Lo que más valoramos es poder revisar quién recibió cada envío y contar con respaldo fotográfico de la entrega."</p>
+            <div class="testi-author"><div class="testi-avatar">MF</div><div><strong>Mauricio F.</strong><span>Importadora</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Tenemos solicitudes en distintas comunas y Motocity nos permite coordinarlas desde un solo lugar, sin perder el control."</p>
+            <div class="testi-author"><div class="testi-avatar">AS</div><div><strong>Alejandra S.</strong><span>Servicios de Ingeniería</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"El motorista dedicado conoce nuestra operación y se ha convertido en un apoyo importante para el equipo administrativo."</p>
+            <div class="testi-author"><div class="testi-avatar">IR</div><div><strong>Ignacio R.</strong><span>Empresa de Tecnología</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Antes registrábamos los servicios en planillas internas. Ahora descargamos el reporte directamente desde la plataforma."</p>
+            <div class="testi-author"><div class="testi-avatar">FL</div><div><strong>Francisca L.</strong><span>Administración</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Los contratamos inicialmente para una gestión puntual y terminamos incorporándolos como proveedor habitual."</p>
+            <div class="testi-author"><div class="testi-avatar">TC</div><div><strong>Tomás C.</strong><span>Estudio Contable</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Utilizamos el servicio para trasladar documentación entre sucursales y realizar trámites relacionados con nuestros vehículos."</p>
+            <div class="testi-author"><div class="testi-avatar">VR</div><div><strong>Valentina R.</strong><span>Automotora</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"La trazabilidad y el respaldo de cada entrega son fundamentales para nosotros, especialmente cuando se trata de documentación financiera."</p>
+            <div class="testi-author"><div class="testi-avatar">NA</div><div><strong>Nicolás A.</strong><span>Servicios Financieros</span></div></div>
+          </div>
+        </div>
+        <div class="testi-group" aria-hidden="true">
+          <div class="testi">
+            <p class="quote">"Necesitábamos un proveedor flexible que pudiera responder tanto a solicitudes programadas como a requerimientos urgentes."</p>
+            <div class="testi-author"><div class="testi-avatar">PG</div><div><strong>Paula G.</strong><span>Retail Nacional</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Los reportes mensuales nos ayudan a revisar los servicios realizados y mantener un mejor control administrativo."</p>
+            <div class="testi-author"><div class="testi-avatar">CR</div><div><strong>Cristóbal R.</strong><span>Servicios Financieros</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Necesitábamos retirar unos documentos con poca anticipación y respondieron muy rápido. Todo llegó dentro del plazo acordado."</p>
+            <div class="testi-author"><div class="testi-avatar">JM</div><div><strong>Javiera M.</strong><span>Consultora</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Lo que más valoramos es poder revisar quién recibió cada envío y contar con respaldo fotográfico de la entrega."</p>
+            <div class="testi-author"><div class="testi-avatar">MF</div><div><strong>Mauricio F.</strong><span>Importadora</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Tenemos solicitudes en distintas comunas y Motocity nos permite coordinarlas desde un solo lugar, sin perder el control."</p>
+            <div class="testi-author"><div class="testi-avatar">AS</div><div><strong>Alejandra S.</strong><span>Servicios de Ingeniería</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"El motorista dedicado conoce nuestra operación y se ha convertido en un apoyo importante para el equipo administrativo."</p>
+            <div class="testi-author"><div class="testi-avatar">IR</div><div><strong>Ignacio R.</strong><span>Empresa de Tecnología</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Antes registrábamos los servicios en planillas internas. Ahora descargamos el reporte directamente desde la plataforma."</p>
+            <div class="testi-author"><div class="testi-avatar">FL</div><div><strong>Francisca L.</strong><span>Administración</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Los contratamos inicialmente para una gestión puntual y terminamos incorporándolos como proveedor habitual."</p>
+            <div class="testi-author"><div class="testi-avatar">TC</div><div><strong>Tomás C.</strong><span>Estudio Contable</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"Utilizamos el servicio para trasladar documentación entre sucursales y realizar trámites relacionados con nuestros vehículos."</p>
+            <div class="testi-author"><div class="testi-avatar">VR</div><div><strong>Valentina R.</strong><span>Automotora</span></div></div>
+          </div>
+          <div class="testi">
+            <p class="quote">"La trazabilidad y el respaldo de cada entrega son fundamentales para nosotros, especialmente cuando se trata de documentación financiera."</p>
+            <div class="testi-author"><div class="testi-avatar">NA</div><div><strong>Nicolás A.</strong><span>Servicios Financieros</span></div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -520,6 +787,7 @@
               <option>Moto Express</option>
               <option>Moto Gestión</option>
               <option>Moto Corporativo</option>
+              <option>Moto Financiero</option>
               <option>No estoy seguro / quiero asesoría</option>
             </select>
           </div>
@@ -585,6 +853,7 @@
           <li><a href="#express">Moto Express</a></li>
           <li><a href="#gestion">Moto Gestión</a></li>
           <li><a href="#corporativo">Moto Corporativo</a></li>
+          <li><a href="#financiero">Moto Financiero</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -609,6 +878,6 @@
 
 <script src="https://unpkg.com/gsap@3.12.7/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
-<script src="js/main.js?v=1786470000"></script>
+<script src="js/main.js?v=1786473000"></script>
 </body>
 </html>

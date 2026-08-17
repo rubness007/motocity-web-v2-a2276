@@ -359,6 +359,23 @@ section{padding:96px 0;}
 .feature h3{font-size:16.5px;margin-bottom:6px;}
 .feature p{font-size:14.5px;color:var(--ink-soft);}
 
+/* ============ PLATFORM SCREENSHOT ============ */
+.tecnologia-features{display:flex;flex-direction:column;gap:24px;margin-top:24px;}
+.feature--row{display:flex;gap:16px;padding:0;}
+.feature--row .ic{margin-bottom:0;flex:none;}
+.platform-shot img{
+  width:100%;max-width:490px;display:block;border-radius:14px;margin:0 auto;
+  border:1px solid rgba(255,255,255,0.12);
+  box-shadow:0 30px 60px -20px rgba(0,0,0,0.5), 0 10px 24px rgba(0,0,0,0.35);
+}
+@media (max-width:900px){ .platform-shot img{max-width:520px;} }
+.moto-scroll-track{position:relative;height:96px;margin-top:56px;overflow:hidden;}
+.moto-scroll-icon{
+  position:absolute;top:50%;left:0;width:112px;height:auto;
+  transform:translateY(-50%);opacity:0.92;
+  filter:drop-shadow(0 6px 14px rgba(0,0,0,0.3));
+}
+
 /* ============ SERVICE CARDS ============ */
 .service-card{
   background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);
@@ -369,10 +386,10 @@ section{padding:96px 0;}
 .service-card--hi:hover{border-color:var(--blue-darker);}
 .service-card--hi{background:var(--blue-darker);border-color:var(--blue-darker);color:#fff;}
 .service-card--hi h3,.service-card--hi .service-tagline{color:#fff;}
-.service-mode{font-size:12px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:12px;display:block;}
+.service-mode{font-size:12px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;display:block;}
 .service-card--hi .service-mode{color:#8fc2f5;}
-.service-card h3{font-size:22px;margin-bottom:6px;}
-.service-tagline{font-size:14.5px;font-weight:500;color:var(--blue);margin-bottom:14px;}
+.service-card h3{font-size:22px;margin-bottom:4px;}
+.service-tagline{font-size:14.5px;font-weight:500;color:var(--blue);margin-bottom:0;}
 .service-desc{font-size:14.5px;color:var(--ink-soft);margin-bottom:20px;}
 .service-card--hi .service-desc{color:rgba(255,255,255,0.75);}
 .service-list{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;font-size:13.5px;}
@@ -380,6 +397,45 @@ section{padding:96px 0;}
 .service-list li svg{width:15px;height:15px;flex:none;margin-top:2px;color:var(--orange);}
 .service-card--hi .service-list li svg{color:#f0a583;}
 .service-card .btn{margin-top:auto;align-self:flex-start;}
+.service-card-head{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
+.service-card-ic{
+  width:72px;height:72px;border-radius:18px;background:var(--blue);
+  display:flex;align-items:center;justify-content:center;flex:none;
+}
+.service-card-ic img{width:40px;height:40px;object-fit:contain;display:block;}
+.service-card--hi .service-card-ic{background:rgba(255,255,255,0.18);}
+.service-card-head-text{min-width:0;}
+.service-card-note{font-size:13px;color:var(--ink-faint);font-style:italic;margin:-8px 0 18px;}
+.service-card--hi .service-card-note{color:rgba(255,255,255,0.65);}
+.services-preview{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:12px;margin-bottom:40px;
+}
+.services-preview-item{
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  text-decoration:none;color:var(--ink);width:150px;padding:14px 8px;border-radius:16px;
+  transition:transform .2s ease, background .2s ease;
+}
+.services-preview-item:hover{transform:translateY(-4px);background:#fff;box-shadow:var(--shadow-sm);}
+.services-preview-item span:last-child{font-size:13.5px;font-weight:600;text-align:center;}
+.services-preview-ic{
+  width:60px;height:60px;border-radius:16px;background:var(--blue);
+  display:flex;align-items:center;justify-content:center;flex:none;
+}
+.services-preview-ic img{width:32px;height:32px;object-fit:contain;}
+@media (max-width:560px){ .services-preview-item{width:44%;} }
+
+.services-grid{margin-top:8px;grid-template-columns:repeat(2,1fr);gap:24px;}
+@media (max-width:760px){ .services-grid{grid-template-columns:1fr;} }
+.services-grid > .service-card{min-width:0;}
+/* One-shot entrance for the 4 service cards — fades/slides up with a slight scale-in,
+   more pronounced than the default .rv fade so the grid feels like it "arrives" together.
+   Stagger comes from the existing .grid-4 > .rv:nth-child(N) transition-delay rules. */
+.services-grid .service-card.rv{
+  opacity:0;transform:translateY(32px) scale(0.96);
+  transition:opacity .65s cubic-bezier(.22,.61,.36,1), transform .65s cubic-bezier(.22,.61,.36,1);
+}
+.services-grid .service-card.rv.on{opacity:1;transform:none;}
+.service-card .btn{white-space:normal;text-align:center;align-self:stretch;line-height:1.35;}
 
 /* ============ STEPS ============ */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
@@ -400,6 +456,34 @@ section{padding:96px 0;}
 .testi-author strong{display:block;font-size:13.5px;}
 .testi-author span{font-size:12.5px;color:var(--ink-faint);}
 
+/* ============ TESTIMONIALS (infinite two-row marquee) ============ */
+/* Same double-track technique as the client logos marquee: each row's .testi-marquee-track
+   holds two identical .testi-group copies back-to-back, and translating the track by -50%
+   (of the combined two-group width) lands exactly one group-width over, so the loop is
+   seamless. The two rows scroll in opposite directions (row 2 reversed) for a livelier feel
+   with 16 quotes instead of pagination/arrows. */
+.testi-marquee{display:flex;flex-direction:column;gap:24px;margin-top:40px;}
+.testi-marquee-row{
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
+}
+.testi-marquee-track{display:flex;width:max-content;animation:testiMarqueeScroll 80s linear infinite;}
+.testi-marquee-row--reverse .testi-marquee-track{animation-direction:reverse;}
+.testi-marquee-row:hover .testi-marquee-track{animation-play-state:paused;}
+.testi-group{display:flex;flex-wrap:nowrap;gap:20px;padding:0 10px;}
+.testi-marquee .testi{width:340px;flex:none;}
+@keyframes testiMarqueeScroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+@media (prefers-reduced-motion:reduce){
+  .testi-marquee-track{animation:none;}
+}
+@media (max-width:560px){
+  .testi-marquee .testi{width:280px;}
+}
+
 /* ============ CLIENTS (infinite marquee) ============ */
 /* .clients-track holds TWO identical .clients-row <ul>s back-to-back and is the thing that
    animates; translating IT by -50% (of the combined two-track width, i.e. exactly one
@@ -408,7 +492,7 @@ section{padding:96px 0;}
    be relative to that row's own width, not the pair. Paused on hover, off under
    prefers-reduced-motion. */
 .clients-marquee{
-  overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  overflow:hidden;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
 }
@@ -464,6 +548,48 @@ section{padding:96px 0;}
 .bcard li svg{width:15px;height:15px;flex:none;margin-top:3px;color:var(--orange);}
 .bcard-note{font-size:13px;color:var(--ink-soft);font-style:italic;}
 
+/* ============ BILLING CARDS — solid variant ============ */
+.bcard--solid{background:var(--blue);border-color:var(--blue);color:#fff;}
+.bcard--solid:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);}
+.bcard--solid h3{
+  font-size:24px;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;
+  text-align:center;color:#fff;margin-bottom:16px;
+}
+.bcard-tagline{text-align:center;font-weight:600;color:#fff;margin-bottom:14px;}
+.bcard-desc{font-size:14.5px;line-height:1.55;color:rgba(255,255,255,0.88);text-align:center;margin-bottom:24px;}
+.bcard-subhead{font-size:14.5px;font-weight:700;color:#fff;margin-bottom:10px;}
+.bcard .bcard-list{display:block;list-style:disc;padding-left:20px;font-size:14px;color:rgba(255,255,255,0.9);margin-bottom:22px;}
+.bcard .bcard-list li{display:list-item;margin-bottom:8px;}
+.bcard .bcard-list li:last-child{margin-bottom:0;}
+.bcard-list:last-of-type{margin-bottom:0;}
+.bcard-steps{display:flex;margin-top:auto;padding-top:18px;}
+/* Numbered-circle stepper connected by a line, instead of the earlier chevron/arrow shapes.
+   Each step's connector runs from its OWN circle center to 100% further right — since all
+   three steps share equal flex width, that lands exactly on the next circle's center, giving
+   a continuous line without needing to measure gaps by hand. */
+.bcard-step{
+  flex:1;position:relative;display:flex;flex-direction:column;align-items:center;
+  gap:10px;padding:0 6px;font-size:12.5px;font-weight:600;line-height:1.3;text-align:center;color:#fff;
+}
+.bcard-step:not(:last-child)::after{
+  content:"";position:absolute;top:15px;left:50%;width:100%;height:2px;
+  background:rgba(255,255,255,0.35);z-index:0;
+}
+.bcard-step-num{
+  width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,0.16);
+  border:2px solid rgba(255,255,255,0.55);
+  display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:none;
+  position:relative;z-index:1;
+}
+.bcard-step-label{position:relative;z-index:1;}
+@media (max-width:560px){
+  .bcard-steps{flex-direction:column;gap:14px;}
+  .bcard-step{flex-direction:row;justify-content:flex-start;text-align:left;gap:12px;}
+  .bcard-step:not(:last-child)::after{
+    top:auto;left:15px;bottom:-14px;width:2px;height:14px;
+  }
+}
+
 /* ============ TRAMITES ============ */
 /* Needle rotation is driven entirely by main.js (ScrollTrigger scrub tied to how far the
    #tramites section has scrolled through the viewport) — no numbers on the dial on purpose,
@@ -480,7 +606,7 @@ section{padding:96px 0;}
    matching .speed-gauge-needle, so both copies' needles stay in sync. */
 .speed-gauge{display:inline-flex;}
 .speed-gauge--float{
-  position:absolute;top:50%;left:calc(100% + 10px);transform:translateY(-50%);
+  position:absolute;top:50%;left:calc(100% - 20px);transform:translateY(-50%);
 }
 .speed-gauge--mobile{display:none;}
 @media (max-width:1100px){
@@ -488,10 +614,11 @@ section{padding:96px 0;}
   .speed-gauge--mobile{display:block;text-align:center;margin:0 0 16px;}
 }
 
-.tramites-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:28px;}
+.tramites-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 32px;}
 @media (max-width:900px){ .tramites-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:560px){ .tramites-grid{grid-template-columns:1fr;} }
 .tramites-cat h4{font-size:14.5px;margin-bottom:12px;color:var(--blue-dark);}
+.tramites-num{color:var(--orange);font-weight:700;}
 .tramites-cat ul{display:flex;flex-direction:column;gap:8px;}
 .tramites-cat li{font-size:13.5px;color:var(--ink-soft);padding-left:14px;position:relative;}
 .tramites-cat li::before{content:"";position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--blue);}
@@ -559,17 +686,27 @@ section{padding:96px 0;}
 .page-hero p{font-size:17px;color:var(--ink-soft);max-width:560px;}
 
 /* ============ ABOUT ============ */
-.about-grid{display:grid;grid-template-columns:0.55fr 1fr;gap:52px;align-items:center;}
+.about-grid{display:grid;grid-template-columns:0.85fr 1fr;gap:52px;align-items:center;}
 @media (max-width:860px){ .about-grid{grid-template-columns:1fr;} }
+.about-photo{position:relative;}
+.about-photo img{width:100%;display:block;border-radius:20px;box-shadow:var(--shadow-md);}
 .about-stamp{
-  width:190px;height:190px;border-radius:50%;border:1px solid var(--blue-tint-2);
+  width:130px;height:130px;border-radius:50%;border:1px solid var(--blue-tint-2);
   background:var(--blue-tint);display:flex;flex-direction:column;align-items:center;justify-content:center;
-  color:var(--blue-dark);margin:0 auto;
+  color:var(--blue-dark);
 }
-.about-stamp strong{font-size:46px;font-weight:700;line-height:1;}
-.about-stamp span{font-size:12px;letter-spacing:0.05em;margin-top:4px;}
+.about-photo .about-stamp{
+  position:absolute;left:-24px;top:-24px;background:#fff;box-shadow:var(--shadow-md);
+}
+.about-stamp strong{font-size:34px;font-weight:700;line-height:1;}
+.about-stamp span{font-size:11px;letter-spacing:0.05em;margin-top:4px;}
+@media (max-width:560px){
+  .about-photo .about-stamp{width:100px;height:100px;left:-14px;top:-14px;}
+  .about-photo .about-stamp strong{font-size:26px;}
+}
 .about-copy p{font-size:16px;color:var(--ink-soft);margin-bottom:16px;}
 .about-copy p:first-of-type{font-size:19px;color:var(--ink);font-weight:500;}
+.about-signature{display:block;height:52px;width:auto;margin-top:18px;opacity:0.85;}
 
 /* ============ FORM ============ */
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
