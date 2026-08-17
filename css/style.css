@@ -663,9 +663,7 @@ section{padding:96px 0;}
   transform:translate(-50%,-50%);
   pointer-events:none;
 }
-/* Autoplaying video is a real cost on mobile connections/perf — same as motocity.cl,
-   which hides it below tablet width. */
-@media (max-width:860px){ .coverage-video-circle{display:none;} }
+@media (max-width:860px){ .coverage-video-circle{max-width:420px;margin-top:32px;} }
 
 /* ============ CTA FINAL ============ */
 .cta-final{
