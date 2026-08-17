@@ -28,7 +28,67 @@
   initClientLogosGuard();
   initTecnologiaMoto(reduced);
   initMotoIconGuard();
+  initTramitesAccordion();
+  initSideDrawers();
 })();
+
+/* Seguro / Reclutamiento side drawers — opened via [data-drawer-open="<id>"] buttons, closed via
+   the shared overlay, any element with [data-drawer-close], or Escape. Only one drawer opens at
+   a time (opening a second one while one is open just closes the first first). */
+function initSideDrawers(){
+  var overlay = document.getElementById('drawerOverlay');
+  if(!overlay) return;
+  var openTriggers = document.querySelectorAll('[data-drawer-open]');
+  var closeTriggers = document.querySelectorAll('[data-drawer-close]');
+  var current = null;
+
+  function closeDrawer(){
+    if(!current) return;
+    current.classList.remove('is-open');
+    current.setAttribute('aria-hidden', 'true');
+    overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+    current = null;
+  }
+
+  function openDrawer(id){
+    var drawer = document.getElementById(id);
+    if(!drawer) return;
+    if(current && current !== drawer) closeDrawer();
+    drawer.classList.add('is-open');
+    drawer.setAttribute('aria-hidden', 'false');
+    overlay.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    current = drawer;
+  }
+
+  openTriggers.forEach(function(btn){
+    btn.addEventListener('click', function(e){
+      e.preventDefault();
+      openDrawer(btn.getAttribute('data-drawer-open'));
+    });
+  });
+  closeTriggers.forEach(function(el){
+    el.addEventListener('click', closeDrawer);
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeDrawer();
+  });
+}
+
+/* Trámites category lists collapse into an accordion on mobile only — the toggle class is
+   harmless on desktop/tablet since the CSS that hides/shows content only applies below 560px;
+   above that every category just stays visually expanded regardless of this class. */
+function initTramitesAccordion(){
+  var cats = document.querySelectorAll('.tramites-cat');
+  cats.forEach(function(cat){
+    var toggle = cat.querySelector('.tramites-cat-toggle');
+    if(!toggle) return;
+    toggle.addEventListener('click', function(){
+      cat.classList.toggle('is-open');
+    });
+  });
+}
 
 /* Small cursor-anchored toast, shared by the right-click guards below (client logos, moto icon). */
 function showCursorToast(text, x, y){
