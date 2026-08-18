@@ -219,24 +219,72 @@ function initRetroGame(){
     ctx.save();
     ctx.translate(screenX, screenY);
     if(isPlayer) ctx.rotate(steerTilt);
+
     ctx.fillStyle = 'rgba(0,0,0,0.35)';
     ctx.beginPath();
-    ctx.ellipse(0, 0, w*0.55, h*0.12, 0, 0, Math.PI*2);
+    ctx.ellipse(0, 0, w*0.26, h*0.09, 0, 0, Math.PI*2);
+    ctx.fill();
+
+    // single-track silhouette: rear wheel peeking, front wheel in front — reads as a
+    // motorcycle head-on (narrow) rather than a car's twin-wheel stance.
+    ctx.fillStyle = '#1a1a1a';
+    ctx.beginPath();
+    ctx.arc(0, -h*0.14, h*0.13, 0, Math.PI*2);
     ctx.fill();
     ctx.fillStyle = '#111';
     ctx.beginPath();
-    ctx.arc(-w*0.32, -h*0.08, h*0.11, 0, Math.PI*2);
-    ctx.arc(w*0.32, -h*0.08, h*0.11, 0, Math.PI*2);
+    ctx.arc(0, -h*0.02, h*0.19, 0, Math.PI*2);
     ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
+    ctx.lineWidth = Math.max(0.6, h*0.02);
+    ctx.beginPath();
+    ctx.arc(0, -h*0.02, h*0.19, 0, Math.PI*2);
+    ctx.stroke();
+
+    // handlebar (the motorcycle signature — a car has no equivalent)
+    var barY = -h*0.5;
+    ctx.strokeStyle = '#222';
+    ctx.lineWidth = Math.max(1, h*0.035);
+    ctx.beginPath();
+    ctx.moveTo(-w*0.42, barY);
+    ctx.lineTo(w*0.42, barY);
+    ctx.stroke();
+    ctx.fillStyle = '#222';
+    ctx.beginPath();
+    ctx.arc(-w*0.42, barY, h*0.035, 0, Math.PI*2);
+    ctx.arc(w*0.42, barY, h*0.035, 0, Math.PI*2);
+    ctx.fill();
+
+    // headlight
+    ctx.fillStyle = '#fff59d';
+    ctx.beginPath();
+    ctx.arc(0, -h*0.32, h*0.045, 0, Math.PI*2);
+    ctx.fill();
+
+    // rider torso (narrow — leaning over the tank, not a car-width cabin)
     ctx.fillStyle = jacket;
-    ctx.fillRect(-w*0.36, -h*0.62, w*0.72, h*0.48);
+    roundRect(-w*0.2, -h*0.5, w*0.4, h*0.3, w*0.12);
+    ctx.fill();
+
+    // helmet
     ctx.fillStyle = helmet;
     ctx.beginPath();
-    ctx.arc(0, -h*0.72, w*0.28, 0, Math.PI*2);
+    ctx.arc(0, -h*0.6, w*0.24, 0, Math.PI*2);
     ctx.fill();
     ctx.fillStyle = 'rgba(11,14,26,0.85)';
-    ctx.fillRect(-w*0.16, -h*0.78, w*0.32, h*0.16);
+    ctx.fillRect(-w*0.14, -h*0.64, w*0.28, h*0.14);
+
     ctx.restore();
+  }
+
+  function roundRect(x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.arcTo(x+w, y, x+w, y+h, r);
+    ctx.arcTo(x+w, y+h, x, y+h, r);
+    ctx.arcTo(x, y+h, x, y, r);
+    ctx.arcTo(x, y, x+w, y, r);
+    ctx.closePath();
   }
 
   function renderRoad(){
@@ -279,7 +327,8 @@ function initRetroGame(){
     renderRoad();
 
     var wobble = Math.sin(position*0.02) * 2;
-    drawBikeSprite(W/2 + wobble, H - 46, 0.62, '#4aa3ff', '#ffffff', true);
+    var playerScale = 0.00068;
+    drawBikeSprite(W/2 + wobble, H - 46, playerScale, '#4aa3ff', '#ffffff', true);
 
     if(crashFlash > 0){
       ctx.fillStyle = 'rgba(255,46,166,' + (crashFlash*0.35).toFixed(2) + ')';
