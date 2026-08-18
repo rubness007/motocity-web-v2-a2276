@@ -30,7 +30,327 @@
   initMotoIconGuard();
   initTramitesAccordion();
   initSideDrawers();
+  initRevealText(reduced);
+  initCounters(reduced);
+  initBackToTop();
+  initRetroGame();
 })();
+
+function initRetroGame(){
+  var openBtn = document.getElementById('openRetroGame');
+  var closeBtn = document.getElementById('retroGameClose');
+  var overlay = document.getElementById('retroGameOverlay');
+  var canvas = document.getElementById('retroGameCanvas');
+  if(!openBtn || !overlay || !canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+
+  var LANES = [W*0.28, W*0.5, W*0.72];
+  var laneIndex = 1;
+  var player = { w: 30, h: 46 };
+  var traffic = [];
+  var roadOffset = 0;
+  var speed = 4.2;
+  var score = 0;
+  var running = false;
+  var gameOver = false;
+  var rafId = null;
+  var spawnTimer = 0;
+  var spawnEvery = 70;
+
+  function reset(){
+    laneIndex = 1;
+    traffic = [];
+    roadOffset = 0;
+    speed = 4.2;
+    score = 0;
+    gameOver = false;
+    spawnTimer = 0;
+    spawnEvery = 70;
+  }
+
+  function spawnTraffic(){
+    var lane = Math.floor(Math.random()*3);
+    var palette = ['#ff2ea6','#8fe8ff','#ffd23f','#7cffb2'];
+    traffic.push({ lane: lane, y: -80, w: 30, h: 46, color: palette[Math.floor(Math.random()*palette.length)] });
+  }
+
+  function drawBike(x, y, color){
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.fillStyle = color || '#fff';
+    ctx.fillRect(-player.w/2, -player.h/2, player.w, player.h*0.62);
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(-player.w/2+4, -player.h/2+player.h*0.62, player.w-8, player.h*0.14);
+    ctx.fillStyle = '#111';
+    ctx.beginPath();
+    ctx.arc(-player.w/2+5, player.h/2-4, 5, 0, Math.PI*2);
+    ctx.arc(player.w/2-5, player.h/2-4, 5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.restore();
+  }
+
+  function drawPlayerBike(x, y){
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.fillStyle = '#4aa3ff';
+    ctx.fillRect(-player.w/2, -player.h/2 + 6, player.w, player.h*0.5);
+    ctx.fillStyle = 'rgba(0,0,0,0.55)';
+    ctx.fillRect(-player.w/2+4, -player.h/2+player.h*0.62, player.w-8, player.h*0.14);
+    ctx.fillStyle = '#111';
+    ctx.beginPath();
+    ctx.arc(-player.w/2+5, player.h/2-4, 5, 0, Math.PI*2);
+    ctx.arc(player.w/2-5, player.h/2-4, 5, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#ffffff';
+    ctx.beginPath();
+    ctx.arc(0, -player.h/2 + 2, 9, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(11,14,26,0.85)';
+    ctx.fillRect(-6, -player.h/2 - 1, 12, 6);
+    ctx.restore();
+  }
+
+  function draw(){
+    ctx.fillStyle = '#0b0e1a';
+    ctx.fillRect(0,0,W,H);
+
+    var grad = ctx.createLinearGradient(0,0,0,H*0.45);
+    grad.addColorStop(0,'#2a0f4a');
+    grad.addColorStop(1,'#0b0e1a');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,W,H*0.45);
+    ctx.fillStyle = 'rgba(255,180,60,0.85)';
+    ctx.beginPath();
+    ctx.arc(W/2, H*0.18, 34, 0, Math.PI*2);
+    ctx.fill();
+
+    ctx.fillStyle = '#141a2e';
+    ctx.fillRect(0, H*0.42, W, H*0.58);
+
+    ctx.strokeStyle = 'rgba(143,232,255,0.55)';
+    ctx.lineWidth = 3;
+    ctx.setLineDash([18,16]);
+    [W*0.39, W*0.61].forEach(function(x){
+      ctx.beginPath();
+      ctx.moveTo(x, H);
+      ctx.lineTo(x, H*0.42);
+      ctx.lineDashOffset = -roadOffset;
+      ctx.stroke();
+    });
+    ctx.setLineDash([]);
+
+    traffic.forEach(function(t){ drawBike(LANES[t.lane], t.y, t.color); });
+    if(!gameOver) drawPlayerBike(LANES[laneIndex], H-70);
+
+    ctx.fillStyle = '#8fe8ff';
+    ctx.font = '700 16px monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('SCORE ' + Math.floor(score), 12, 24);
+
+    if(gameOver){
+      ctx.fillStyle = 'rgba(6,8,16,0.72)';
+      ctx.fillRect(0,0,W,H);
+      ctx.fillStyle = '#ff2ea6';
+      ctx.font = '800 22px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('GAME OVER', W/2, H/2 - 10);
+      ctx.fillStyle = '#fff';
+      ctx.font = '600 14px monospace';
+      ctx.fillText('Toca o presiona una tecla para reintentar', W/2, H/2 + 20);
+      ctx.textAlign = 'left';
+    }
+  }
+
+  function step(){
+    if(running && !gameOver){
+      roadOffset += speed;
+      speed += 0.0025;
+      spawnTimer++;
+      if(spawnTimer > spawnEvery){
+        spawnTimer = 0;
+        spawnEvery = Math.max(34, spawnEvery - 1.2);
+        spawnTraffic();
+      }
+      traffic.forEach(function(t){ t.y += speed; });
+      traffic = traffic.filter(function(t){ return t.y < H + 80; });
+
+      var pY = H-70;
+      traffic.forEach(function(t){
+        if(t.lane === laneIndex && Math.abs(t.y - pY) < (t.h*0.55 + player.h*0.55)){
+          gameOver = true;
+          running = false;
+        }
+      });
+      score += speed*0.12;
+    }
+    draw();
+    rafId = requestAnimationFrame(step);
+  }
+
+  function start(){
+    reset();
+    running = true;
+    if(!rafId) rafId = requestAnimationFrame(step);
+  }
+
+  function handlePrimary(){
+    if(!overlay.classList.contains('is-open')) return;
+    if(gameOver || !running){ start(); return; }
+  }
+
+  function moveLeft(){ if(running && !gameOver) laneIndex = Math.max(0, laneIndex-1); }
+  function moveRight(){ if(running && !gameOver) laneIndex = Math.min(2, laneIndex+1); }
+
+  document.addEventListener('keydown', function(e){
+    if(!overlay.classList.contains('is-open')) return;
+    if(e.code === 'ArrowLeft'){ moveLeft(); }
+    else if(e.code === 'ArrowRight'){ moveRight(); }
+    else if(e.code === 'Space' || e.code === 'Enter'){ handlePrimary(); }
+  });
+
+  var touchStartX = null;
+  canvas.addEventListener('touchstart', function(e){
+    touchStartX = e.touches[0].clientX;
+    if(gameOver || !running) handlePrimary();
+  });
+  canvas.addEventListener('touchend', function(e){
+    if(touchStartX === null) return;
+    var dx = (e.changedTouches[0].clientX - touchStartX);
+    if(Math.abs(dx) > 24){ dx > 0 ? moveRight() : moveLeft(); }
+    touchStartX = null;
+  });
+  canvas.addEventListener('click', function(){
+    if(gameOver || !running) handlePrimary();
+  });
+
+  function openGame(){
+    overlay.classList.add('is-open');
+    start();
+  }
+  function closeGame(){
+    overlay.classList.remove('is-open');
+    running = false;
+  }
+
+  openBtn.addEventListener('click', openGame);
+  if(closeBtn) closeBtn.addEventListener('click', closeGame);
+  overlay.addEventListener('click', function(e){ if(e.target === overlay) closeGame(); });
+  document.addEventListener('keydown', function(e){
+    if(e.code === 'Escape' && overlay.classList.contains('is-open')) closeGame();
+  });
+
+  draw();
+}
+
+function initBackToTop(){
+  var btn = document.getElementById('backToTop');
+  var footer = document.querySelector('.site-footer');
+  if(!btn || !footer) return;
+  btn.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        btn.classList.toggle('is-visible', e.isIntersecting);
+      });
+    }, {threshold:0});
+    io.observe(footer);
+  } else {
+    btn.classList.add('is-visible');
+  }
+}
+
+/* Word-by-word "light up" reveal for the Quiénes somos copy — words start dim and brighten in
+   sequence as the block scrolls through the viewport, tracking scroll position (scrub) rather
+   than firing once, so reading pace and reveal pace stay in sync. Splits each <p> into
+   <span class="rt-word"> once at init; base dim opacity comes from the .rt-word CSS rule, this
+   just drives it toward 1 per word as self.progress advances. */
+function wrapWordsPreservingTags(node, allWords){
+  Array.prototype.slice.call(node.childNodes).forEach(function(child){
+    if(child.nodeType === 3){
+      var parts = child.textContent.split(/(\s+)/);
+      var frag = document.createDocumentFragment();
+      parts.forEach(function(part){
+        if(part === '') return;
+        if(/^\s+$/.test(part)){
+          frag.appendChild(document.createTextNode(part));
+        } else {
+          var span = document.createElement('span');
+          span.className = 'rt-word';
+          span.textContent = part;
+          frag.appendChild(span);
+          allWords.push(span);
+        }
+      });
+      node.replaceChild(frag, child);
+    } else if(child.nodeType === 1){
+      wrapWordsPreservingTags(child, allWords);
+    }
+  });
+}
+
+function initRevealText(reduced){
+  var containers = document.querySelectorAll('.reveal-copy');
+  if(!containers.length) return;
+  if(window.gsap && window.ScrollTrigger) gsap.registerPlugin(ScrollTrigger);
+
+  containers.forEach(function(container){
+    var paragraphs = container.querySelectorAll('p');
+    var allWords = [];
+    paragraphs.forEach(function(p){
+      wrapWordsPreservingTags(p, allWords);
+    });
+    if(reduced || !window.gsap || !window.ScrollTrigger || !allWords.length){
+      allWords.forEach(function(w){ w.style.opacity = 1; });
+      return;
+    }
+    var N = allWords.length;
+    var BAND = Math.max(3, Math.round(N / 8)); // how many words are mid-transition at once
+    ScrollTrigger.create({
+      trigger: container,
+      start: 'top 80%',
+      end: 'bottom 55%',
+      scrub: true,
+      onUpdate: function(self){
+        var cursor = self.progress * N;
+        allWords.forEach(function(w, i){
+          var t = (cursor - i) / BAND + 0.5;
+          t = Math.max(0, Math.min(1, t));
+          w.style.opacity = (0.25 + t * 0.75).toFixed(2);
+        });
+      }
+    });
+  });
+}
+
+/* Counts the "+12 AÑOS" stamp up from 0 the first time it scrolls into view (not scrubbed —
+   this one only needs to play once, like a odometer tick, not track scroll position). */
+function initCounters(reduced){
+  var counters = document.querySelectorAll('[data-counter-to]');
+  if(!counters.length) return;
+  counters.forEach(function(el){
+    var target = parseInt(el.getAttribute('data-counter-to'), 10) || 0;
+    if(reduced || !window.gsap || !window.ScrollTrigger){
+      el.textContent = '+' + target;
+      return;
+    }
+    gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.create({
+      trigger: el,
+      start: 'top 85%',
+      once: true,
+      onEnter: function(){
+        var obj = { val: 0 };
+        gsap.to(obj, {
+          val: target, duration: 3.2, ease: 'power1.out',
+          onUpdate: function(){ el.textContent = '+' + Math.round(obj.val); }
+        });
+      }
+    });
+  });
+}
 
 /* Seguro / Reclutamiento side drawers — opened via [data-drawer-open="<id>"] buttons, closed via
    the shared overlay, any element with [data-drawer-close], or Escape. Only one drawer opens at
