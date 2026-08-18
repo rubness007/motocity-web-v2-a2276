@@ -36,6 +36,9 @@
   initRetroGame();
 })();
 
+/* Pseudo-3D "OutRun style" road engine — adapts the classic segment-projection
+   technique (as popularized by Jake Gordon's MIT-licensed javascript-racer) but
+   with 100% original canvas-drawn art (no borrowed sprites/images). */
 function initRetroGame(){
   var openBtn = document.getElementById('openRetroGame');
   var closeBtn = document.getElementById('retroGameClose');
@@ -45,145 +48,314 @@ function initRetroGame(){
   var ctx = canvas.getContext('2d');
   var W = canvas.width, H = canvas.height;
 
-  var LANES = [W*0.28, W*0.5, W*0.72];
-  var laneIndex = 1;
-  var player = { w: 30, h: 46 };
-  var traffic = [];
-  var roadOffset = 0;
-  var speed = 4.2;
+  var segmentLength = 200;
+  var rumbleLength = 3;
+  var roadWidth = 2000;
+  var lanes = 3;
+  var cameraHeight = 900;
+  var fieldOfView = 100;
+  var cameraDepth = 1 / Math.tan((fieldOfView/2) * Math.PI/180);
+  var drawDistance = 160;
+  var fogDensity = 4;
+
+  var COLORS = {
+    LIGHT: { road:'#5b5f74', grass:'#150f2c', rumble:'#eceef5', lane:'#eceef5' },
+    DARK:  { road:'#52566a', grass:'#110b26', rumble:'#ff2ea6', lane:null }
+  };
+
+  var segments = [];
+  var trackLength = 0;
+  var obstacles = [];
+
+  function addSegment(curve){
+    var n = segments.length;
+    segments.push({
+      index: n,
+      p1: { world:{ y:0, z: n*segmentLength }, camera:{}, screen:{} },
+      p2: { world:{ y:0, z: (n+1)*segmentLength }, camera:{}, screen:{} },
+      curve: curve,
+      color: Math.floor(n/rumbleLength) % 2 ? COLORS.DARK : COLORS.LIGHT
+    });
+  }
+
+  function addRoad(enter, hold, leave, curve){
+    var n;
+    for(n=0; n<enter; n++) addSegment(easeIn(0, curve, n/enter));
+    for(n=0; n<hold; n++) addSegment(curve);
+    for(n=0; n<leave; n++) addSegment(easeInOut(curve, 0, n/leave));
+  }
+  function easeIn(a,b,pct){ return a + (b-a)*Math.pow(pct,2); }
+  function easeInOut(a,b,pct){ return a + (b-a)*((-Math.cos(pct*Math.PI)/2) + 0.5); }
+
+  function buildTrack(){
+    segments = [];
+    addRoad(50, 50, 50, 0);
+    addRoad(50, 50, 50, 2.6);
+    addRoad(40, 60, 40, 0);
+    addRoad(50, 50, 50, -2.6);
+    addRoad(40, 60, 40, 0);
+    addRoad(60, 70, 60, 4.2);
+    addRoad(40, 50, 40, 0);
+    addRoad(60, 70, 60, -4.2);
+    addRoad(50, 60, 50, 0);
+    trackLength = segments.length * segmentLength;
+
+    obstacles = [];
+    var obstacleAt = [18, 34, 52, 71, 89, 107, 126, 144, 163, 182, 201, 219, 238, 256];
+    var laneOffsets = [-0.62, 0, 0.62];
+    obstacleAt.forEach(function(idx, i){
+      obstacles.push({
+        segIndex: idx % segments.length,
+        offset: laneOffsets[(i*2) % laneOffsets.length],
+        color: ['#ff2ea6','#ffd23f','#7cffb2','#8fe8ff'][i % 4],
+        hit: false
+      });
+    });
+  }
+
+  function findSegment(z){
+    return segments[Math.floor(z/segmentLength) % segments.length];
+  }
+  function percentRemaining(n, total){ return (n % total) / total; }
+  function interpolate(a,b,pct){ return a + (b-a)*pct; }
+
+  function project(p, cameraX, cameraY, cameraZ){
+    p.camera.x = (p.world.x||0) - cameraX;
+    p.camera.y = (p.world.y||0) - cameraY;
+    p.camera.z = (p.world.z||0) - cameraZ;
+    p.screen.scale = cameraDepth / p.camera.z;
+    p.screen.x = Math.round((W/2) + (p.screen.scale * p.camera.x * W/2));
+    p.screen.y = Math.round((H/2) - (p.screen.scale * p.camera.y * H/2));
+    p.screen.w = Math.round(p.screen.scale * roadWidth * W/2);
+  }
+
+  // ---- state ----
+  var position = 0;
+  var playerX = 0;
+  var speed = 0;
+  var maxSpeed = segmentLength * 48;
+  var accel = maxSpeed / 3.2;
+  var breaking = -maxSpeed * 1.4;
+  var decel = -maxSpeed / 3.6;
+  var offRoadDecel = -maxSpeed / 1.8;
+  var offRoadLimit = maxSpeed / 3.2;
   var score = 0;
   var running = false;
   var gameOver = false;
   var rafId = null;
-  var spawnTimer = 0;
-  var spawnEvery = 70;
+  var lastT = null;
+  var keys = { left:false, right:false, up:false, down:false };
+  var steerTilt = 0;
+  var crashFlash = 0;
 
   function reset(){
-    laneIndex = 1;
-    traffic = [];
-    roadOffset = 0;
-    speed = 4.2;
+    buildTrack();
+    position = 0;
+    playerX = 0;
+    speed = 0;
     score = 0;
     gameOver = false;
-    spawnTimer = 0;
-    spawnEvery = 70;
+    steerTilt = 0;
+    crashFlash = 0;
   }
 
-  function spawnTraffic(){
-    var lane = Math.floor(Math.random()*3);
-    var palette = ['#ff2ea6','#8fe8ff','#ffd23f','#7cffb2'];
-    traffic.push({ lane: lane, y: -80, w: 30, h: 46, color: palette[Math.floor(Math.random()*palette.length)] });
+  // ---- rendering ----
+  function drawSky(){
+    var grad = ctx.createLinearGradient(0,0,0,H*0.5);
+    grad.addColorStop(0,'#2a0f4a');
+    grad.addColorStop(1,'#150f2c');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,W,H*0.5);
+    ctx.fillStyle = 'rgba(255,180,60,0.85)';
+    ctx.beginPath();
+    ctx.arc(W/2, H*0.34, 40, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(21,15,44,0.9)';
+    ctx.lineWidth = 4;
+    for(var i=1;i<=5;i++){
+      ctx.beginPath();
+      ctx.moveTo(W/2-40, H*0.34 + i*6.5);
+      ctx.lineTo(W/2+40, H*0.34 + i*6.5);
+      ctx.stroke();
+    }
   }
 
-  function drawBike(x, y, color){
+  function polygon(x1,y1,x2,y2,x3,y3,x4,y4,color){
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(x1,y1);
+    ctx.lineTo(x2,y2);
+    ctx.lineTo(x3,y3);
+    ctx.lineTo(x4,y4);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  function drawSegmentPoly(seg){
+    var p1 = seg.p1.screen, p2 = seg.p2.screen;
+    var lanesW1 = p1.w / lanes / 2, lanesW2 = p2.w / lanes / 2;
+    var r1 = p1.w / 6, r2 = p2.w / 6;
+
+    ctx.fillStyle = seg.color.grass;
+    ctx.fillRect(0, p2.y, W, Math.max(1, p1.y - p2.y));
+
+    polygon(p1.x-p1.w-r1, p1.y, p1.x-p1.w, p1.y, p2.x-p2.w, p2.y, p2.x-p2.w-r2, p2.y, seg.color.rumble);
+    polygon(p1.x+p1.w+r1, p1.y, p1.x+p1.w, p1.y, p2.x+p2.w, p2.y, p2.x+p2.w+r2, p2.y, seg.color.rumble);
+    polygon(p1.x-p1.w, p1.y, p1.x+p1.w, p1.y, p2.x+p2.w, p2.y, p2.x-p2.w, p2.y, seg.color.road);
+
+    if(seg.color.lane){
+      var l1 = lanesW1/2, l2 = lanesW2/2;
+      [-1,1].forEach(function(m){
+        var cx1 = p1.x + m*lanesW1, cx2 = p2.x + m*lanesW2;
+        polygon(cx1-l1, p1.y, cx1+l1, p1.y, cx2+l2, p2.y, cx2-l2, p2.y, seg.color.lane);
+      });
+    }
+  }
+
+  var BIKE_WORLD_W = 300, BIKE_WORLD_H = 460;
+  function drawBikeSprite(screenX, screenY, scale, jacket, helmet, isPlayer){
+    var w = Math.max(4, scale * BIKE_WORLD_W * W/2);
+    var h = Math.max(6, scale * BIKE_WORLD_H * W/2);
     ctx.save();
-    ctx.translate(x, y);
-    ctx.fillStyle = color || '#fff';
-    ctx.fillRect(-player.w/2, -player.h/2, player.w, player.h*0.62);
-    ctx.fillStyle = 'rgba(0,0,0,0.55)';
-    ctx.fillRect(-player.w/2+4, -player.h/2+player.h*0.62, player.w-8, player.h*0.14);
+    ctx.translate(screenX, screenY);
+    if(isPlayer) ctx.rotate(steerTilt);
+    ctx.fillStyle = 'rgba(0,0,0,0.35)';
+    ctx.beginPath();
+    ctx.ellipse(0, 0, w*0.55, h*0.12, 0, 0, Math.PI*2);
+    ctx.fill();
     ctx.fillStyle = '#111';
     ctx.beginPath();
-    ctx.arc(-player.w/2+5, player.h/2-4, 5, 0, Math.PI*2);
-    ctx.arc(player.w/2-5, player.h/2-4, 5, 0, Math.PI*2);
+    ctx.arc(-w*0.32, -h*0.08, h*0.11, 0, Math.PI*2);
+    ctx.arc(w*0.32, -h*0.08, h*0.11, 0, Math.PI*2);
     ctx.fill();
-    ctx.restore();
-  }
-
-  function drawPlayerBike(x, y){
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.fillStyle = '#4aa3ff';
-    ctx.fillRect(-player.w/2, -player.h/2 + 6, player.w, player.h*0.5);
-    ctx.fillStyle = 'rgba(0,0,0,0.55)';
-    ctx.fillRect(-player.w/2+4, -player.h/2+player.h*0.62, player.w-8, player.h*0.14);
-    ctx.fillStyle = '#111';
+    ctx.fillStyle = jacket;
+    ctx.fillRect(-w*0.36, -h*0.62, w*0.72, h*0.48);
+    ctx.fillStyle = helmet;
     ctx.beginPath();
-    ctx.arc(-player.w/2+5, player.h/2-4, 5, 0, Math.PI*2);
-    ctx.arc(player.w/2-5, player.h/2-4, 5, 0, Math.PI*2);
-    ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.beginPath();
-    ctx.arc(0, -player.h/2 + 2, 9, 0, Math.PI*2);
+    ctx.arc(0, -h*0.72, w*0.28, 0, Math.PI*2);
     ctx.fill();
     ctx.fillStyle = 'rgba(11,14,26,0.85)';
-    ctx.fillRect(-6, -player.h/2 - 1, 12, 6);
+    ctx.fillRect(-w*0.16, -h*0.78, w*0.32, h*0.16);
     ctx.restore();
+  }
+
+  function renderRoad(){
+    var baseSegment = findSegment(position);
+    var basePercent = percentRemaining(position, segmentLength);
+    var x = 0, dx = -(baseSegment.curve * basePercent);
+    var visible = [];
+
+    for(var n=0; n<drawDistance; n++){
+      var segment = segments[(baseSegment.index + n) % segments.length];
+      segment.looped = segment.index < baseSegment.index;
+      var camZ = position - (segment.looped ? trackLength : 0);
+
+      project(segment.p1, (playerX*roadWidth) - x, cameraHeight, camZ);
+      x += dx;
+      dx += segment.curve;
+      project(segment.p2, (playerX*roadWidth) - x, cameraHeight, camZ);
+
+      segment.p1.world.x = (playerX*roadWidth) - x + dx;
+      if(segment.p1.camera.z <= cameraDepth) continue;
+      visible.push(segment);
+    }
+
+    for(var i=visible.length-1; i>=0; i--){ drawSegmentPoly(visible[i]); }
+
+    obstacles.forEach(function(ob){
+      var seg = segments[ob.segIndex];
+      if(!seg || seg.p1.camera.z <= cameraDepth || seg.p1.camera.z > drawDistance*segmentLength*1.4) return;
+      var sx = seg.p1.screen.x + ob.offset * seg.p1.screen.w;
+      var sy = seg.p1.screen.y;
+      if(sy < H*0.35 || sy > H+40) return;
+      drawBikeSprite(sx, sy, seg.p1.screen.scale, ob.hit ? '#444' : ob.color, ob.hit ? '#666' : '#fff', false);
+    });
   }
 
   function draw(){
-    ctx.fillStyle = '#0b0e1a';
-    ctx.fillRect(0,0,W,H);
+    drawSky();
+    ctx.fillStyle = COLORS.LIGHT.grass;
+    ctx.fillRect(0, H*0.5, W, H*0.5);
+    renderRoad();
 
-    var grad = ctx.createLinearGradient(0,0,0,H*0.45);
-    grad.addColorStop(0,'#2a0f4a');
-    grad.addColorStop(1,'#0b0e1a');
-    ctx.fillStyle = grad;
-    ctx.fillRect(0,0,W,H*0.45);
-    ctx.fillStyle = 'rgba(255,180,60,0.85)';
-    ctx.beginPath();
-    ctx.arc(W/2, H*0.18, 34, 0, Math.PI*2);
-    ctx.fill();
+    var wobble = Math.sin(position*0.02) * 2;
+    drawBikeSprite(W/2 + wobble, H - 46, 0.62, '#4aa3ff', '#ffffff', true);
 
-    ctx.fillStyle = '#141a2e';
-    ctx.fillRect(0, H*0.42, W, H*0.58);
-
-    ctx.strokeStyle = 'rgba(143,232,255,0.55)';
-    ctx.lineWidth = 3;
-    ctx.setLineDash([18,16]);
-    [W*0.39, W*0.61].forEach(function(x){
-      ctx.beginPath();
-      ctx.moveTo(x, H);
-      ctx.lineTo(x, H*0.42);
-      ctx.lineDashOffset = -roadOffset;
-      ctx.stroke();
-    });
-    ctx.setLineDash([]);
-
-    traffic.forEach(function(t){ drawBike(LANES[t.lane], t.y, t.color); });
-    if(!gameOver) drawPlayerBike(LANES[laneIndex], H-70);
+    if(crashFlash > 0){
+      ctx.fillStyle = 'rgba(255,46,166,' + (crashFlash*0.35).toFixed(2) + ')';
+      ctx.fillRect(0,0,W,H);
+    }
 
     ctx.fillStyle = '#8fe8ff';
     ctx.font = '700 16px monospace';
     ctx.textAlign = 'left';
-    ctx.fillText('SCORE ' + Math.floor(score), 12, 24);
+    ctx.fillText('SCORE ' + Math.floor(score), 14, 26);
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.round(speed/segmentLength*3.2) + ' km/h', W-14, 26);
+    ctx.textAlign = 'left';
 
     if(gameOver){
       ctx.fillStyle = 'rgba(6,8,16,0.72)';
       ctx.fillRect(0,0,W,H);
       ctx.fillStyle = '#ff2ea6';
-      ctx.font = '800 22px monospace';
+      ctx.font = '800 26px monospace';
       ctx.textAlign = 'center';
-      ctx.fillText('GAME OVER', W/2, H/2 - 10);
+      ctx.fillText('GAME OVER', W/2, H/2 - 8);
       ctx.fillStyle = '#fff';
       ctx.font = '600 14px monospace';
-      ctx.fillText('Toca o presiona una tecla para reintentar', W/2, H/2 + 20);
+      ctx.fillText('Toca o presiona una tecla para reintentar', W/2, H/2 + 22);
       ctx.textAlign = 'left';
     }
   }
 
-  function step(){
-    if(running && !gameOver){
-      roadOffset += speed;
-      speed += 0.0025;
-      spawnTimer++;
-      if(spawnTimer > spawnEvery){
-        spawnTimer = 0;
-        spawnEvery = Math.max(34, spawnEvery - 1.2);
-        spawnTraffic();
-      }
-      traffic.forEach(function(t){ t.y += speed; });
-      traffic = traffic.filter(function(t){ return t.y < H + 80; });
+  // ---- update ----
+  function update(dt){
+    position += speed*dt;
+    if(position >= trackLength) position -= trackLength;
 
-      var pY = H-70;
-      traffic.forEach(function(t){
-        if(t.lane === laneIndex && Math.abs(t.y - pY) < (t.h*0.55 + player.h*0.55)){
-          gameOver = true;
-          running = false;
-        }
-      });
-      score += speed*0.12;
-    }
+    var baseSegment = findSegment(position);
+    var speedPercent = speed/maxSpeed;
+    var dx = dt * 2 * speedPercent;
+
+    playerX -= dx * baseSegment.curve * 0.00062 * (speed*speed*0.00002 + 1);
+
+    if(keys.left) playerX -= dx;
+    else if(keys.right) playerX += dx;
+
+    if(keys.up) speed += accel*dt;
+    else if(keys.down) speed += breaking*dt;
+    else speed += decel*dt;
+
+    if((playerX < -1 || playerX > 1) && speed > offRoadLimit) speed += offRoadDecel*dt;
+
+    playerX = Math.max(-2, Math.min(2, playerX));
+    speed = Math.max(0, Math.min(speed, maxSpeed));
+
+    steerTilt += ((keys.left ? -0.22 : keys.right ? 0.22 : 0) - steerTilt) * Math.min(1, dt*6);
+    if(crashFlash > 0) crashFlash = Math.max(0, crashFlash - dt*2.2);
+
+    obstacles.forEach(function(ob){
+      if(ob.hit) return;
+      var obZ = ob.segIndex*segmentLength;
+      var pz = position % trackLength;
+      var dz = obZ - pz;
+      if(dz < 0) dz += trackLength;
+      if(dz < segmentLength*1.1 && Math.abs(playerX - ob.offset) < 0.34){
+        ob.hit = true;
+        crashFlash = 1;
+        gameOver = true;
+        running = false;
+      }
+    });
+
+    score += speed*dt*0.01;
+  }
+
+  function step(ts){
+    if(lastT === null) lastT = ts;
+    var dt = Math.min(0.05, (ts - lastT)/1000);
+    lastT = ts;
+    if(running && !gameOver) update(dt);
     draw();
     rafId = requestAnimationFrame(step);
   }
@@ -191,33 +363,52 @@ function initRetroGame(){
   function start(){
     reset();
     running = true;
+    lastT = null;
     if(!rafId) rafId = requestAnimationFrame(step);
   }
 
   function handlePrimary(){
     if(!overlay.classList.contains('is-open')) return;
-    if(gameOver || !running){ start(); return; }
+    if(gameOver || !running){ start(); }
   }
-
-  function moveLeft(){ if(running && !gameOver) laneIndex = Math.max(0, laneIndex-1); }
-  function moveRight(){ if(running && !gameOver) laneIndex = Math.min(2, laneIndex+1); }
 
   document.addEventListener('keydown', function(e){
     if(!overlay.classList.contains('is-open')) return;
-    if(e.code === 'ArrowLeft'){ moveLeft(); }
-    else if(e.code === 'ArrowRight'){ moveRight(); }
-    else if(e.code === 'Space' || e.code === 'Enter'){ handlePrimary(); }
+    if(e.code === 'ArrowLeft') keys.left = true;
+    else if(e.code === 'ArrowRight') keys.right = true;
+    else if(e.code === 'ArrowUp') keys.up = true;
+    else if(e.code === 'ArrowDown') keys.down = true;
+    else if(e.code === 'Space' || e.code === 'Enter') handlePrimary();
+    if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space'].indexOf(e.code) !== -1) e.preventDefault();
+  });
+  document.addEventListener('keyup', function(e){
+    if(e.code === 'ArrowLeft') keys.left = false;
+    else if(e.code === 'ArrowRight') keys.right = false;
+    else if(e.code === 'ArrowUp') keys.up = false;
+    else if(e.code === 'ArrowDown') keys.down = false;
   });
 
   var touchStartX = null;
   canvas.addEventListener('touchstart', function(e){
-    touchStartX = e.touches[0].clientX;
-    if(gameOver || !running) handlePrimary();
+    if(gameOver || !running){ handlePrimary(); return; }
+    var x = e.touches[0].clientX;
+    var rect = canvas.getBoundingClientRect();
+    var rel = (x - rect.left) / rect.width;
+    keys.left = rel < 0.5;
+    keys.right = rel >= 0.5;
+    keys.up = true;
+    touchStartX = x;
   });
-  canvas.addEventListener('touchend', function(e){
-    if(touchStartX === null) return;
-    var dx = (e.changedTouches[0].clientX - touchStartX);
-    if(Math.abs(dx) > 24){ dx > 0 ? moveRight() : moveLeft(); }
+  canvas.addEventListener('touchmove', function(e){
+    if(!running || gameOver) return;
+    var x = e.touches[0].clientX;
+    var rect = canvas.getBoundingClientRect();
+    var rel = (x - rect.left) / rect.width;
+    keys.left = rel < 0.5;
+    keys.right = rel >= 0.5;
+  });
+  canvas.addEventListener('touchend', function(){
+    keys.left = false; keys.right = false; keys.up = false;
     touchStartX = null;
   });
   canvas.addEventListener('click', function(){
@@ -231,6 +422,7 @@ function initRetroGame(){
   function closeGame(){
     overlay.classList.remove('is-open');
     running = false;
+    keys.left = keys.right = keys.up = keys.down = false;
   }
 
   openBtn.addEventListener('click', openGame);
@@ -240,6 +432,7 @@ function initRetroGame(){
     if(e.code === 'Escape' && overlay.classList.contains('is-open')) closeGame();
   });
 
+  buildTrack();
   draw();
 }
 

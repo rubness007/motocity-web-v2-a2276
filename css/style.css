@@ -835,7 +835,7 @@ section{padding:96px 0;}
 .retro-game-box{
   position:relative;background:#0b0e1a;border:2px solid #ff2ea6;border-radius:16px;
   padding:20px 20px 16px;box-shadow:0 0 0 1px rgba(255,46,166,0.25),0 30px 70px rgba(0,0,0,0.55),0 0 40px rgba(255,46,166,0.25);
-  display:flex;flex-direction:column;align-items:center;gap:10px;max-width:92vw;
+  display:flex;flex-direction:column;align-items:center;gap:10px;max-width:92vw;width:600px;
 }
 .retro-game-title{
   font-family:var(--font-heading,inherit);font-weight:800;letter-spacing:0.08em;
