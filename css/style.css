@@ -259,12 +259,12 @@ section{padding:96px 0;}
   font-family:var(--font-heading);font-size:clamp(29px,3.5vw,37px);font-weight:600;letter-spacing:0.02em;
   pointer-events:none;white-space:nowrap;
 }
-.motocity-hero-badge-label{flex:0 0 5.2em;text-align:right;}
+.motocity-hero-badge-label{flex:0 0 5.2em;text-align:center;}
 .motocity-hero-badge-colon{flex:none;padding:0 0.3em;}
-.motocity-hero-badge-cycle{position:relative;flex:0 0 5.2em;height:1.3em;text-align:left;}
+.motocity-hero-badge-cycle{position:relative;flex:0 0 5.2em;height:1.3em;text-align:center;}
 /* Centered via top:50% + translateY(-50%) (not top:0) so the word's own line-box lines up with
    the "Motocity"/":" baseline instead of sitting visibly lower. */
-.motocity-hero-badge-cycle span{position:absolute;left:0;top:50%;opacity:0;animation:motocity-word-cycle 6s infinite;}
+.motocity-hero-badge-cycle span{position:absolute;left:0;width:100%;top:50%;opacity:0;animation:motocity-word-cycle 6s infinite;}
 .motocity-hero-badge-cycle span:nth-child(1){animation-delay:0s;}
 .motocity-hero-badge-cycle span:nth-child(2){animation-delay:2s;}
 .motocity-hero-badge-cycle span:nth-child(3){animation-delay:4s;}
