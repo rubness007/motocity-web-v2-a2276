@@ -828,37 +828,6 @@ section{padding:96px 0;}
   border-top:1px solid rgba(255,255,255,0.12);padding-top:24px;font-size:13px;
   color:rgba(255,255,255,0.45);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
 }
-.footer-easter{
-  cursor:pointer;color:rgba(255,255,255,0.45);text-decoration:underline dashed rgba(255,255,255,0.3);
-  text-underline-offset:3px;transition:color .2s ease;
-}
-.footer-easter:hover{color:#fff;}
-
-/* ============ RETRO GAME ============ */
-.retro-game-overlay{
-  position:fixed;inset:0;z-index:200;background:rgba(6,8,16,0.88);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .25s ease;
-}
-.retro-game-overlay.is-open{opacity:1;pointer-events:auto;}
-.retro-game-box{
-  position:relative;background:#0b0e1a;border:2px solid #ff2ea6;border-radius:16px;
-  padding:20px 20px 16px;box-shadow:0 0 0 1px rgba(255,46,166,0.25),0 30px 70px rgba(0,0,0,0.55),0 0 40px rgba(255,46,166,0.25);
-  display:flex;flex-direction:column;align-items:center;gap:10px;max-width:92vw;width:600px;
-}
-.retro-game-title{
-  font-family:var(--font-heading,inherit);font-weight:800;letter-spacing:0.08em;
-  color:#8fe8ff;text-shadow:0 0 12px rgba(143,232,255,0.6);font-size:18px;
-}
-#retroGameCanvas{
-  background:#0b0e1a;border-radius:8px;max-width:100%;height:auto;
-  border:1px solid rgba(255,255,255,0.12);touch-action:none;
-}
-.retro-game-hint{font-size:12.5px;color:rgba(255,255,255,0.5);}
-.retro-game-close{
-  position:absolute;top:-14px;right:-14px;width:32px;height:32px;border-radius:50%;
-  background:#ff2ea6;color:#fff;border:2px solid #0b0e1a;font-size:15px;line-height:1;cursor:pointer;
-}
 .back-to-top{
   position:fixed;right:24px;bottom:24px;width:52px;height:52px;border-radius:50%;
   background:var(--blue);color:#fff;border:none;display:flex;align-items:center;justify-content:center;
