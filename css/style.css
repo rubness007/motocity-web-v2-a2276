@@ -252,16 +252,25 @@ section{padding:96px 0;}
    little padding) makes them equal by construction regardless of content, so ":" always sits
    exactly at the badge's horizontal center. text-align:right/left then pushes each piece to
    its edge, one character-space (the colon's own padding) away from ":" on either side. */
+/* The colon is pinned to 50vw (a real viewport-relative length, not a percentage of the parent
+   box) so it lands at the exact horizontal center of the SCREEN regardless of: how wide
+   "Motocity" or the rotating word render in a given browser/font, AND regardless of this
+   element's containing block (.motocity-hero-stage) briefly reporting a 0-width box while
+   GSAP ScrollTrigger's pin-spacer is being created/torn down — a percentage-based left would
+   collapse to 0 in that instant (confirmed via devtools), but a vw length is immune to that
+   since it never depends on the parent's width, only its position (which stays put at the
+   viewport's left edge throughout). Label right-aligns by translateX(-100%) of its OWN width
+   (so it never needs to know the other side's width either); cycle just starts at the anchor
+   and grows rightward. */
 .motocity-hero-badge{
-  position:absolute;left:50%;top:17%;transform:translate(-50%,0);
-  display:flex;align-items:center;line-height:1;
+  position:absolute;left:0;top:17%;height:1.3em;
   color:rgba(255,255,255,0.88);
-  font-family:var(--font-heading);font-size:clamp(29px,3.5vw,37px);font-weight:600;letter-spacing:0.02em;
-  pointer-events:none;white-space:nowrap;
+  font-family:var(--font-heading);font-size:clamp(29px,3.5vw,37px);font-weight:600;letter-spacing:0.02em;line-height:1;
+  pointer-events:none;
 }
-.motocity-hero-badge-label{flex:0 0 5.2em;min-width:0;overflow:hidden;text-align:right;}
-.motocity-hero-badge-colon{flex:none;padding:0 0.3em;}
-.motocity-hero-badge-cycle{position:relative;flex:0 0 5.2em;min-width:0;overflow:hidden;height:1.3em;text-align:left;}
+.motocity-hero-badge-label{position:absolute;top:50%;left:50vw;transform:translate(calc(-100% - 0.35em),-50%);white-space:nowrap;}
+.motocity-hero-badge-colon{position:absolute;top:50%;left:50vw;transform:translate(-50%,-50%);}
+.motocity-hero-badge-cycle{position:absolute;top:50%;left:calc(50vw + 0.35em);transform:translateY(-50%);white-space:nowrap;height:1.3em;}
 /* Centered via top:50% + translateY(-50%) (not top:0) so the word's own line-box lines up with
    the "Motocity"/":" baseline instead of sitting visibly lower. */
 .motocity-hero-badge-cycle span{position:absolute;left:0;top:50%;opacity:0;animation:motocity-word-cycle 6s infinite;}
