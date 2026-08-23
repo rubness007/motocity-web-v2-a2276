@@ -633,7 +633,7 @@ section{padding:96px 0;}
 .tramites-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 32px;}
 @media (max-width:900px){ .tramites-grid{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:560px){ .tramites-grid{grid-template-columns:1fr;} }
-.tramites-cat h4{font-size:14.5px;margin-bottom:12px;color:var(--blue-dark);}
+.tramites-cat h3{font-size:14.5px;margin-bottom:12px;color:var(--blue-dark);}
 .tramites-num{color:var(--orange);font-weight:700;}
 .tramites-cat ul{display:flex;flex-direction:column;gap:8px;}
 .tramites-cat li{font-size:13.5px;color:var(--ink-soft);padding-left:14px;position:relative;}
@@ -731,7 +731,7 @@ section{padding:96px 0;}
 .drawer-coverage{display:flex;flex-direction:column;gap:18px;margin-bottom:24px;}
 .drawer-coverage-item{padding:16px 0;border-top:1px solid var(--border);}
 .drawer-coverage-item:first-child{border-top:none;padding-top:0;}
-.drawer-coverage-item h4{font-size:19px;color:var(--blue-dark);margin-bottom:6px;}
+.drawer-coverage-item h3{font-size:19px;color:var(--blue-dark);margin-bottom:6px;}
 .drawer-coverage-item p{font-size:14.5px;color:var(--ink-soft);margin-bottom:0;}
 .side-drawer .btn{margin-top:8px;}
 .drawer-email{
