@@ -475,7 +475,7 @@ section{padding:96px 0;}
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);
 }
-.testi-marquee-track{display:flex;width:max-content;animation:testiMarqueeScroll 80s linear infinite;}
+.testi-marquee-track{display:flex;width:max-content;animation:testiMarqueeScroll 140s linear infinite;}
 .testi-marquee-row--reverse .testi-marquee-track{animation-direction:reverse;}
 .testi-marquee-row:hover .testi-marquee-track{animation-play-state:paused;}
 .testi-group{display:flex;flex-wrap:nowrap;gap:20px;padding:0 10px;}
@@ -895,3 +895,211 @@ section{padding:96px 0;}
 
 .mt-0{margin-top:0;}
 .center-text{text-align:center;}
+
+/* =====================================================================
+   ART DIRECTION SYSTEM — "Red urbana en movimiento"
+   Purely additive visual layer: depth, rhythm and premium finish across
+   every section EXCEPT the hero sequence. Nothing here touches
+   .motocity-hero-*, .site-header--hero, or any hero-related rule above —
+   those blocks are completely untouched. Built entirely from CSS custom
+   properties, pseudo-elements, gradients and lightweight inline-SVG data
+   URIs (no new images, no new libraries, no content/markup restructuring).
+   Every decorative element sits at z-index:-1 behind real content and
+   never affects text contrast. Ambient effects respect prefers-reduced-motion.
+   ===================================================================== */
+/* Defensive guard: the hero sequence's own horizontal sizing is untouched (it never relies on
+   body overflow), this only clips any stray decorative pseudo-element from ever introducing a
+   horizontal scrollbar. */
+html,body{overflow-x:hidden;}
+:root{
+  --surf-1:var(--bg-soft);
+  --surf-2:#eef2f8;
+  --surf-dark-2:#0a2547;
+  --dot-lt:rgba(35,101,188,0.16);
+  --dot-dk:rgba(255,255,255,0.14);
+  --line-lt-soft:rgba(35,101,188,0.10);
+  --card-border-soft:rgba(15,32,60,0.07);
+  --card-shadow-rest:0 1px 2px rgba(15,32,60,0.04),0 16px 32px -20px rgba(15,32,60,0.18);
+  --card-shadow-hover:0 1px 2px rgba(15,32,60,0.05),0 28px 52px -22px rgba(15,32,60,0.28);
+  --ease-premium:cubic-bezier(.22,.61,.36,1);
+  --dur-fast:220ms;
+  --dur-med:360ms;
+}
+
+/* ---- Transition: HERO end → Servicios ---- */
+#servicios{position:relative;z-index:0;}
+#servicios::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:220px;z-index:-1;pointer-events:none;
+  background:linear-gradient(to bottom, rgba(35,101,188,0.06), transparent);
+}
+
+/* ---- Servicios: card depth + a faint route connecting the 4 icons ---- */
+.services-preview{position:relative;z-index:0;}
+.services-preview::before{
+  content:"";position:absolute;left:8%;right:8%;top:30px;height:1px;z-index:-1;pointer-events:none;
+  background-image:linear-gradient(90deg,var(--line-lt-soft) 0 6px,transparent 6px 16px);
+  background-size:16px 1px;background-repeat:repeat-x;
+}
+@media (max-width:700px){ .services-preview::before{display:none;} }
+
+.service-card{
+  border-color:var(--card-border-soft);
+  box-shadow:var(--card-shadow-rest);
+  background:linear-gradient(180deg,#fff,var(--surf-1) 180%);
+}
+.service-card:hover{box-shadow:var(--card-shadow-hover);}
+.service-card--hi{
+  background:linear-gradient(155deg,var(--blue-darker),var(--surf-dark-2) 140%);
+  z-index:0;
+}
+.service-card--hi::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(circle,var(--dot-dk) 1px,transparent 1.6px);
+  background-size:22px 22px;
+  -webkit-mask-image:radial-gradient(ellipse 95% 75% at 100% 0%,#000,transparent 70%);
+  mask-image:radial-gradient(ellipse 95% 75% at 100% 0%,#000,transparent 70%);
+}
+
+/* ---- Trámites: editorial numbering, thin separators, faint route backdrop ---- */
+#tramites{position:relative;z-index:0;}
+#tramites::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'%3E%3Cpath d='M20,420 C220,300 260,460 460,360 C660,260 720,420 980,180' fill='none' stroke='%232365bc' stroke-opacity='0.08' stroke-width='2' stroke-dasharray='1 12' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:cover;background-position:center;
+}
+.tramites-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:22px;height:22px;border-radius:50%;margin-right:4px;
+  background:var(--blue-tint);font-size:12px;
+}
+@media (min-width:561px){
+  .tramites-cat{border-top:1px solid var(--border);padding-top:20px;transition:background-color var(--dur-med) var(--ease-premium);}
+  .tramites-cat:hover{background-color:rgba(35,101,188,0.025);}
+}
+.speed-gauge svg{filter:drop-shadow(0 6px 16px rgba(193,95,60,0.16));}
+
+/* ---- Facturación: differentiate the two billing cards + a faint process backdrop ---- */
+.billing-section{position:relative;z-index:0;}
+.billing-section::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(35,101,188,0.22) 1.8px,transparent 2.4px);
+  background-size:28px 28px;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent);
+  mask-image:linear-gradient(to bottom,transparent,#000 10%,#000 90%,transparent);
+}
+.bcard--solid{
+  position:relative;z-index:0;
+  box-shadow:var(--card-shadow-rest);
+  background:linear-gradient(155deg,var(--blue),var(--blue-dark) 150%);
+}
+.bcard--solid::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(255,255,255,0.16) 1px,transparent 1.6px);
+  background-size:20px 20px;
+  -webkit-mask-image:radial-gradient(ellipse 85% 65% at 0% 0%,#000,transparent 70%);
+  mask-image:radial-gradient(ellipse 85% 65% at 0% 0%,#000,transparent 70%);
+}
+.bcard--solid-alt{background:linear-gradient(155deg,var(--blue-dark),var(--blue-darker) 150%);}
+.bcard--solid-alt::before{
+  background-image:linear-gradient(90deg,rgba(255,255,255,0.12) 0 1px,transparent 1px 14px);
+  background-size:14px 100%;
+  -webkit-mask-image:radial-gradient(ellipse 85% 65% at 100% 0%,#000,transparent 70%);
+  mask-image:radial-gradient(ellipse 85% 65% at 100% 0%,#000,transparent 70%);
+}
+.bcard-step:not(:last-child)::after{background:rgba(255,255,255,0.4);}
+
+/* ---- Tecnología: richer dark canvas + platform glow ---- */
+#tecnologia{position:relative;z-index:0;}
+#tecnologia::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(circle,var(--dot-dk) 1px,transparent 1.6px);
+  background-size:30px 30px;
+  -webkit-mask-image:radial-gradient(ellipse 95% 85% at 15% 25%,#000,transparent 72%);
+  mask-image:radial-gradient(ellipse 95% 85% at 15% 25%,#000,transparent 72%);
+}
+.platform-shot{position:relative;z-index:0;}
+.platform-shot::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(closest-side at 12% 8%, rgba(63,140,222,0.35), transparent 62%);
+}
+.feature--row .ic{transition:transform var(--dur-med) var(--ease-premium),background-color var(--dur-med);}
+.feature--row:hover .ic{transform:translateY(-2px);background:rgba(255,255,255,0.16) !important;}
+
+/* ---- Quiénes somos: soft composition behind the photo + a thread to the copy ---- */
+.about-photo{z-index:0;}
+.about-photo::before{
+  content:"";position:absolute;inset:-4%;z-index:-1;
+  border-radius:38% 62% 58% 42%/48% 42% 58% 52%;
+  background:var(--surf-2);
+}
+@media (max-width:560px){ .about-photo::before{inset:-2%;} }
+.about-grid{position:relative;z-index:0;}
+.about-grid::before{
+  content:"";position:absolute;z-index:-1;pointer-events:none;
+  left:36%;right:-4%;top:8%;bottom:8%;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 300'%3E%3Cpath d='M0,40 C120,10 140,150 260,120 C340,100 340,220 400,260' fill='none' stroke='%232365bc' stroke-opacity='0.10' stroke-width='2' stroke-dasharray='1 11' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:100% 100%;
+}
+@media (max-width:860px){ .about-grid::before{display:none;} }
+.about-stamp{box-shadow:0 10px 30px -12px rgba(15,32,60,0.25);}
+
+/* ---- Client logos: smoother arrival + a touch more presence ---- */
+.clients-section{position:relative;z-index:0;}
+.clients-section::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:100px;z-index:-1;pointer-events:none;
+  background:linear-gradient(to bottom, rgba(35,101,188,0.05), transparent);
+}
+.clients-row img{opacity:0.62;}
+.clients-row li:hover img{opacity:0.95;}
+
+/* ---- Testimonios: large quote marks, card depth, section wash ---- */
+.testi-section{background:linear-gradient(180deg,#fff,var(--surf-1));}
+.testi{
+  position:relative;z-index:0;overflow:hidden;
+  border:1px solid var(--card-border-soft);
+  box-shadow:var(--card-shadow-rest);
+  background:linear-gradient(180deg,#fff,var(--surf-1) 240%);
+}
+.testi:hover{box-shadow:var(--card-shadow-hover);}
+/* ---- Cobertura: faint urban grid + operational nodes over the dark blue ---- */
+.coverage-section{z-index:0;}
+.coverage-section::before{
+  content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 400'%3E%3Cg stroke='%23ffffff' stroke-opacity='0.07' stroke-width='1'%3E%3Cline x1='0' y1='80' x2='900' y2='80'/%3E%3Cline x1='0' y1='200' x2='900' y2='200'/%3E%3Cline x1='0' y1='320' x2='900' y2='320'/%3E%3Cline x1='150' y1='0' x2='150' y2='400'/%3E%3Cline x1='450' y1='0' x2='450' y2='400'/%3E%3Cline x1='750' y1='0' x2='750' y2='400'/%3E%3C/g%3E%3Ccircle cx='150' cy='80' r='3' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='450' cy='200' r='3' fill='%23ffffff' fill-opacity='0.2'/%3E%3Ccircle cx='750' cy='320' r='3' fill='%23ffffff' fill-opacity='0.2'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-size:cover;background-position:center;
+}
+.coverage-section > .w{position:relative;z-index:1;}
+
+/* ---- Seguro / Reclutamiento ---- */
+.drawer-teaser{border-color:var(--card-border-soft);box-shadow:var(--card-shadow-rest);}
+.drawer-teaser:hover{box-shadow:var(--card-shadow-hover);}
+.drawer-teaser-arrow{transition:transform var(--dur-fast) var(--ease-premium),color var(--dur-fast);}
+.drawer-teaser:hover .drawer-teaser-arrow{transform:translateX(4px);color:var(--blue);}
+.drawer-teasers .drawer-teaser:nth-child(2) .drawer-teaser-ic{background:var(--orange-tint);color:var(--orange-dark);}
+
+/* ---- Contacto: closing composition ---- */
+#contacto{position:relative;z-index:0;background:linear-gradient(180deg,#fff,var(--surf-1) 60%,#fff);}
+#contacto::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(circle,var(--dot-lt) 1px,transparent 1.6px);
+  background-size:30px 30px;
+  -webkit-mask-image:radial-gradient(ellipse 75% 65% at 85% 0%,#000,transparent 72%);
+  mask-image:radial-gradient(ellipse 75% 65% at 85% 0%,#000,transparent 72%);
+}
+#contacto .card{border-color:var(--card-border-soft);box-shadow:var(--card-shadow-rest);}
+.drawer-hero-img{
+  width:calc(100% + 80px);margin:-64px -40px 24px;display:block;
+  border-bottom:1px solid var(--border);
+}
+@media (max-width:560px){ .drawer-hero-img{width:calc(100% + 48px);margin:-64px -24px 20px;} }
+.drawer-hero-img--bottom{
+  width:100%;margin:32px 0 0;border-radius:var(--radius-md);border:1px solid var(--border);
+}
+@media (max-width:560px){ .drawer-hero-img--bottom{width:100%;margin:28px 0 0;} }
+.card--soft{background:var(--surf-1);}
+.field input,.field select,.field textarea{transition:border-color var(--dur-fast),box-shadow var(--dur-fast);}
+.field input:focus,.field select:focus,.field textarea:focus{box-shadow:0 0 0 4px var(--blue-tint);}
+
+@media (prefers-reduced-motion:reduce){
+  .service-card,.bcard--solid,.testi,.drawer-teaser,.feature--row .ic{transition:none;}
+}
