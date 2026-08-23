@@ -1,11 +1,131 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-CL">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Motocity — Mensajería corporativa en Santiago</title>
 <meta name="description" content="Motocity es tu partner en mensajería para empresas: envíos urgentes, gestión de trámites y motoristas corporativos en toda la Región Metropolitana. Rápido, seguro y confiable.">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<link rel="canonical" href="https://www.motocity.cl/">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Motocity">
+<meta property="og:locale" content="es_CL">
+<meta property="og:url" content="https://www.motocity.cl/">
+<meta property="og:title" content="Motocity — Mensajería corporativa en Santiago">
+<meta property="og:description" content="Motocity es tu partner en mensajería para empresas: envíos urgentes, gestión de trámites y motoristas corporativos en toda la Región Metropolitana. Rápido, seguro y confiable.">
+<meta property="og:image" content="https://www.motocity.cl/assets/hero.jpg?v=1786475000">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Motocity — Mensajería corporativa en Santiago">
+<meta name="twitter:description" content="Motocity es tu partner en mensajería para empresas: envíos urgentes, gestión de trámites y motoristas corporativos en toda la Región Metropolitana. Rápido, seguro y confiable.">
+<meta name="twitter:image" content="https://www.motocity.cl/assets/hero.jpg?v=1786475000">
+
+<!-- The Netlify preview subdomain serves the exact same build as www.motocity.cl. Since a
+     hostname-scoped robots rule isn't available from static headers/robots.txt alone (both are
+     served identically on every domain pointing at this deploy), this tiny inline check blocks
+     indexing only on that non-canonical host — the real motocity.cl domains are never affected. -->
+<script>
+if(/\.netlify\.app$/.test(location.hostname)){
+  var m=document.createElement('meta');
+  m.name='robots';
+  m.content='noindex, nofollow';
+  document.head.appendChild(m);
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["Organization","LocalBusiness"],
+      "@id": "https://www.motocity.cl/#organization",
+      "name": "Motocity",
+      "url": "https://www.motocity.cl/",
+      "logo": "https://www.motocity.cl/assets/logo-header-white.png",
+      "image": "https://www.motocity.cl/assets/hero.jpg?v=1786475000",
+      "description": "Empresa chilena de mensajería y gestiones en terreno para empresas: envíos urgentes, trámites, motorista corporativo dedicado y operaciones financieras en la Región Metropolitana.",
+      "email": "hola@motocity.cl",
+      "telephone": "+56961455303",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Guardia Vieja 202, of. 403",
+        "addressLocality": "Providencia",
+        "addressRegion": "Región Metropolitana",
+        "addressCountry": "CL"
+      },
+      "areaServed": {
+        "@type": "AdministrativeArea",
+        "name": "Región Metropolitana de Santiago, Chile"
+      },
+      "sameAs": [
+        "https://www.instagram.com/motocity.chile",
+        "https://www.facebook.com/Motocity.chile",
+        "https://www.linkedin.com/company/motocitymensajeria/"
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.motocity.cl/#website",
+      "url": "https://www.motocity.cl/",
+      "name": "Motocity",
+      "inLanguage": "es-CL",
+      "publisher": { "@id": "https://www.motocity.cl/#organization" }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.motocity.cl/#webpage",
+      "url": "https://www.motocity.cl/",
+      "name": "Motocity — Mensajería corporativa en Santiago",
+      "isPartOf": { "@id": "https://www.motocity.cl/#website" },
+      "about": { "@id": "https://www.motocity.cl/#organization" },
+      "inLanguage": "es-CL"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.motocity.cl/#express",
+      "name": "Moto Express",
+      "description": "Envíos urgentes con prioridad máxima para empresas: despacho de sobres, paquetes o artículos con confirmación fotográfica y seguimiento por estado.",
+      "provider": { "@id": "https://www.motocity.cl/#organization" },
+      "areaServed": "Región Metropolitana de Santiago, Chile",
+      "serviceType": "Mensajería urgente",
+      "url": "https://www.motocity.cl/#express"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.motocity.cl/#gestion",
+      "name": "Moto Gestión",
+      "description": "Trámites, diligencias y gestiones en terreno para empresas: bancos, notarías, pagos, firmas y retiro de documentos.",
+      "provider": { "@id": "https://www.motocity.cl/#organization" },
+      "areaServed": "Región Metropolitana de Santiago, Chile",
+      "serviceType": "Trámites y diligencias en terreno",
+      "url": "https://www.motocity.cl/#gestion"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.motocity.cl/#corporativo",
+      "name": "Moto Corporativo",
+      "description": "Motorista fijo dedicado a una empresa, disponible en media jornada o jornada completa, para múltiples entregas, retiros y gestiones diarias.",
+      "provider": { "@id": "https://www.motocity.cl/#organization" },
+      "areaServed": "Región Metropolitana de Santiago, Chile",
+      "serviceType": "Motorista corporativo dedicado",
+      "url": "https://www.motocity.cl/#corporativo"
+    },
+    {
+      "@type": "Service",
+      "@id": "https://www.motocity.cl/#financiero",
+      "name": "Moto Financiero",
+      "description": "Operaciones financieras en terreno para empresas del sector financiero: firma y entrega de contratos, verificación de domicilio e identidad, entrega de tarjetas y documentación confidencial.",
+      "provider": { "@id": "https://www.motocity.cl/#organization" },
+      "areaServed": "Región Metropolitana de Santiago, Chile",
+      "serviceType": "Mensajería para instituciones financieras",
+      "url": "https://www.motocity.cl/#financiero"
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -49,7 +169,7 @@
       <span class="cloud cloud--b"></span>
       <span class="cloud cloud--c"></span>
     </div>
-    <p class="motocity-hero-text" id="motocityHeroText"><span class="motocity-hero-pin" aria-hidden="true"></span>Relájate.<br>Motocity se encarga de la mensajería de tu empresa.</p>
+    <h1 class="motocity-hero-text" id="motocityHeroText"><span class="motocity-hero-pin" aria-hidden="true"></span>Relájate.<br>Motocity se encarga de la mensajería de tu empresa.</h1>
 
     <div class="motocity-hero-badge" id="motocityHeroBadge">
       <span class="motocity-hero-badge-label">Motocity</span>
@@ -422,7 +542,7 @@
   <div class="w about-grid">
     <div class="about-photo rv">
       <img width="800" height="800" src="assets/somos/foto-motorista.jpg?v=1786473400" alt="Motorista Motocity de espaldas, vista aérea, con la chaqueta corporativa Motocity">
-      <div class="about-stamp"><strong data-counter-to="12">+0</strong><span>AÑOS</span></div>
+      <div class="about-stamp"><strong data-counter-to="12">+12</strong><span>AÑOS</span></div>
     </div>
     <div class="about-copy rv">
       <span class="eyebrow">Quienes somos</span>

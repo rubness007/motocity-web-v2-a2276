@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+# Decisión explícita del cliente (2026-08-23): permitir que OpenAI use el contenido público
+# del sitio para entrenar sus modelos generativos. Independiente de OAI-SearchBot (arriba),
+# que solo controla la aparición en ChatGPT Search.
+User-agent: GPTBot
+Allow: /
+
+Sitemap: https://www.motocity.cl/sitemap.xml
