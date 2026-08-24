@@ -137,7 +137,7 @@ if(/\.netlify\.app$/.test(location.hostname)){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1786494700">
+<link rel="stylesheet" href="css/style.css?v=1786494800">
 
 <!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
      para no mezclar tráfico de pruebas con los datos reales. -->
@@ -922,7 +922,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
     <div class="grid-2" style="gap:48px;align-items:flex-start;">
       <div class="card rv">
         <h2 style="font-size:22px;margin-bottom:22px;">Solicita una cotización</h2>
-        <form name="cotizacion" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+        <form name="cotizacion" method="POST" data-netlify="true" netlify-honeypot="bot-field" id="cotizacionForm">
           <input type="hidden" name="form-name" value="cotizacion">
           <p style="display:none;"><label>No llenar: <input name="bot-field"></label></p>
           <div class="form-grid">
@@ -959,7 +959,9 @@ if(!/\.netlify\.app$/.test(location.hostname)){
             <label for="mensaje">Cuéntanos qué necesitas</label>
             <textarea id="mensaje" name="mensaje" placeholder="Ej: necesitamos retiros diarios desde nuestra oficina en Las Condes hacia distintos bancos"></textarea>
           </div>
-          <button type="submit" class="btn btn--primary btn--block btn--lg">Enviar solicitud</button>
+          <div id="formSubmitArea">
+            <button type="submit" class="btn btn--primary btn--block btn--lg">Enviar solicitud</button>
+          </div>
         </form>
       </div>
 
@@ -1064,6 +1066,6 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 
 <script src="https://unpkg.com/gsap@3.12.7/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
-<script src="js/main.js?v=1786493700"></script>
+<script src="js/main.js?v=1786494800"></script>
 </body>
 </html>

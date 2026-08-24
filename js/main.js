@@ -48,9 +48,41 @@
     function(){ initSideDrawers(); },
     function(){ initRevealText(reduced); },
     function(){ initCounters(reduced); },
-    function(){ initBackToTop(); }
+    function(){ initBackToTop(); },
+    function(){ initQuoteForm(); }
   ].forEach(function(fn){ deferNonCritical(fn); });
 })();
+
+/* Netlify Forms normally does a full-page POST + redirect on submit. We intercept it and
+   submit via fetch instead so we can swap the button for an inline "gracias" message in the
+   same spot, without navigating away from the page. */
+function initQuoteForm(){
+  var form = document.getElementById('cotizacionForm');
+  var area = document.getElementById('formSubmitArea');
+  if(!form || !area) return;
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var btn = area.querySelector('button');
+    if(btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+    var data = new FormData(form);
+    var body = new URLSearchParams(data).toString();
+
+    fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body
+    }).then(function(res){
+      if(!res.ok) throw new Error('bad status');
+      area.innerHTML = '<p class="form-success">¡Gracias! Te contactaremos lo antes posible.</p>';
+      form.reset();
+    }).catch(function(){
+      if(btn){ btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
+      area.insertAdjacentHTML('beforeend', '<p class="form-error">No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.</p>');
+    });
+  });
+}
 
 function initBackToTop(){
   var btn = document.getElementById('backToTop');
