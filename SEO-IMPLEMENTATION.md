@@ -122,18 +122,18 @@ Ver `robots.txt` (sección 2). `GPTBot`: permitido por decisión explícita del 
 
 ## 10. Acciones manuales pendientes (requieren al cliente)
 
-- [ ] **Google Search Console:** verificar propiedad `www.motocity.cl`, enviar `sitemap.xml`.
+- [x] **Google Search Console:** propiedad de dominio `motocity.cl` verificada vía TXT en DigitalOcean (2026-08-23), `sitemap.xml` enviado.
 - [ ] **Bing Webmaster Tools:** ídem (IndexNow ya está activo independientemente de esto).
 - [ ] **Google Analytics 4:** crear la cuenta/propiedad — no existe ID todavía. *(Variable pendiente: `G-XXXXXXXXXX`.)*
 - [ ] **Google Business Profile:** crear o revisar el perfil, categorías, horario de atención, fotos reales, cobertura.
 - [ ] **Horario de atención:** no confirmado — no se inventó en el JSON-LD.
-- [ ] **Política de Privacidad / Términos del Servicio:** no existen en el sitio. Requieren datos legales (razón social, RUT) que no tengo — no se inventaron.
+- [x] **Política de Privacidad:** publicada en `/politica-de-privacidad/` (2026-08-23), con datos legales de Motocity Group SpA (RUT 78.101.254-8) y enlazada desde el footer.
+- [ ] **Términos del Servicio:** no existen en el sitio todavía.
 - [ ] Decidir si se retoma la arquitectura multi-página (13 URLs del plan original) y el plan editorial de 6 meses — ambos pospuestos por decisión del cliente.
 
 ## 11. Configuración de Search Console / Bing / Google Business Profile
 
-Sin credenciales ni acceso a estas plataformas en este momento — no se puede completar desde el código. Instrucciones para cuando el cliente cree las cuentas:
-- **Search Console:** agregar propiedad de dominio o de prefijo de URL (`https://www.motocity.cl/`), verificar vía DNS TXT (recomendado, ya que el DNS es administrado en DigitalOcean) o vía archivo HTML, y enviar `https://www.motocity.cl/sitemap.xml`.
+- **Search Console:** ✅ completado — propiedad de dominio `motocity.cl` verificada vía TXT en DigitalOcean, `sitemap.xml` enviado (2026-08-23).
 - **Bing Webmaster Tools:** se puede importar directamente desde Search Console una vez verificado ahí. IndexNow ya está notificando cambios de todos modos.
 - **Google Business Profile:** ver checklist en sección 10.
 
