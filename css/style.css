@@ -78,8 +78,12 @@ section{padding:96px 0;}
 .btn--secondary:hover{border-color:var(--ink-faint);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
 .btn--ghost{background:transparent;color:var(--blue);}
 .btn--ghost:hover{background:var(--blue-tint);}
+.btn--white{background:#fff;color:var(--blue);}
+.btn--white:hover{background:var(--blue-tint);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
 .btn--on-dark{background:rgba(255,255,255,0.1);color:#fff;border-color:rgba(255,255,255,0.25);}
 .btn--on-dark:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px);}
+.btn--blue{background:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(15,30,60,0.08);}
+.btn--blue:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 10px 20px rgba(35,101,188,0.25);}
 .btn--block{width:100%;}
 .btn--lg{padding:15px 26px;font-size:15.5px;}
 .form-success{
@@ -114,8 +118,9 @@ section{padding:96px 0;}
 .site-header .nav-toggle{color:#fff;}
 @media (max-width:860px){
   /* Mobile nav-links panel is an opaque white sheet regardless of header color, so links need
-     dark text there even though the closed top bar is blue with white text. */
-  .site-header .nav-links a{color:var(--ink-soft);}
+     dark text there even though the closed top bar is blue with white text. The CTA button
+     inside this menu is excluded — it must always keep its own white-on-orange styling. */
+  .site-header .nav-links a:not(.btn){color:var(--ink-soft);}
 }
 
 /* Homepage-only header treatment: starts fully transparent with white text/logo over the
@@ -145,8 +150,9 @@ section{padding:96px 0;}
 .site-header--hero.is-hero-solid{background:#0265bc;}
 @media (max-width:860px){
   /* Mobile nav-links panel is an opaque white sheet regardless — transparent/blue header only
-     affects the closed top bar, never the open menu, so it stays readable either way. */
-  .site-header--hero .nav-links a{color:var(--ink-soft);text-shadow:none;}
+     affects the closed top bar, never the open menu, so it stays readable either way. The CTA
+     button inside this menu is excluded — it must always keep its own white-on-orange styling. */
+  .site-header--hero .nav-links a:not(.btn){color:var(--ink-soft);text-shadow:none;}
 }
 .nav-cta{display:flex;align-items:center;gap:12px;}
 .nav-toggle{display:none;background:none;border:none;padding:8px;}
@@ -422,11 +428,11 @@ section{padding:96px 0;}
 .service-tagline{font-size:14.5px;font-weight:500;color:var(--blue);margin-bottom:0;}
 .service-desc{font-size:14.5px;color:var(--ink-soft);margin-bottom:20px;}
 .service-card--hi .service-desc{color:rgba(255,255,255,0.75);}
-.service-list{display:flex;flex-direction:column;gap:10px;margin-bottom:22px;font-size:13.5px;}
+.service-list{display:flex;flex-direction:column;gap:10px;margin-bottom:34px;font-size:13.5px;}
 .service-list li{display:flex;gap:9px;align-items:flex-start;}
 .service-list li svg{width:15px;height:15px;flex:none;margin-top:2px;color:var(--orange);}
 .service-card--hi .service-list li svg{color:#f0a583;}
-.service-card .btn{margin-top:auto;align-self:flex-start;}
+.service-card .btn{margin-top:auto;align-self:center;}
 .service-card-head{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
 .service-card-ic{
   width:72px;height:72px;border-radius:18px;background:var(--blue);
@@ -465,7 +471,7 @@ section{padding:96px 0;}
   transition:opacity .65s cubic-bezier(.22,.61,.36,1), transform .65s cubic-bezier(.22,.61,.36,1);
 }
 .services-grid .service-card.rv.on{opacity:1;transform:none;}
-.service-card .btn{white-space:normal;text-align:center;align-self:stretch;line-height:1.35;}
+.service-card .btn{white-space:nowrap;text-align:center;align-self:center;}
 
 /* ============ STEPS ============ */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;}
@@ -581,7 +587,8 @@ section{padding:96px 0;}
 .bcard-note{font-size:13px;color:var(--ink-soft);font-style:italic;}
 
 /* ============ BILLING CARDS — solid variant ============ */
-.bcard--solid{background:var(--blue);border-color:var(--blue);color:#fff;}
+.bcard--solid{background:var(--blue);border-color:var(--blue);color:#fff;display:flex;flex-direction:column;}
+.bcard-cta{margin-top:auto;padding-top:24px;}
 .bcard--solid:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);}
 .bcard--solid h3{
   font-size:24px;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;
@@ -851,7 +858,7 @@ section{padding:96px 0;}
 .footer-col a:hover{color:#fff;}
 .footer-bottom{
   border-top:1px solid rgba(255,255,255,0.12);padding-top:24px;font-size:13px;
-  color:rgba(255,255,255,0.45);display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;
+  color:rgba(255,255,255,0.45);display:flex;justify-content:center;align-items:center;gap:16px;flex-wrap:wrap;text-align:center;
 }
 .footer-bottom a{color:rgba(255,255,255,0.45);transition:color .15s;}
 .footer-bottom a:hover{color:#fff;}
