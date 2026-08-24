@@ -48,51 +48,9 @@
     function(){ initSideDrawers(); },
     function(){ initRevealText(reduced); },
     function(){ initCounters(reduced); },
-    function(){ initBackToTop(); },
-    function(){ initCookieBanner(); }
+    function(){ initBackToTop(); }
   ].forEach(function(fn){ deferNonCritical(fn); });
 })();
-
-/* Small cookie notice for GA4. On the homepage it waits for the HERO zoom sequence to finish
-   (read-only: watches the "is-hero-solid" class that initMotocityHeroZoom already applies to the
-   header, rather than touching that function) so it never competes with the HERO animation. On
-   pages without a HERO (legal pages) there's nothing to wait for, so it just shows after a short
-   delay. */
-function initCookieBanner(){
-  if(localStorage.getItem('motocity_cookie_consent')) return;
-  var banner = document.getElementById('cookieNotice');
-  if(!banner) return;
-
-  function show(){
-    banner.classList.add('is-visible');
-  }
-
-  var header = document.getElementById('siteHeader');
-  var hasHero = document.getElementById('motocityHeroSequence');
-  if(header && hasHero){
-    if(header.classList.contains('is-hero-solid')){
-      show();
-    } else {
-      var mo = new MutationObserver(function(){
-        if(header.classList.contains('is-hero-solid')){
-          show();
-          mo.disconnect();
-        }
-      });
-      mo.observe(header, {attributes:true, attributeFilter:['class']});
-    }
-  } else {
-    setTimeout(show, 600);
-  }
-
-  var closeBtn = document.getElementById('cookieNoticeClose');
-  if(closeBtn){
-    closeBtn.addEventListener('click', function(){
-      localStorage.setItem('motocity_cookie_consent', '1');
-      banner.classList.remove('is-visible');
-    });
-  }
-}
 
 function initBackToTop(){
   var btn = document.getElementById('backToTop');
