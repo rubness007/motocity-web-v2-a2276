@@ -49,9 +49,40 @@
     function(){ initRevealText(reduced); },
     function(){ initCounters(reduced); },
     function(){ initBackToTop(); },
-    function(){ initQuoteForm(); }
+    function(){ initQuoteForm(); },
+    function(){ initWhatsAppFloat(); }
   ].forEach(function(fn){ deferNonCritical(fn); });
 })();
+
+/* Floating WhatsApp button (equipo comercial). On the homepage it waits for the HERO zoom to
+   finish (read-only: watches the "is-hero-solid" class initMotocityHeroZoom already applies to
+   the header, same approach as the old cookie notice) so it never competes with the HERO. Once
+   shown it stays visible through the rest of the page — unlike back-to-top, which only shows
+   near the footer — so the two never appear in the same place (opposite bottom corners either way). */
+function initWhatsAppFloat(){
+  var btn = document.getElementById('whatsappFloat');
+  if(!btn) return;
+
+  function show(){ btn.classList.add('is-visible'); }
+
+  var header = document.getElementById('siteHeader');
+  var hasHero = document.getElementById('motocityHeroSequence');
+  if(header && hasHero){
+    if(header.classList.contains('is-hero-solid')){
+      show();
+    } else {
+      var mo = new MutationObserver(function(){
+        if(header.classList.contains('is-hero-solid')){
+          show();
+          mo.disconnect();
+        }
+      });
+      mo.observe(header, {attributes:true, attributeFilter:['class']});
+    }
+  } else {
+    show();
+  }
+}
 
 /* Netlify Forms normally does a full-page POST + redirect on submit. We intercept it and
    submit via fetch instead so we can swap the button for an inline "gracias" message in the
