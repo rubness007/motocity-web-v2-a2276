@@ -137,7 +137,7 @@ if(/\.netlify\.app$/.test(location.hostname)){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1786497500">
+<link rel="stylesheet" href="css/style.css?v=1786498400">
 
 <!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
      para no mezclar tráfico de pruebas con los datos reales. -->
@@ -206,7 +206,8 @@ if(!/\.netlify\.app$/.test(location.hostname)){
     </div>
 
     <div class="motocity-hero-scrolldown" id="motocityHeroScrollDown" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v15M6 13l6 6 6-6"/></svg>
+      <svg class="scrolldown-mouse" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="16" rx="5"/><line x1="12" y1="6" x2="12" y2="9"/></svg>
+      <svg class="scrolldown-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
     </div>
   </div>
 </section>
@@ -326,14 +327,14 @@ if(!/\.netlify\.app$/.test(location.hostname)){
         <svg viewBox="0 0 200 120" width="155" height="93">
           <defs>
             <linearGradient id="redlineFadeMobile" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="var(--orange-dark)" stop-opacity="0"/>
-              <stop offset="50%" stop-color="var(--orange-dark)" stop-opacity="0.55"/>
-              <stop offset="100%" stop-color="var(--orange-dark)" stop-opacity="0.95"/>
+              <stop offset="0%" stop-color="var(--brasa-500)" stop-opacity="0"/>
+              <stop offset="50%" stop-color="var(--brasa-500)" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="var(--brasa-500)" stop-opacity="0.95"/>
             </linearGradient>
           </defs>
           <path d="M20,100 A80,80 0 0 1 180,100" fill="none" stroke="var(--orange-tint)" stroke-width="12" stroke-linecap="round"/>
           <path d="M156.6,43.4 A80,80 0 0 1 180,100" fill="none" stroke="url(#redlineFadeMobile)" stroke-width="12" stroke-linecap="round"/>
-          <g stroke="var(--orange)" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round">
+          <g stroke="var(--brasa-500)" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round">
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(-90 100 100)"/>
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(-60 100 100)"/>
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(-30 100 100)"/>
@@ -342,8 +343,8 @@ if(!/\.netlify\.app$/.test(location.hostname)){
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(60 100 100)"/>
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(90 100 100)"/>
           </g>
-          <polygon class="speed-gauge-needle" points="100,26 103,94 100,108 97,94" fill="var(--orange)" transform="rotate(-90 100 100)"/>
-          <circle cx="100" cy="100" r="8" fill="var(--orange)"/>
+          <polygon class="speed-gauge-needle" points="100,26 103,94 100,108 97,94" fill="var(--brasa-500)" transform="rotate(-90 100 100)"/>
+          <circle cx="100" cy="100" r="8" fill="var(--brasa-500)"/>
           <circle cx="100" cy="100" r="3.5" fill="#fff"/>
         </svg>
       </span>
@@ -357,9 +358,9 @@ if(!/\.netlify\.app$/.test(location.hostname)){
                noticeable tone by 100% — direction follows the segment's own bounding-box
                diagonal since it curves down-and-right. -->
             <linearGradient id="redlineFade" gradientUnits="objectBoundingBox" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="var(--orange-dark)" stop-opacity="0"/>
-              <stop offset="50%" stop-color="var(--orange-dark)" stop-opacity="0.55"/>
-              <stop offset="100%" stop-color="var(--orange-dark)" stop-opacity="0.95"/>
+              <stop offset="0%" stop-color="var(--brasa-500)" stop-opacity="0"/>
+              <stop offset="50%" stop-color="var(--brasa-500)" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="var(--brasa-500)" stop-opacity="0.95"/>
             </linearGradient>
           </defs>
           <path d="M20,100 A80,80 0 0 1 180,100" fill="none" stroke="var(--orange-tint)" stroke-width="12" stroke-linecap="round"/>
@@ -367,7 +368,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
                convention as the ticks/needle below) — same hue as the track, just darker, like a
                real gauge's danger zone. Static marking, not tied to scroll progress. -->
           <path d="M156.6,43.4 A80,80 0 0 1 180,100" fill="none" stroke="url(#redlineFade)" stroke-width="12" stroke-linecap="round"/>
-          <g stroke="var(--orange)" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round">
+          <g stroke="var(--brasa-500)" stroke-opacity="0.35" stroke-width="3" stroke-linecap="round">
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(-90 100 100)"/>
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(-60 100 100)"/>
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(-30 100 100)"/>
@@ -376,8 +377,8 @@ if(!/\.netlify\.app$/.test(location.hostname)){
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(60 100 100)"/>
             <line x1="100" y1="20" x2="100" y2="32" transform="rotate(90 100 100)"/>
           </g>
-          <polygon class="speed-gauge-needle" points="100,26 103,94 100,108 97,94" fill="var(--orange)" transform="rotate(-90 100 100)"/>
-          <circle cx="100" cy="100" r="8" fill="var(--orange)"/>
+          <polygon class="speed-gauge-needle" points="100,26 103,94 100,108 97,94" fill="var(--brasa-500)" transform="rotate(-90 100 100)"/>
+          <circle cx="100" cy="100" r="8" fill="var(--brasa-500)"/>
           <circle cx="100" cy="100" r="3.5" fill="#fff"/>
         </svg>
       </span>
@@ -531,7 +532,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
             <div class="ic" style="background:rgba(255,255,255,0.1);color:#8fc2f5;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
             <div>
               <h3 style="color:#fff;">Plataforma de autoatención</h3>
-              <p style="color:rgba(255,255,255,0.6);">Solicita, revisa y gestiona tus servicios directamente, sin depender de un ejecutivo.</p>
+              <p style="color:rgba(255,255,255,0.6);">Autogestiona tus servicios en nuestra plataforma o con tu ejecutivo de coordinación.</p>
             </div>
           </div>
           <div class="feature feature--row">
@@ -852,7 +853,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
           <p style="color:rgba(255,255,255,0.75);font-size:15.5px;margin-bottom:16px;">Operamos en las 52 comunas de la Región Metropolitana, apoyando a empresas con sus trámites, diligencias y gestiones en terreno.</p>
           <p style="color:rgba(255,255,255,0.75);font-size:15.5px;margin-bottom:26px;">Contamos con mayor presencia operativa en <b style="color:#fff;">Santiago Centro, el sector Oriente y los principales polos industriales</b>, lo que nos permite responder con mayor rapidez en estas zonas, manteniendo siempre cobertura en toda la región.</p>
         </div>
-        <a href="#contacto" class="btn btn--white">Consultar cobertura de mi empresa</a>
+        <a href="#contacto" class="btn btn--white">Consultar cobertura para mi empresa</a>
       </div>
       <div class="rv coverage-video-circle">
         <iframe src="https://player.vimeo.com/video/1073683862?muted=1&autoplay=1&dnt=1&loop=1&background=1&app_id=122963" frameborder="0" allow="autoplay; fullscreen" title=""></iframe>
@@ -1093,6 +1094,6 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 
 <script src="https://unpkg.com/gsap@3.12.7/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
-<script src="js/main.js?v=1786495000"></script>
+<script src="js/main.js?v=1786498100"></script>
 </body>
 </html>

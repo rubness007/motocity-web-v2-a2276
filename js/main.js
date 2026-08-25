@@ -69,11 +69,11 @@ function initWhatsAppFloat(){
   var hasHero = document.getElementById('motocityHeroSequence');
   if(header && hasHero){
     if(header.classList.contains('is-hero-solid')){
-      show();
+      setTimeout(show, 3000);
     } else {
       var mo = new MutationObserver(function(){
         if(header.classList.contains('is-hero-solid')){
-          show();
+          setTimeout(show, 3000);
           mo.disconnect();
         }
       });

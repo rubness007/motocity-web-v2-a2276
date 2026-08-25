@@ -98,6 +98,9 @@ section{padding:96px 0;}
   box-shadow:0 8px 24px -8px rgba(35,101,188,0.2);
 }
 .btn--white:hover{background:#ede2cc;transform:translateY(-2px);}
+/* The Facturación y pagos cards already lift on hover — the button inside shouldn't add a
+   second, competing lift on top of that. */
+.bcard-cta .btn--white:hover{transform:none;}
 .btn--on-dark{background:rgba(255,255,255,0.1);color:#fff;border-color:rgba(255,255,255,0.25);}
 .btn--on-dark:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px);}
 .btn--blue{
@@ -134,9 +137,12 @@ section{padding:96px 0;}
 .nav{display:flex;align-items:center;justify-content:space-between;height:76px;}
 .nav-logo img{height:50px;width:auto;transition:opacity .2s ease;}
 .nav-links{display:flex;align-items:center;gap:36px;}
-.nav-links a:not(.btn){font-size:14.5px;font-weight:500;color:#fff;transition:color .15s;}
+.nav-links a:not(.btn){font-size:13px;letter-spacing:0.06em;font-weight:500;color:#fff;transition:color .15s;}
 .nav-links a:not(.btn):hover,.nav-links a:not(.btn).active{color:#fff;opacity:.8;}
-.site-header .btn--secondary{background:rgba(255,255,255,0.16);color:#fff;border-color:rgba(255,255,255,0.5);}
+.site-header .btn--secondary{
+  padding:15px 30px;border-radius:2px;font-size:13px;letter-spacing:0.06em;font-weight:500;
+  background:rgba(255,255,255,0.16);color:#fff;border-color:rgba(255,255,255,0.5);
+}
 .site-header .btn--secondary:hover{background:#25D366;border-color:#25D366;}
 .site-header .nav-toggle{color:#fff;}
 @media (max-width:860px){
@@ -167,7 +173,10 @@ section{padding:96px 0;}
 .site-header--hero .nav-links a:not(.btn){color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.4);}
 .site-header--hero .nav-links a:not(.btn):hover,
 .site-header--hero .nav-links a:not(.btn).active{color:#fff;}
-.site-header--hero .btn--secondary{background:rgba(255,255,255,0.16);color:#fff;border-color:rgba(255,255,255,0.5);}
+.site-header--hero .btn--secondary{
+  padding:15px 30px;border-radius:2px;font-size:13px;letter-spacing:0.06em;font-weight:500;
+  background:rgba(255,255,255,0.16);color:#fff;border-color:rgba(255,255,255,0.5);
+}
 .site-header--hero .btn--secondary:hover{background:#25D366;border-color:#25D366;}
 .site-header--hero .nav-toggle{color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4));}
 .site-header--hero.is-hero-solid{background:#0265bc;}
@@ -329,20 +338,19 @@ section{padding:96px 0;}
 
 .motocity-hero-scrolldown{
   position:absolute;left:50%;bottom:5%;transform:translate(-50%,0);
-  width:40px;height:40px;border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.5);
-  color:#fff;pointer-events:none;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  color:#fff;pointer-events:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,0.35));
 }
-.motocity-hero-scrolldown svg{width:17px;height:17px;animation:motocity-scrolldown-bounce 1.8s ease-in-out infinite;}
+.motocity-hero-scrolldown .scrolldown-mouse{width:34px;height:34px;}
+.motocity-hero-scrolldown .scrolldown-chevron{width:24px;height:24px;animation:motocity-scrolldown-bounce 1.8s ease-in-out infinite;}
 @keyframes motocity-scrolldown-bounce{
-  0%,100%{transform:translateY(0);}
-  50%{transform:translateY(5px);}
+  0%,100%{transform:translateY(0);opacity:0.6;}
+  50%{transform:translateY(5px);opacity:1;}
 }
 @media (prefers-reduced-motion:reduce){
   .motocity-hero-badge-cycle span{animation:none;opacity:0;}
   .motocity-hero-badge-cycle span:first-child{opacity:1;}
-  .motocity-hero-scrolldown svg{animation:none;}
+  .motocity-hero-scrolldown .scrolldown-chevron{animation:none;}
   .motocity-hero-pin::after{animation:none;opacity:0;}
 }
 
@@ -353,7 +361,9 @@ section{padding:96px 0;}
      already centered and the rider included, built specifically so a straight centered
      cover-crop shows the whole concept without needing to shift the crop off-center. */
   .motocity-hero-badge{top:26%;font-size:clamp(22px,5.8vw,31px);}
-  .motocity-hero-scrolldown{bottom:4%;width:34px;height:34px;}
+  .motocity-hero-scrolldown{bottom:4%;}
+  .motocity-hero-scrolldown .scrolldown-mouse{width:28px;height:28px;}
+  .motocity-hero-scrolldown .scrolldown-chevron{width:20px;height:20px;}
 }
 
 /* Accessible / no-JS fallback: reduced motion, or GSAP failing to load (main.js adds .is-static).
@@ -417,7 +427,7 @@ section{padding:96px 0;}
 .feature--row{display:flex;gap:16px;padding:0;}
 .feature--row .ic{margin-bottom:0;flex:none;}
 .platform-shot{
-  overflow:hidden;border-radius:14px;max-width:490px;margin:0 auto;
+  overflow:hidden;border-radius:14px;max-width:560px;margin:0 auto;
   border:1px solid rgba(255,255,255,0.12);
   box-shadow:0 30px 60px -20px rgba(0,0,0,0.5), 0 10px 24px rgba(0,0,0,0.35);
   transition:transform .3s ease, box-shadow .3s ease;
@@ -786,11 +796,11 @@ section{padding:96px 0;}
 }
 .drawer-email:hover{color:var(--blue-dark);border-bottom-color:var(--blue);}
 .side-drawer-close{
-  position:absolute;top:20px;right:20px;width:36px;height:36px;border-radius:50%;
+  position:absolute;top:20px;right:20px;width:44px;height:44px;border-radius:50%;
   border:1px solid var(--border);background:#fff;color:var(--ink);
   display:flex;align-items:center;justify-content:center;cursor:pointer;
 }
-.side-drawer-close svg{width:18px;height:18px;}
+.side-drawer-close svg{width:22px;height:22px;}
 @media (max-width:560px){ .side-drawer{width:100%;padding:64px 24px 32px;} }
 
 /* ============ CTA FINAL ============ */
