@@ -22,6 +22,10 @@
   --max:1160px;
   --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   --font-heading:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+  /* "Brasa" button system */
+  --brasa-500:#ff6a34;
+  --brasa-400:#ff8a5c;
+  --hueso-50:#f5efe3;
 }
 
 *,*::before,*::after{box-sizing:border-box;}
@@ -72,18 +76,37 @@ section{padding:96px 0;}
   white-space:nowrap;
 }
 .btn svg{width:16px;height:16px;flex:none;}
-.btn--primary{background:var(--orange);color:#fff;box-shadow:0 1px 2px rgba(15,30,60,0.08);}
-.btn--primary:hover{background:var(--orange-dark);transform:translateY(-2px);box-shadow:0 10px 20px rgba(193,95,60,0.25);}
+/* "Brasa" system: industrial look for the primary CTA — sharp corners, monospace uppercase
+   label, and a diffuse glow from the same orange at 65% opacity. Hover only lifts + lightens;
+   it never changes size or shadow, so the glow stays constant while the button itself moves. */
+.btn--primary{
+  gap:10px;padding:15px 30px;border-radius:2px;
+  font-family:var(--font);font-size:13px;letter-spacing:0.06em;
+  text-transform:none;font-weight:500;
+  background:var(--brasa-500);color:var(--hueso-50);
+  box-shadow:0 8px 24px -8px rgba(193,95,60,0.65);
+}
+.btn--primary:hover{background:var(--brasa-400);transform:translateY(-2px);}
 .btn--secondary{background:#fff;color:var(--ink);border-color:var(--border);}
 .btn--secondary:hover{border-color:var(--ink-faint);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
 .btn--ghost{background:transparent;color:var(--blue);}
 .btn--ghost:hover{background:var(--blue-tint);}
-.btn--white{background:#fff;color:var(--blue);}
-.btn--white:hover{background:var(--blue-tint);transform:translateY(-2px);box-shadow:var(--shadow-sm);}
+.btn--white{
+  gap:10px;padding:15px 30px;border-radius:2px;
+  font-family:var(--font);font-size:13px;letter-spacing:0.06em;text-transform:none;font-weight:500;
+  background:var(--hueso-50);color:var(--blue);
+  box-shadow:0 8px 24px -8px rgba(35,101,188,0.2);
+}
+.btn--white:hover{background:#ede2cc;transform:translateY(-2px);}
 .btn--on-dark{background:rgba(255,255,255,0.1);color:#fff;border-color:rgba(255,255,255,0.25);}
 .btn--on-dark:hover{background:rgba(255,255,255,0.18);transform:translateY(-2px);}
-.btn--blue{background:var(--blue);color:#fff;box-shadow:0 1px 2px rgba(15,30,60,0.08);}
-.btn--blue:hover{background:var(--blue-dark);transform:translateY(-2px);box-shadow:0 10px 20px rgba(35,101,188,0.25);}
+.btn--blue{
+  gap:10px;padding:15px 30px;border-radius:2px;
+  font-family:var(--font);font-size:13px;letter-spacing:0.06em;text-transform:none;font-weight:500;
+  background:#0265bc;color:var(--hueso-50);
+  box-shadow:0 8px 24px -8px rgba(2,101,188,0.65);
+}
+.btn--blue:hover{background:#0386f9;transform:translateY(-2px);}
 .btn--block{width:100%;}
 .btn--lg{padding:15px 26px;font-size:15.5px;}
 .form-success{
@@ -111,10 +134,10 @@ section{padding:96px 0;}
 .nav{display:flex;align-items:center;justify-content:space-between;height:76px;}
 .nav-logo img{height:50px;width:auto;transition:opacity .2s ease;}
 .nav-links{display:flex;align-items:center;gap:36px;}
-.nav-links a{font-size:14.5px;font-weight:500;color:#fff;transition:color .15s;}
-.nav-links a:hover,.nav-links a.active{color:#fff;opacity:.8;}
+.nav-links a:not(.btn){font-size:14.5px;font-weight:500;color:#fff;transition:color .15s;}
+.nav-links a:not(.btn):hover,.nav-links a:not(.btn).active{color:#fff;opacity:.8;}
 .site-header .btn--secondary{background:rgba(255,255,255,0.16);color:#fff;border-color:rgba(255,255,255,0.5);}
-.site-header .btn--secondary:hover{background:rgba(255,255,255,0.26);}
+.site-header .btn--secondary:hover{background:#25D366;border-color:#25D366;}
 .site-header .nav-toggle{color:#fff;}
 @media (max-width:860px){
   /* Mobile nav-links panel is an opaque white sheet regardless of header color, so links need
@@ -141,11 +164,11 @@ section{padding:96px 0;}
 }
 .site-header--hero.is-hero-solid::before{opacity:0;}
 .site-header--hero .nav-logo img{filter:drop-shadow(0 1px 3px rgba(0,0,0,0.35));}
-.site-header--hero .nav-links a{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.4);}
-.site-header--hero .nav-links a:hover,
-.site-header--hero .nav-links a.active{color:#fff;}
+.site-header--hero .nav-links a:not(.btn){color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.4);}
+.site-header--hero .nav-links a:not(.btn):hover,
+.site-header--hero .nav-links a:not(.btn).active{color:#fff;}
 .site-header--hero .btn--secondary{background:rgba(255,255,255,0.16);color:#fff;border-color:rgba(255,255,255,0.5);}
-.site-header--hero .btn--secondary:hover{background:rgba(255,255,255,0.26);}
+.site-header--hero .btn--secondary:hover{background:#25D366;border-color:#25D366;}
 .site-header--hero .nav-toggle{color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4));}
 .site-header--hero.is-hero-solid{background:#0265bc;}
 @media (max-width:860px){
@@ -167,7 +190,7 @@ section{padding:96px 0;}
     transition:transform .25s ease;overflow-y:auto;
   }
   .nav-links.open{transform:translateX(0);}
-  .nav-links a{font-size:17px;}
+  .nav-links a:not(.btn){font-size:17px;}
   .nav-links .nav-cta-mobile{margin-top:12px;width:100%;}
   .nav-cta{display:none;}
   .nav-toggle{display:flex;}
