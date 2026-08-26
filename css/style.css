@@ -94,7 +94,7 @@ section{padding:96px 0;}
 .btn--white{
   gap:10px;padding:15px 30px;border-radius:2px;
   font-family:var(--font);font-size:13px;letter-spacing:0.06em;text-transform:none;font-weight:500;
-  background:var(--hueso-50);color:var(--blue);
+  background:#fff;color:var(--blue);
   box-shadow:0 8px 24px -8px rgba(35,101,188,0.2);
 }
 .btn--white:hover{background:#ede2cc;transform:translateY(-2px);}
@@ -139,7 +139,8 @@ section{padding:96px 0;}
 .nav-links{display:flex;align-items:center;gap:36px;}
 .nav-mega{position:relative;}
 .nav-mega-trigger{display:inline-flex;align-items:center;gap:5px;background:none;border:none;padding:0;margin:0;font-family:inherit;cursor:pointer;}
-.nav-mega.is-locked .nav-mega-trigger{cursor:default;opacity:.6;}
+/* .is-locked keeps its normal look — "Servicios" still works as a plain link to the on-page
+   section during the HERO zoom, only the dropdown itself is deferred (see main.js). */
 .nav-mega-chevron{width:13px;height:13px;flex:none;transition:transform .55s var(--ease-premium);}
 .nav-mega.is-open .nav-mega-chevron{transform:rotate(180deg);}
 .nav-links a:not(.btn), .nav-mega-trigger{font-size:13px;letter-spacing:0.06em;font-weight:500;color:#fff;transition:color .15s;}
@@ -302,9 +303,15 @@ section{padding:96px 0;}
   /* One-time entrance on page load — fades up into place, independent of the scroll-driven
      left/top/font-size (main.js only ever touches those, never opacity/transform), so this
      can't fight the scroll animation. Disabled below wherever JS/motion is off, since those
-     fallbacks set transform:none and this animation's keyframe would otherwise fight that. */
+     fallbacks set transform:none and this animation's keyframe would otherwise fight that.
+     Stays at opacity:0 (no fixed timer) until JS adds .is-positioned right after it sets the
+     real left/top from computed geometry — a timer here could fire before that first geometry
+     pass lands, flashing the text at its pre-JS left:0;top:0 default (visible near the header)
+     for a frame before it jumps into place. */
   opacity:0;
-  animation:motocity-text-rise .9s ease-out .3s forwards;
+}
+.motocity-hero-text.is-positioned{
+  animation:motocity-text-rise .9s ease-out forwards;
 }
 @keyframes motocity-text-rise{
   from{opacity:0;transform:translate(-50%,-50%) translateY(14px);}

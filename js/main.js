@@ -49,7 +49,15 @@
     trigger.setAttribute('aria-expanded', 'false');
     trigger.addEventListener('click', function(e){
       e.stopPropagation();
-      if(heroLocked) return;
+      if(heroLocked){
+        // The dropdown itself stays locked during the HERO zoom, but "Servicios" should still
+        // act like the plain "#servicios" link it replaced — jump the hash so the browser's own
+        // native anchor navigation handles it exactly as it always did, instead of computing the
+        // scroll position ourselves (which risks reading stale geometry while the HERO's pinned
+        // timeline is still sizing the page).
+        window.location.hash = 'servicios';
+        return;
+      }
       setOpen(!mega.classList.contains('is-open'));
     });
     document.addEventListener('click', function(e){
@@ -687,6 +695,10 @@ function initMotocityHeroZoom(reduced){
     MASK_RY = isDesktop ? MASK_RY_DESKTOP : MASK_RY_MOBILE;
     refreshGeometry();
     render(0, 1);
+    // Only start the CSS entrance fade once the text's real left/top from computed geometry is
+    // actually in place — doing it any earlier risks flashing it at its pre-JS default position
+    // (left:0;top:0, up near the header) for a frame.
+    text.classList.add('is-positioned');
 
     var holdPct = isDesktop ? 12 : 8;
     var zoomPct = isDesktop ? 63 : 66;
