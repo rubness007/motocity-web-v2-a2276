@@ -16,6 +16,50 @@
     });
   }
 
+  // "Servicios" mega menu: click-to-open dropdown with title+description links, chevron
+  // rotates via the .is-open class (CSS handles the rotation/transition).
+  document.querySelectorAll('.nav-mega').forEach(function(mega){
+    var trigger = mega.querySelector('.nav-mega-trigger');
+    var panel = mega.querySelector('.nav-mega-panel');
+    if(!trigger || !panel) return;
+    function setOpen(open){
+      mega.classList.toggle('is-open', open);
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+
+    // On the homepage the HERO does a scroll-driven zoom sequence before the header settles
+    // into its solid state (see initMotocityHeroZoom's "is-hero-solid" class below) — the mega
+    // menu stays locked until that finishes, so it can't pop open mid-zoom. Pages without a
+    // HERO sequence (every page but the homepage) are never locked.
+    var heroHeader = document.getElementById('siteHeader');
+    var hasHeroSequence = document.getElementById('motocityHeroSequence');
+    var heroLocked = !!(heroHeader && hasHeroSequence && !heroHeader.classList.contains('is-hero-solid'));
+    if(heroLocked){
+      mega.classList.add('is-locked');
+      var unlockObserver = new MutationObserver(function(){
+        if(heroHeader.classList.contains('is-hero-solid')){
+          heroLocked = false;
+          mega.classList.remove('is-locked');
+          unlockObserver.disconnect();
+        }
+      });
+      unlockObserver.observe(heroHeader, {attributes:true, attributeFilter:['class']});
+    }
+
+    trigger.setAttribute('aria-expanded', 'false');
+    trigger.addEventListener('click', function(e){
+      e.stopPropagation();
+      if(heroLocked) return;
+      setOpen(!mega.classList.contains('is-open'));
+    });
+    document.addEventListener('click', function(e){
+      if(!mega.contains(e.target)) setOpen(false);
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape') setOpen(false);
+    });
+  });
+
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var els = document.querySelectorAll('.rv');
   if('IntersectionObserver' in window && !reduced && els.length){

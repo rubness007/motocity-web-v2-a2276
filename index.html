@@ -137,7 +137,7 @@ if(/\.netlify\.app$/.test(location.hostname)){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1786498400">
+<link rel="stylesheet" href="css/style.css?v=1786501500">
 
 <!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
      para no mezclar tráfico de pruebas con los datos reales. -->
@@ -160,7 +160,30 @@ if(!/\.netlify\.app$/.test(location.hostname)){
   <div class="w nav">
     <a href="#" class="nav-logo"><img width="516" height="150" src="assets/logo-header-white.png?v=1786493200" alt="Motocity"></a>
     <nav class="nav-links">
-      <a href="#servicios">Servicios</a>
+      <div class="nav-mega">
+        <button type="button" class="nav-mega-trigger" aria-expanded="false" aria-controls="megaServicios">
+          Servicios
+          <svg class="nav-mega-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="nav-mega-panel" id="megaServicios">
+        <a href="/mensajeria-express-santiago/" class="nav-mega-item">
+          <span class="nav-mega-item-title">Moto Express</span>
+          <span class="nav-mega-item-desc">Envíos urgentes dentro de Santiago, con prioridad máxima.</span>
+        </a>
+        <a href="/gestion-tramites-empresas/" class="nav-mega-item">
+          <span class="nav-mega-item-title">Moto Gestión</span>
+          <span class="nav-mega-item-desc">Trámites y diligencias resueltos en terreno.</span>
+        </a>
+        <a href="/motorista-corporativo/" class="nav-mega-item">
+          <span class="nav-mega-item-title">Moto Corporativo</span>
+          <span class="nav-mega-item-desc">Un motorista dedicado para tu empresa.</span>
+        </a>
+        <a href="/mensajeria-sector-financiero/" class="nav-mega-item">
+          <span class="nav-mega-item-title">Moto Financiero</span>
+          <span class="nav-mega-item-desc">Operaciones presenciales para bancos y financieras.</span>
+        </a>
+        </div>
+      </div>
       <a href="#tecnologia">Tecnología</a>
       <a href="#somos">Quienes somos</a>
       <a href="#cobertura">Cobertura</a>
@@ -246,7 +269,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
           <div class="service-card-ic"><img width="120" height="86" src="assets/services/moto-express.png?v=1786470500" alt=""></div>
           <div class="service-card-head-text">
             <span class="service-mode">On demand · cobro por km</span>
-            <h3>Moto Express</h3>
+            <h3><a href="/mensajeria-express-santiago/">Moto Express</a></h3>
             <p class="service-tagline">Envíos urgentes con prioridad máxima.</p>
           </div>
         </div>
@@ -265,7 +288,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
           <div class="service-card-ic"><img width="103" height="120" src="assets/services/moto-gestion.png?v=1786470500" alt=""></div>
           <div class="service-card-head-text">
             <span class="service-mode">On demand · cobro por km</span>
-            <h3>Moto Gestión</h3>
+            <h3><a href="/gestion-tramites-empresas/">Moto Gestión</a></h3>
             <p class="service-tagline">Tu asistente en terreno para trámites y diligencias.</p>
           </div>
         </div>
@@ -284,7 +307,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
           <div class="service-card-ic"><img width="106" height="120" src="assets/services/moto-corporativo.png?v=1786470500" alt=""></div>
           <div class="service-card-head-text">
             <span class="service-mode">Fijo mensual · exclusivo empresas</span>
-            <h3>Moto Corporativo</h3>
+            <h3><a href="/motorista-corporativo/">Moto Corporativo</a></h3>
             <p class="service-tagline">Un mensajero exclusivo, a disposición de tu empresa.</p>
           </div>
         </div>
@@ -303,7 +326,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
           <div class="service-card-ic"><img width="120" height="106" src="assets/services/moto-financiero.png?v=1786470500" alt=""></div>
           <div class="service-card-head-text">
             <span class="service-mode">On demand · Fijo mensual</span>
-            <h3>Moto Financiero</h3>
+            <h3><a href="/mensajeria-sector-financiero/">Moto Financiero</a></h3>
             <p class="service-tagline">Soluciones en terreno para el sector financiero.</p>
           </div>
         </div>
@@ -1094,6 +1117,6 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 
 <script src="https://unpkg.com/gsap@3.12.7/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
-<script src="js/main.js?v=1786498100"></script>
+<script src="js/main.js?v=1786501200"></script>
 </body>
 </html>
