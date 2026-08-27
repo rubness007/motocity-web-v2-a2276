@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es-CL">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Recursos Comerciales — Motocity</title>
+<meta name="description" content="Presentación comercial y tarifario actualizado de Motocity.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/favicon-32.png?v=1786493500" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/favicon.png?v=1786493500" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png?v=1786493500">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css?v=1786501920">
+
+<!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
+     para no mezclar tráfico de pruebas con los datos reales. -->
+<script>
+if(!/\.netlify\.app$/.test(location.hostname)){
+  var gaScript=document.createElement('script');
+  gaScript.async=true;
+  gaScript.src='https://www.googletagmanager.com/gtag/js?id=G-8DS6V0P03X';
+  document.head.appendChild(gaScript);
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8DS6V0P03X');
+}
+</script>
+
+<style>
+/* Page-scoped — not added to the shared stylesheet since this layout only exists here. */
+.resources-hero{padding:72px 0 40px;text-align:center;background:var(--bg-soft);}
+.resources-hero h1{font-size:clamp(26px,3.4vw,38px);margin-bottom:12px;}
+.resources-hero p{color:var(--ink-soft);font-size:16px;max-width:620px;margin:0 auto;}
+.resources-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;padding:56px 0;}
+@media (max-width:700px){ .resources-grid{grid-template-columns:1fr;} }
+.resource-card{
+  background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);
+  padding:36px 32px;text-align:center;box-shadow:var(--shadow-sm);
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+}
+.resource-card .ic{
+  width:56px;height:56px;border-radius:50%;background:var(--blue-tint);color:var(--blue);
+  display:flex;align-items:center;justify-content:center;flex:none;
+}
+.resource-card .ic svg{width:26px;height:26px;}
+.resource-card h2{font-size:19px;margin:0;}
+.resource-card p{color:var(--ink-soft);font-size:14.5px;line-height:1.5;margin:0;}
+.resource-card .btn{margin-top:6px;}
+.resources-contact{background:var(--blue-dark);color:#fff;padding:56px 0;text-align:center;}
+.resources-contact h2{color:#fff;font-size:22px;margin-bottom:20px;}
+.resources-contact-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:32px;font-size:15px;}
+.resources-contact-grid a{color:#fff;text-decoration:underline;}
+.resources-contact-grid span{color:rgba(255,255,255,0.7);}
+</style>
+</head>
+<body>
+
+<header class="site-header" id="siteHeader">
+  <div class="w nav">
+    <a href="../" class="nav-logo"><img width="516" height="150" src="../assets/logo-header-white.png?v=1786493200" alt="Motocity"></a>
+  </div>
+</header>
+
+<main>
+<section class="resources-hero">
+  <div class="w">
+    <h1>Recursos comerciales Motocity</h1>
+    <p>Descarga la presentación comercial y el tarifario vigente para evaluar nuestros servicios.</p>
+  </div>
+</section>
+
+<section>
+  <div class="w resources-grid">
+    <div class="resource-card">
+      <div class="ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      </div>
+      <h2>Presentación Comercial 2026</h2>
+      <p>Quiénes somos, cómo trabajamos y los servicios de mensajería que ofrecemos para empresas.</p>
+      <a href="/assets/docs/Presentacion_Comercial_Motocity_2026-Q3.pdf" target="_blank" rel="noopener" class="btn btn--primary">Descargar presentación</a>
+    </div>
+    <div class="resource-card">
+      <div class="ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h2"/></svg>
+      </div>
+      <h2>Tarifario 2026</h2>
+      <p>Valores vigentes por servicio: Moto Express, Moto Gestión, Moto Financiero y Moto Corporativo.</p>
+      <a href="/assets/docs/Tarifario_Motocity_2026-Q3.pdf" target="_blank" rel="noopener" class="btn btn--primary">Descargar tarifario</a>
+    </div>
+  </div>
+</section>
+
+<section class="resources-contact">
+  <div class="w">
+    <h2>¿Tienes dudas o quieres coordinar un servicio?</h2>
+    <div class="resources-contact-grid">
+      <a href="https://wa.me/56961455303" target="_blank" rel="noopener">WhatsApp +56 9 6145 5303</a>
+      <a href="mailto:hola@motocity.cl">hola@motocity.cl</a>
+      <span>Guardia Vieja 202, of. 403, Providencia — Santiago de Chile</span>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="w">
+    <div class="footer-bottom">
+      <span>© Motocity 2026 — Todos los derechos reservados.</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
