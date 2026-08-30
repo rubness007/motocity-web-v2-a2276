@@ -681,8 +681,7 @@ section{padding:96px 0;}
 }
 
 /* ============ BILLING CARDS ============ */
-.bcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;transition:transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease;}
-.bcard:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);}
+.bcard{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:32px;}
 .bcard--hi{background:var(--blue-tint);border-color:var(--blue-tint-2);}
 .bcard h3{font-size:20px;margin-bottom:4px;}
 .bcard .tag{margin-bottom:20px;}
@@ -694,7 +693,6 @@ section{padding:96px 0;}
 /* ============ BILLING CARDS — solid variant ============ */
 .bcard--solid{background:var(--blue);border-color:var(--blue);color:#fff;display:flex;flex-direction:column;}
 .bcard-cta{margin-top:auto;padding-top:24px;}
-.bcard--solid:hover{box-shadow:var(--shadow-md);}
 .bcard--solid h3{
   font-size:24px;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;
   text-align:center;color:#fff;margin-bottom:16px;
