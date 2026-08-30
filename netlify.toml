@@ -1,6 +1,14 @@
 [build]
   publish = "."
 
+# The blog moved from /blog/ to /recursos-para-empresas/ (2026-08-29) — permanent redirect so
+# existing search rankings/backlinks/bookmarks to any /blog/* URL keep working instead of 404ing.
+[[redirects]]
+  from = "/blog/*"
+  to = "/recursos-para-empresas/:splat"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
