@@ -378,13 +378,13 @@ function initMotoIconGuard(){
   });
 }
 
-/* Decorative speedometer needle next to the "Trámites y gestiones" heading — sweeps from -90°
-   (far left) to +90° (far right) as the #tramites section scrolls through the viewport (from
-   the moment it first appears at the bottom to the moment it fully exits at the top), using the
-   same GSAP ScrollTrigger already loaded for the hero. No numbers by design — it's a "speed"
-   motif, not a literal gauge reading. */
+/* Decorative speedometer needle next to the "Nos adaptamos a tu operación" heading (Facturación
+   y pagos) — sweeps from -90° (far left) to +90° (far right) as that section scrolls through the
+   viewport (from the moment it first appears at the bottom to the moment it fully exits at the
+   top), using the same GSAP ScrollTrigger already loaded for the hero. No numbers by design —
+   it's a "speed" motif, not a literal gauge reading. */
 function initTramitesGauge(reduced){
-  var section = document.getElementById('tramites');
+  var section = document.querySelector('.billing-section');
   var needles = document.querySelectorAll('.speed-gauge-needle');
   if(!section || !needles.length) return;
   if(reduced || !window.gsap || !window.ScrollTrigger){

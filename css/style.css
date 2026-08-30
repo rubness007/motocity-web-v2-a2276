@@ -187,6 +187,13 @@ section{padding:96px 0;}
 .site-header--hero .btn--secondary:hover{background:#25D366;border-color:#25D366;}
 .site-header--hero .nav-toggle{color:#fff;filter:drop-shadow(0 1px 2px rgba(0,0,0,0.4));}
 .site-header--hero.is-hero-solid{background:#0265bc;}
+/* "Solicitar cotización" in the header starts Motocity blue while the HERO zoom is still
+   playing, then eases to the usual orange once the header settles solid (is-hero-solid,
+   same class/timing initMotocityHeroZoom already toggles for the header background itself). */
+.site-header--hero .nav-cta .btn--primary{background:#0265bc;transition:background-color .4s ease, transform .2s ease;}
+.site-header--hero .nav-cta .btn--primary:hover{background:#0386f9;}
+.site-header--hero.is-hero-solid .nav-cta .btn--primary{background:var(--brasa-500);}
+.site-header--hero.is-hero-solid .nav-cta .btn--primary:hover{background:var(--brasa-400);}
 @media (max-width:860px){
   /* Mobile nav-links panel is an opaque white sheet regardless — transparent/blue header only
      affects the closed top bar, never the open menu, so it stays readable either way. The CTA
@@ -508,11 +515,29 @@ section{padding:96px 0;}
 .service-tagline{font-size:14.5px;font-weight:500;color:var(--blue);margin-bottom:0;}
 .service-desc{font-size:14.5px;color:var(--ink-soft);margin-bottom:20px;}
 .service-card--hi .service-desc{color:rgba(255,255,255,0.75);}
-.service-list{display:flex;flex-direction:column;gap:10px;margin-bottom:34px;font-size:13.5px;}
+.service-list{display:grid;grid-template-columns:repeat(2,1fr);gap:10px 16px;margin-bottom:20px;font-size:13.5px;}
+@media (max-width:420px){ .service-list{grid-template-columns:1fr;} }
 .service-list li{display:flex;gap:9px;align-items:flex-start;}
 .service-list li svg{width:15px;height:15px;flex:none;margin-top:2px;color:var(--orange);}
 .service-card--hi .service-list li svg{color:#f0a583;}
-.service-card .btn{margin-top:auto;align-self:center;}
+.service-list-more{align-items:center;}
+.service-card .btn{margin-top:auto;align-self:center;position:relative;z-index:2;}
+.service-card{cursor:pointer;}
+.service-card h3 a{position:relative;z-index:2;}
+/* "Conocer más" doubles as a stretched-link: its ::after covers the whole card (the
+   nearest position:relative ancestor), so anywhere on the card navigates to the service
+   page — the "Cotizar" button and h3 link stay independently clickable via z-index:2. */
+.service-more{
+  display:inline-flex;align-items:center;gap:3px;
+  color:var(--blue);font-weight:600;font-size:13.5px;text-decoration:none;
+}
+.service-card--hi .service-more{color:#8fc2f5;}
+.service-more svg{width:15px;height:15px;flex:none;color:inherit;transition:transform .15s ease;}
+.service-card:hover .service-more svg{transform:translateX(3px);}
+.service-more::after{content:"";position:absolute;inset:0;z-index:1;}
+@media (prefers-reduced-motion:reduce){
+  .service-more svg{transition:none;}
+}
 .service-card-head{display:flex;align-items:center;gap:16px;margin-bottom:20px;}
 .service-card-ic{
   width:72px;height:72px;border-radius:18px;background:var(--blue);
@@ -669,7 +694,7 @@ section{padding:96px 0;}
 /* ============ BILLING CARDS — solid variant ============ */
 .bcard--solid{background:var(--blue);border-color:var(--blue);color:#fff;display:flex;flex-direction:column;}
 .bcard-cta{margin-top:auto;padding-top:24px;}
-.bcard--solid:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);}
+.bcard--solid:hover{box-shadow:var(--shadow-md);}
 .bcard--solid h3{
   font-size:24px;font-weight:800;text-transform:uppercase;letter-spacing:0.03em;
   text-align:center;color:#fff;margin-bottom:16px;
@@ -709,9 +734,9 @@ section{padding:96px 0;}
   }
 }
 
-/* ============ TRAMITES ============ */
-/* Needle rotation is driven entirely by main.js (ScrollTrigger scrub tied to how far the
-   #tramites section has scrolled through the viewport) — no numbers on the dial on purpose,
+/* ============ SPEED GAUGE (Facturación y pagos) ============ */
+/* Needle rotation is driven entirely by main.js (ScrollTrigger scrub tied to how far
+   .billing-section has scrolled through the viewport) — no numbers on the dial on purpose,
    it's a decorative "speed" motif, not a literal reading. Ticks/needle all rotate via the same
    `rotate(angle 100 100)` SVG transform (not CSS transform-origin), so they stay perfectly
    concentric with the arc regardless of any CSS scaling applied to the SVG box itself.
@@ -721,7 +746,7 @@ section{padding:96px 0;}
    space past .section-head's 600px-wide text column; below that breakpoint there's no
    room to float it beside the text, so a second, smaller copy of the gauge (same SVG,
    `.speed-gauge--mobile`) sits as the very first element in .section-head instead,
-   appearing above the "Trámites y gestiones" eyebrow. main.js drives every element
+   appearing above the "Facturación y pagos" eyebrow. main.js drives every element
    matching .speed-gauge-needle, so both copies' needles stay in sync. */
 .speed-gauge{display:inline-flex;}
 .speed-gauge--float{
@@ -828,6 +853,21 @@ section{padding:96px 0;}
 }
 .side-drawer--left{left:0;transform:translateX(-100%);}
 .side-drawer--right{right:0;transform:translateX(100%);}
+.side-drawer--wide{width:min(720px,100%);}
+/* Inside a drawer, the trámites categories stay accordion-collapsed regardless of viewport
+   width (unlike the same markup used inline on the page, where the accordion only kicks in
+   on narrow screens — see the plain .tramites-cat rules above) since the drawer itself is
+   already a fixed ~560-720px column no matter how wide the browser window is. */
+.side-drawer .tramites-grid{grid-template-columns:1fr;gap:0;margin-top:8px;}
+.side-drawer .tramites-cat{border-bottom:1px solid var(--border);}
+.side-drawer .tramites-cat-toggle{
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  cursor:pointer;margin-bottom:0;padding:14px 0;
+}
+.side-drawer .tramites-cat-arrow{display:block;}
+.side-drawer .tramites-cat.is-open .tramites-cat-arrow{transform:rotate(180deg);}
+.side-drawer .tramites-cat ul{display:none;padding-bottom:16px;}
+.side-drawer .tramites-cat.is-open ul{display:flex;}
 .side-drawer.is-open{transform:translateX(0);}
 .side-drawer h2{font-size:clamp(24px,3vw,30px);margin:12px 0 18px;}
 .side-drawer p{font-size:15.5px;color:var(--ink-soft);margin-bottom:20px;line-height:1.6;}
@@ -1395,4 +1435,28 @@ body{overflow-x:hidden;}
 
 @media (prefers-reduced-motion:reduce){
   .service-card,.bcard--solid,.testi,.drawer-teaser,.feature--row .ic{transition:none;}
+}
+
+/* ---- Homepage: "Recursos para empresas" teaser (between #contacto and the footer) ---- */
+.resources-teaser{padding:96px 0;background:var(--bg-soft);}
+@media (max-width:860px){ .resources-teaser{padding:64px 0;} }
+.resources-teaser-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:center;}
+@media (max-width:900px){ .resources-teaser-grid{grid-template-columns:1fr;gap:32px;} }
+.resources-teaser-copy h2{font-size:clamp(24px,2.8vw,32px);margin:10px 0 14px;}
+.resources-teaser-copy p{color:var(--ink-soft);font-size:16px;line-height:1.6;margin-bottom:26px;max-width:420px;}
+.resources-teaser-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+@media (max-width:700px){ .resources-teaser-cards{grid-template-columns:1fr;} }
+.resources-teaser-card{
+  position:relative;display:block;aspect-ratio:1.6/1;border-radius:var(--radius-md);
+  overflow:hidden;box-shadow:var(--shadow-sm);transition:transform .2s ease,box-shadow .2s ease;
+}
+.resources-teaser-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.resources-teaser-card img{width:100%;height:100%;object-fit:cover;display:block;}
+.resources-teaser-card span{
+  position:absolute;left:0;right:0;bottom:0;padding:14px 14px 12px;
+  background:linear-gradient(to top, rgba(6,20,40,0.82), transparent);
+  color:#fff;font-size:13px;font-weight:600;line-height:1.35;
+}
+@media (prefers-reduced-motion:reduce){
+  .resources-teaser-card{transition:none;}
 }

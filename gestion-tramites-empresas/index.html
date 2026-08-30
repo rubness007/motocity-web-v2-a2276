@@ -93,7 +93,7 @@ if(/\.netlify\.app$/.test(location.hostname)){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=1786501800">
+<link rel="stylesheet" href="../css/style.css?v=1786521300">
 
 <!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
      para no mezclar tráfico de pruebas con los datos reales. -->
@@ -208,7 +208,16 @@ if(!/\.netlify\.app$/.test(location.hostname)){
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Entrega de propuestas y documentos de licitación</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l5 5L20 7"/></svg>Distribución de documentación entre clientes y proveedores</li>
     </ul>
-    
+    <button type="button" class="drawer-teaser" data-drawer-open="tramites-drawer" style="margin-top:24px;">
+      <div class="drawer-teaser-ic">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2h6a1 1 0 0 1 1 1v2H8V3a1 1 0 0 1 1-1Z"/><path d="M6 6h12v14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V6Z"/><path d="M9 12h6M9 16h6"/></svg>
+      </div>
+      <div class="drawer-teaser-text">
+        <h3>Listado completo de trámites y gestiones</h3>
+        <p>Legales, bancarios, administrativos, comerciales, corporativos y de logística.</p>
+      </div>
+      <svg class="drawer-teaser-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
   </div>
 </section>
 
@@ -294,6 +303,124 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 </section>
 </article>
 </main>
+
+<div class="drawer-overlay" id="drawerOverlay" data-drawer-close></div>
+
+<aside class="side-drawer side-drawer--right side-drawer--wide" id="tramites-drawer" aria-hidden="true">
+  <button type="button" class="side-drawer-close" data-drawer-close aria-label="Cerrar">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <span class="eyebrow">Trámites y gestiones</span>
+  <h2>Gestiones que resolvemos</h2>
+  <p>Gestionamos en terreno lo que tu empresa necesita resolver. Toca cada categoría para ver el detalle.</p>
+  <div class="tramites-grid">
+    <div class="tramites-cat">
+      <h3 class="tramites-cat-toggle"><span class="tramites-num">1.</span> Legales y notariales<svg class="tramites-cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></h3>
+      <ul>
+        <li>Retiro y entrega de escrituras y documentos notariales</li>
+        <li>Protocolización y legalización de documentos</li>
+        <li>Gestión de poderes notariales</li>
+        <li>Firma, retiro y entrega de documentos legales</li>
+        <li>Entrega de cartas y documentación certificada</li>
+        <li>Gestiones ante notarías y conservadores</li>
+      </ul>
+    </div>
+    <div class="tramites-cat">
+      <h3 class="tramites-cat-toggle"><span class="tramites-num">2.</span> Bancarios y financieros<svg class="tramites-cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></h3>
+      <ul>
+        <li>Obtención de firmas de clientes</li>
+        <li>Firma y entrega de contratos y documentación financiera</li>
+        <li>Entrega de kits y productos bancarios</li>
+        <li>Verificación de domicilio</li>
+        <li>Comprobación de identidad</li>
+        <li>Retiro de documentación firmada</li>
+        <li>Depósito y retiro de cheques y vale vistas</li>
+        <li>Entrega y retiro de documentación confidencial</li>
+      </ul>
+    </div>
+    <div class="tramites-cat">
+      <h3 class="tramites-cat-toggle"><span class="tramites-num">3.</span> Administrativos y organismos públicos<svg class="tramites-cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></h3>
+      <ul>
+        <li>Gestiones ante SII, Aduanas, SAG, Seremi, SOFOFA, CCS y CBRS</li>
+        <li>Tramitación de permisos y documentación municipal</li>
+        <li>Apostillamiento, certificación y legalización de documentos</li>
+        <li>Canje y retiro de documentación</li>
+        <li>Entrega y retiro de documentación contable y tributaria</li>
+        <li>Presentación y retiro de documentos ante organismos públicos y privados</li>
+      </ul>
+    </div>
+    <div class="tramites-cat">
+      <h3 class="tramites-cat-toggle"><span class="tramites-num">4.</span> Operaciones Comerciales<svg class="tramites-cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></h3>
+      <ul>
+        <li>Entrega y retiro de contratos y acuerdos comerciales</li>
+        <li>Distribución de documentación a clientes y proveedores</li>
+        <li>Gestiones documentales para licitaciones</li>
+        <li>Entrega y retiro de propuestas comerciales</li>
+        <li>Retiro de órdenes de compra y documentación</li>
+        <li>Entrega de muestras y material comercial</li>
+        <li>Gestiones presenciales con clientes y proveedores</li>
+      </ul>
+    </div>
+    <div class="tramites-cat">
+      <h3 class="tramites-cat-toggle"><span class="tramites-num">5.</span> Corporativos y soporte operacional<svg class="tramites-cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></h3>
+      <ul>
+        <li>Distribución de materiales e insumos de oficina</li>
+        <li>Distribución interna de correspondencia y documentación</li>
+        <li>Entrega de documentación entre oficinas y sucursales</li>
+        <li>Entrega y recuperación de equipos de colaboradores</li>
+        <li>Entrega de kits de bienvenida y materiales de onboarding y EEPP</li>
+        <li>Distribución de credenciales, uniformes y elementos corporativos</li>
+        <li>Traslado de documentación de RR.HH.</li>
+      </ul>
+    </div>
+    <div class="tramites-cat">
+      <h3 class="tramites-cat-toggle"><span class="tramites-num">6.</span> Logística y gestiones especiales<svg class="tramites-cat-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></h3>
+      <ul>
+        <li>Entrega y retiro de documentación médica</li>
+        <li>Documentación académica y universitaria</li>
+        <li>Gestiones para corredoras de propiedades y empresas inmobiliarias</li>
+        <li>Retiro y entrega de llaves</li>
+        <li>Traslado de documentación o elementos entre múltiples puntos</li>
+        <li>Rutas programadas de retiro y distribución</li>
+        <li>Diligencias especiales que requieran retiro, traslado, entrega o gestión en terreno</li>
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<section class="resources-teaser">
+  <div class="w resources-teaser-grid">
+    <div class="resources-teaser-copy rv">
+      <span class="eyebrow">RECURSOS PARA EMPRESAS</span>
+      <h2>Recursos para empresas</h2>
+      <p>Guías prácticas sobre mensajería corporativa, gestión de trámites y logística para empresas en Santiago.</p>
+      <a href="/recursos-para-empresas/" class="btn btn--blue">Ver todos los recursos</a>
+    </div>
+    <div class="resources-teaser-cards rv">
+      <a class="resources-teaser-card" href="/recursos-para-empresas/tecnologia-cambio-mensajeria-corporativa/">
+        <picture>
+          <source srcset="/assets/blog/tecnologia-cambio-mensajeria-corporativa-thumb.webp?v=1786520200" type="image/webp">
+          <img src="/assets/blog/tecnologia-cambio-mensajeria-corporativa-thumb.jpg?v=1786520200" alt="Mensajero de Motocity en una oficina tecnológica moderna" width="880" height="550" loading="lazy" decoding="async">
+        </picture>
+        <span>Cómo la tecnología cambió la mensajería corporativa</span>
+      </a>
+      <a class="resources-teaser-card" href="/recursos-para-empresas/cobertura-mensajeria-comunas-santiago/">
+        <picture>
+          <source srcset="/assets/blog/cobertura-mensajeria-comunas-santiago-thumb.webp?v=1786520200" type="image/webp">
+          <img src="/assets/blog/cobertura-mensajeria-comunas-santiago-thumb.jpg?v=1786520200" alt="Mensajero de Motocity con vista a la cordillera de Santiago" width="880" height="550" loading="lazy" decoding="async">
+        </picture>
+        <span>Cobertura de mensajería en la Región Metropolitana</span>
+      </a>
+      <a class="resources-teaser-card" href="/recursos-para-empresas/como-elegir-empresa-mensajeria-corporativa-santiago/">
+        <picture>
+          <source srcset="/assets/blog/como-elegir-empresa-mensajeria-corporativa-santiago-thumb.webp?v=1786520200" type="image/webp">
+          <img src="/assets/blog/como-elegir-empresa-mensajeria-corporativa-santiago-thumb.jpg?v=1786520200" alt="Mensajero de Motocity con el pulgar en alto en una recepción corporativa" width="880" height="550" loading="lazy" decoding="async">
+        </picture>
+        <span>¿Cómo elegir una empresa de mensajería corporativa?</span>
+      </a>
+    </div>
+  </div>
+</section>
 <footer class="site-footer">
   <div class="w">
     <div class="footer-grid">
@@ -367,6 +494,6 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 
 <script src="https://unpkg.com/gsap@3.12.7/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
-<script src="../js/main.js?v=1786501920"></script>
+<script src="../js/main.js?v=1786520900"></script>
 </body>
 </html>
