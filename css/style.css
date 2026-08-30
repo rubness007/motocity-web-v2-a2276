@@ -502,8 +502,8 @@ section{padding:96px 0;}
   padding:30px;display:flex;flex-direction:column;position:relative;
   transition:transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s ease, border-color .25s ease;
 }
-.service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-md);border-color:var(--ink-faint);}
-.service-card--hi:hover{border-color:var(--blue-darker);}
+.service-card:hover{transform:translateY(-6px);border-color:var(--brasa-400);}
+.service-card--hi:hover{border-color:var(--brasa-400);}
 .service-card--hi{background:var(--blue-darker);border-color:var(--blue-darker);color:#fff;}
 .service-card--hi h3,.service-card--hi .service-tagline{color:#fff;}
 .service-mode{font-size:12px;font-weight:600;color:var(--blue);text-transform:uppercase;letter-spacing:0.04em;margin-bottom:6px;display:block;}
@@ -938,7 +938,7 @@ section{padding:96px 0;}
    driven by initRevealText() in main.js (GSAP ScrollTrigger scrub), not a CSS transition,
    since the "wipe" position must track scroll position exactly rather than run on a timer. */
 .rt-word{opacity:0.25;}
-.about-signature{display:block;height:52px;width:auto;margin-top:18px;opacity:0.85;}
+.about-signature{display:block;height:64px;width:auto;margin-top:18px;opacity:0.9;}
 @media (max-width:860px){ .about-signature{margin-left:auto;margin-right:auto;} }
 
 /* ============ FORM ============ */
@@ -1155,7 +1155,7 @@ body{overflow-x:hidden;}
   box-shadow:var(--card-shadow-rest);
   background:linear-gradient(180deg,#fff,var(--surf-1) 180%);
 }
-.service-card:hover{box-shadow:var(--card-shadow-hover);}
+.service-card:hover{box-shadow:var(--card-shadow-hover),0 0 0 2px var(--brasa-400);}
 .service-card--hi{
   background:linear-gradient(155deg,var(--blue-darker),var(--surf-dark-2) 140%);
   z-index:0;
@@ -1436,8 +1436,10 @@ body{overflow-x:hidden;}
 }
 
 /* ---- Homepage: "Recursos para empresas" teaser (between #contacto and the footer) ---- */
-.resources-teaser{padding:96px 0;background:var(--bg-soft);}
-@media (max-width:860px){ .resources-teaser{padding:64px 0;} }
+.resources-teaser{padding:56px 0;background:var(--bg-soft);}
+@media (max-width:860px){ .resources-teaser{padding:40px 0;} }
+#mas-info{padding:48px 0;}
+@media (max-width:860px){ #mas-info{padding:32px 0;} }
 .resources-teaser-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:center;}
 @media (max-width:900px){ .resources-teaser-grid{grid-template-columns:1fr;gap:32px;} }
 .resources-teaser-copy h2{font-size:clamp(24px,2.8vw,32px);margin:10px 0 14px;}
@@ -1458,3 +1460,16 @@ body{overflow-x:hidden;}
 @media (prefers-reduced-motion:reduce){
   .resources-teaser-card{transition:none;}
 }
+
+/* ---- Site-wide WhatsApp buttons: green on hover + a chat icon ---- */
+/* Placed at the end of the stylesheet so it wins over every .btn variant's own :hover
+   background (equal specificity, source order decides) without needing !important. Only adds
+   the icon via ::before when the button doesn't already carry its own inline <svg> (the two big
+   CTAs on /contacto/ already ship one) — avoids a duplicate icon there. */
+.btn[href^="https://wa.me/"]:not(:has(svg))::before{
+  content:"";width:16px;height:16px;flex:none;background-color:currentColor;
+  -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2Z'/%3E%3C/svg%3E");
+  mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.46 1.32 4.96L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2Z'/%3E%3C/svg%3E");
+  -webkit-mask-size:contain;mask-size:contain;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+}
+.btn[href^="https://wa.me/"]:hover{background:#25D366;border-color:#25D366;color:#fff;}
