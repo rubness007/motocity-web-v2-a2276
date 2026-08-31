@@ -30,7 +30,7 @@ if(/\.netlify\.app$/.test(location.hostname)){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=1786534000">
+<link rel="stylesheet" href="../css/style.css?v=1786582000">
 
 <!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
      para no mezclar tráfico de pruebas con los datos reales. -->
@@ -89,7 +89,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
       <a href="/contacto/" class="btn btn--primary">Solicitar cotización</a>
     </div>
     <button class="nav-toggle" aria-label="Abrir menú">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path class="nav-toggle-line nav-toggle-line--top" d="M4 7h16"/><path class="nav-toggle-line nav-toggle-line--mid" d="M4 12h16"/><path class="nav-toggle-line nav-toggle-line--bottom" d="M4 17h16"/></svg>
     </button>
   </div>
 </header>
@@ -200,6 +200,6 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 
 <script src="https://unpkg.com/gsap@3.12.7/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
-<script src="../js/main.js?v=1786520900"></script>
+<script src="../js/main.js?v=1786580000"></script>
 </body>
 </html>

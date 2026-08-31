@@ -1,9 +1,28 @@
 (function(){
+  // Keep the mobile menu sheet's top offset locked to the header's REAL measured height
+  // (via --header-h) instead of a hardcoded px value. A fixed value can drift out of sync with
+  // the actual header on real phones — e.g. iOS Safari's address bar collapsing/expanding
+  // mid-scroll reflows the fixed header — which was clipping the first menu item ("Servicios")
+  // behind the header when the menu opened at just the wrong moment.
+  var siteHeader = document.getElementById('siteHeader');
+  if(siteHeader){
+    var syncHeaderHeight = function(){
+      document.documentElement.style.setProperty('--header-h', siteHeader.offsetHeight + 'px');
+    };
+    syncHeaderHeight();
+    if('ResizeObserver' in window){
+      new ResizeObserver(syncHeaderHeight).observe(siteHeader);
+    } else {
+      window.addEventListener('resize', syncHeaderHeight);
+    }
+  }
+
   var toggle = document.querySelector('.nav-toggle');
   var links = document.querySelector('.nav-links');
   if(toggle && links){
     var setNavState = function(open){
       links.classList.toggle('open', open);
+      toggle.classList.toggle('is-open', open);
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
     };

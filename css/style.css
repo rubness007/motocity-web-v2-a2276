@@ -203,11 +203,18 @@ section{padding:96px 0;}
 .nav-cta{display:flex;align-items:center;gap:12px;}
 .nav-toggle{display:none;background:none;border:none;padding:8px;}
 .nav-toggle svg{width:24px;height:24px;}
+.nav-toggle-line{
+  transform-origin:12px 12px;transform-box:view-box;
+  transition:transform .38s cubic-bezier(.22,.61,.36,1), opacity .28s ease;
+}
+.nav-toggle.is-open .nav-toggle-line--top{transform:translateY(5px) rotate(45deg);}
+.nav-toggle.is-open .nav-toggle-line--mid{opacity:0;}
+.nav-toggle.is-open .nav-toggle-line--bottom{transform:translateY(-5px) rotate(-45deg);}
 .nav-cta-mobile{display:none;}
 @media (max-width:860px){
   .nav-cta-mobile{display:inline-flex;}
   .nav-links{
-    position:fixed;top:76px;left:0;right:0;bottom:0;
+    position:fixed;top:var(--header-h,76px);left:0;right:0;bottom:0;
     background:#fff;flex-direction:column;align-items:flex-start;
     padding:28px 24px;gap:22px;transform:translateX(100%);
     transition:transform .25s ease;overflow-y:auto;
@@ -522,6 +529,18 @@ section{padding:96px 0;}
 .service-card--hi .service-list li svg{color:#f0a583;}
 .service-list-more{align-items:center;}
 .service-card .btn{margin-top:auto;align-self:center;position:relative;z-index:2;}
+.service-card-actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:auto;}
+.service-card-actions .btn{margin-top:0;align-self:auto;}
+/* "Ver más Info." — translucent glass button that sits to the left of "Cotizar" on
+   every service card; base look tuned for the light cards, .service-card--hi overrides
+   it below for the dark Corporativo card so it still reads as frosted glass there. */
+.btn--glass{
+  background:rgba(255,255,255,0.55);border-color:rgba(15,32,60,0.14);color:var(--ink);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+}
+.btn--glass:hover{background:rgba(255,255,255,0.85);transform:translateY(-2px);}
+.service-card--hi .btn--glass{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.35);color:#fff;}
+.service-card--hi .btn--glass:hover{background:rgba(255,255,255,0.24);}
 .service-card{cursor:pointer;}
 .service-card h3 a{position:relative;z-index:2;}
 /* "Conocer más" doubles as a stretched-link: its ::after covers the whole card (the
@@ -1436,10 +1455,25 @@ body{overflow-x:hidden;}
 }
 
 /* ---- Homepage: "Recursos para empresas" teaser (between #contacto and the footer) ---- */
-.resources-teaser{padding:56px 0;background:var(--bg-soft);}
+.resources-teaser{padding:56px 0;background:var(--bg);position:relative;z-index:0;}
 @media (max-width:860px){ .resources-teaser{padding:40px 0;} }
-#mas-info{padding:48px 0;}
-@media (max-width:860px){ #mas-info{padding:32px 0;} }
+.resources-teaser::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(circle,var(--dot-lt) 1px,transparent 1.6px);
+  background-size:28px 28px;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 85%,transparent);
+  mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 85%,transparent);
+}
+#mas-info{position:relative;z-index:0;background:var(--surf-2);}
+#mas-info::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  background-image:radial-gradient(circle,rgba(193,95,60,0.14) 1px,transparent 1.6px);
+  background-size:28px 28px;
+  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 85%,transparent);
+  mask-image:linear-gradient(to bottom,transparent,#000 15%,#000 85%,transparent);
+}
+#mas-info{padding:55px 0;}
+@media (max-width:860px){ #mas-info{padding:37px 0;} }
 .resources-teaser-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:56px;align-items:center;}
 @media (max-width:900px){ .resources-teaser-grid{grid-template-columns:1fr;gap:32px;} }
 .resources-teaser-copy h2{font-size:clamp(24px,2.8vw,32px);margin:10px 0 14px;}
