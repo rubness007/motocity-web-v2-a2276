@@ -1053,7 +1053,9 @@ section{padding:96px 0;}
 .article-meta{color:var(--ink-faint);font-size:14px;margin-bottom:36px;}
 .article-page h2{font-size:22px;margin:36px 0 12px;color:var(--blue-dark);}
 .article-page p,.article-page li{color:var(--ink-soft);font-size:16px;line-height:1.75;}
-.article-page ul{margin:0 0 16px 20px;}
+.article-page ul,.article-page ol{margin:0 0 16px 20px;}
+.article-page h3{font-size:18px;margin:24px 0 8px;color:var(--ink);}
+.article-page h2 + h3{margin-top:12px;}
 .article-page li{margin-bottom:6px;}
 .article-page p a,.article-page li a{color:var(--blue);text-decoration:underline;}
 .article-cta .btn{color:#fff;}
