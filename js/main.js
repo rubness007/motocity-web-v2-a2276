@@ -68,7 +68,13 @@
     trigger.setAttribute('aria-expanded', 'false');
     trigger.addEventListener('click', function(e){
       e.stopPropagation();
-      if(heroLocked){
+      // The HERO lock only makes sense on the desktop floating dropdown, which would otherwise
+      // pop open over the still-animating HERO photo. Inside the mobile slide-out sheet the HERO
+      // is already fully covered, so locking it there just made "Servicios" silently jump the
+      // hash instead of expanding — the accordion looked broken and needed a second tap once the
+      // HERO happened to finish. Skip the lock whenever the mobile sheet layout is active.
+      var mobileMenuActive = window.matchMedia('(max-width:860px)').matches;
+      if(heroLocked && !mobileMenuActive){
         // The dropdown itself stays locked during the HERO zoom, but "Servicios" should still
         // act like the plain "#servicios" link it replaced — jump the hash so the browser's own
         // native anchor navigation handles it exactly as it always did, instead of computing the
