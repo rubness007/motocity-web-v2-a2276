@@ -163,6 +163,11 @@ section{padding:96px 0;}
      dark text there even though the closed top bar is blue with white text. The CTA button
      inside this menu is excluded — it must always keep its own white-on-orange styling. */
   .site-header .nav-links a:not(.btn),.site-header .nav-mega-trigger{color:var(--ink-soft);}
+  /* Touch devices keep an element in :hover state after a tap until you tap elsewhere,
+     which was matching the desktop-only ":hover{color:#fff}" rule above and rendering
+     "Servicios" in white on this panel's white background — invisible but still there. */
+  .site-header .nav-links a:not(.btn):hover,.site-header .nav-links a:not(.btn).active,
+  .site-header .nav-mega-trigger:hover,.site-header .nav-mega-trigger.active{color:var(--ink-soft);opacity:1;}
 }
 
 /* Homepage-only header treatment: starts fully transparent with white text/logo over the
@@ -205,17 +210,28 @@ section{padding:96px 0;}
      affects the closed top bar, never the open menu, so it stays readable either way. The CTA
      button inside this menu is excluded — it must always keep its own white-on-orange styling. */
   .site-header--hero .nav-links a:not(.btn),.site-header--hero .nav-mega-trigger{color:var(--ink-soft);text-shadow:none;}
+  .site-header--hero .nav-links a:not(.btn):hover,.site-header--hero .nav-links a:not(.btn).active,
+  .site-header--hero .nav-mega-trigger:hover,.site-header--hero .nav-mega-trigger.active{color:var(--ink-soft);opacity:1;text-shadow:none;}
 }
 .nav-cta{display:flex;align-items:center;gap:12px;}
 .nav-toggle{display:none;background:none;border:none;padding:8px;}
-.nav-toggle svg{width:24px;height:24px;}
-.nav-toggle-line{
-  transform-origin:12px 12px;transform-box:view-box;
+/* Plain <span> bars instead of SVG lines: transform-origin defaults to each
+   element's own border-box center everywhere, so this animates identically
+   across browsers. An earlier SVG version relied on transform-box:view-box,
+   which iOS Safari renders inconsistently (each line rotates around its own
+   path bbox instead of the icon center, producing a skewed, off-axis "X"). */
+.nav-toggle-bars{position:relative;display:block;width:22px;height:16px;}
+.nav-toggle-bar{
+  position:absolute;left:0;width:100%;height:2px;border-radius:1px;
+  background:currentColor;transform-origin:center;
   transition:transform .38s cubic-bezier(.22,.61,.36,1), opacity .28s ease;
 }
-.nav-toggle.is-open .nav-toggle-line--top{transform:translateY(5px) rotate(45deg);}
-.nav-toggle.is-open .nav-toggle-line--mid{opacity:0;}
-.nav-toggle.is-open .nav-toggle-line--bottom{transform:translateY(-5px) rotate(-45deg);}
+.nav-toggle-bar--top{top:0;}
+.nav-toggle-bar--mid{top:7px;}
+.nav-toggle-bar--bottom{top:14px;}
+.nav-toggle.is-open .nav-toggle-bar--top{transform:translateY(7px) rotate(45deg);}
+.nav-toggle.is-open .nav-toggle-bar--mid{opacity:0;}
+.nav-toggle.is-open .nav-toggle-bar--bottom{transform:translateY(-7px) rotate(-45deg);}
 .nav-cta-mobile{display:none;}
 @media (max-width:860px){
   .nav-cta-mobile{display:inline-flex;}
