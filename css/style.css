@@ -213,7 +213,7 @@ section{padding:96px 0;}
   .site-header--hero .nav-links a:not(.btn):hover,.site-header--hero .nav-links a:not(.btn).active,
   .site-header--hero .nav-mega-trigger:hover,.site-header--hero .nav-mega-trigger.active{color:var(--ink-soft);opacity:1;text-shadow:none;}
 }
-.nav-cta{display:flex;align-items:center;gap:12px;}
+.nav-cta{display:flex;align-items:center;gap:12px;margin-left:32px;}
 .nav-toggle{display:none;background:none;border:none;padding:8px;}
 /* Plain <span> bars instead of SVG lines: transform-origin defaults to each
    element's own border-box center everywhere, so this animates identically
@@ -244,6 +244,7 @@ section{padding:96px 0;}
   .nav-links.open{transform:translateX(0);}
   .nav-links a:not(.btn), .nav-mega-trigger{font-size:17px;}
   .nav-links .nav-cta-mobile{margin-top:12px;width:100%;}
+  .nav-links a:not(.btn) + .nav-cta-mobile{margin-top:26px;}
   .nav-cta{display:none;}
   .nav-toggle{display:flex;}
 }
@@ -518,9 +519,9 @@ section{padding:96px 0;}
   transform:translateY(-6px);
 }
 @media (max-width:900px){ .platform-shot{max-width:520px;} }
-.moto-scroll-track{position:relative;height:56px;margin-top:24px;overflow:hidden;}
+.moto-scroll-track{position:relative;height:76px;margin-top:24px;overflow:hidden;}
 .moto-scroll-icon{
-  position:absolute;top:50%;left:0;width:72px;height:auto;
+  position:absolute;top:50%;left:0;width:100px;height:auto;
   transform:translateY(-50%);opacity:0.92;
   filter:drop-shadow(0 6px 14px rgba(0,0,0,0.3));
 }
