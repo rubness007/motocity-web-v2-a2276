@@ -212,7 +212,7 @@ function initLandingForms(){
         body: body
       }).then(function(res){
         if(!res.ok) throw new Error('bad status');
-        form.innerHTML = '<p class="form-success">¡Gracias! Nuestro equipo comercial se pondrá en contacto contigo a la brevedad.</p>';
+        form.innerHTML = '<p class="form-success">¡Gracias! Nuestro equipo comercial se pondrá en contacto contigo a la brevedad. Mientras tanto, puedes revisar todos nuestros servicios en <a href="https://www.motocity.cl">www.motocity.cl</a>.</p>';
       }).catch(function(){
         if(btn){ btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
         form.insertAdjacentHTML('beforeend', '<p class="form-error">No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.</p>');
