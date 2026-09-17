@@ -94,7 +94,7 @@ if(/\.netlify\.app$/.test(location.hostname)){
       "@type": "Service",
       "@id": "https://www.motocity.cl/#express",
       "name": "Moto Express",
-      "description": "Envíos urgentes con prioridad máxima para empresas: despacho de sobres, paquetes o artículos con confirmación fotográfica y seguimiento por estado.",
+      "description": "Envíos urgentes con máxima prioridad para empresas: despacho de sobres, paquetes o artículos con confirmación fotográfica y seguimiento por estado.",
       "provider": { "@id": "https://www.motocity.cl/#organization" },
       "areaServed": "Región Metropolitana de Santiago, Chile",
       "serviceType": "Mensajería urgente",
@@ -137,7 +137,7 @@ if(/\.netlify\.app$/.test(location.hostname)){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css?v=1786910000">
+<link rel="stylesheet" href="css/style.css?v=1786940000">
 
 <!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
      para no mezclar tráfico de pruebas con los datos reales. -->
@@ -168,24 +168,24 @@ if(!/\.netlify\.app$/.test(location.hostname)){
         <div class="nav-mega-panel" id="megaServicios">
         <a href="/mensajeria-express-santiago/" class="nav-mega-item">
           <span class="nav-mega-item-title">Moto Express</span>
-          <span class="nav-mega-item-desc">Envíos urgentes dentro de Santiago, con prioridad máxima.</span>
+          <span class="nav-mega-item-desc">Envíos urgentes dentro de Santiago, con máxima prioridad.</span>
         </a>
         <a href="/gestion-tramites-empresas/" class="nav-mega-item">
           <span class="nav-mega-item-title">Moto Gestión</span>
           <span class="nav-mega-item-desc">Trámites y diligencias resueltos en terreno.</span>
         </a>
-        <a href="/motorista-corporativo/" class="nav-mega-item">
-          <span class="nav-mega-item-title">Moto Corporativo</span>
-          <span class="nav-mega-item-desc">Un motorista dedicado para tu empresa.</span>
-        </a>
         <a href="/mensajeria-sector-financiero/" class="nav-mega-item">
           <span class="nav-mega-item-title">Moto Financiero</span>
           <span class="nav-mega-item-desc">Operaciones presenciales para bancos y financieras.</span>
         </a>
+        <a href="/motorista-corporativo/" class="nav-mega-item">
+          <span class="nav-mega-item-title">Moto Corporativo</span>
+          <span class="nav-mega-item-desc">Un motorista dedicado para tu empresa.</span>
+        </a>
         </div>
       </div>
       <a href="#tecnologia">Tecnología</a>
-      <a href="#somos">Quienes somos</a>
+      <a href="#somos">Nosotros</a>
       <a href="#cobertura">Cobertura</a>
       <a href="/contacto/">Contacto</a>
       <a href="https://wa.me/56961455303" target="_blank" rel="noopener" class="btn btn--primary nav-cta-mobile">Hablar por WhatsApp</a>
@@ -271,7 +271,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
           <div class="service-card-head-text">
             <span class="service-mode">On demand · cobro por km</span>
             <h3><a href="/mensajeria-express-santiago/">Moto Express</a></h3>
-            <p class="service-tagline">Envíos urgentes con prioridad máxima.</p>
+            <p class="service-tagline">Envíos urgentes con máxima prioridad.</p>
           </div>
         </div>
         <p class="service-desc">La solución más rápida para el despacho de sobres, paquetes o artículos olvidados en la Región Metropolitana, con confirmación fotográfica y seguimiento por estado.</p>
@@ -512,7 +512,10 @@ if(!/\.netlify\.app$/.test(location.hostname)){
         </div>
       </div>
       <div class="platform-shot rv">
-        <img width="1200" height="868" loading="lazy" decoding="async" src="assets/platform/dashboard-screenshot.jpg?v=1786472000" alt="Panel de administración Motocity, con listado de servicios, clientes, conductores y estado de cada envío">
+        <picture>
+          <source srcset="assets/platform/plataforma-motocity-laptop.webp?v=1786940000" type="image/webp">
+          <img width="1280" height="768" loading="lazy" decoding="async" src="assets/platform/plataforma-motocity-laptop.png?v=1786940000" alt="Plataforma Motocity en un laptop, con listado de servicios, clientes, conductores y estado de cada envío">
+        </picture>
       </div>
     </div>
     <div class="moto-scroll-track" aria-hidden="true">
@@ -521,7 +524,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
   </div>
 </section>
 
-<!-- ============ QUIENES SOMOS ============ -->
+<!-- ============ NOSOTROS ============ -->
 <section id="somos" class="about">
   <div class="w about-grid">
     <div class="about-photo rv">
@@ -529,7 +532,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
       <div class="about-stamp"><strong data-counter-to="12">+12</strong><span>AÑOS</span></div>
     </div>
     <div class="about-copy rv">
-      <span class="eyebrow">Quienes somos</span>
+      <span class="eyebrow">Nosotros</span>
       <div class="reveal-copy">
         <p>En Motocity somos especialistas en mensajería urgente para empresas, con más de 12 años de experiencia ofreciendo soluciones rápidas, seguras y confiables con cobertura en toda la Región Metropolitana.</p>
         <p>Nos especializamos en el transporte de paquetería, documentación sensible y en la gestión ágil de trámites críticos, ayudando a las empresas a optimizar tiempos operativos y enfocarse en lo que realmente importa: su core business.</p>
@@ -941,7 +944,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
           <li><a href="#">Inicio</a></li>
           <li><a href="#servicios">Servicios</a></li>
           <li><a href="#tecnologia">Tecnología</a></li>
-          <li><a href="#somos">Quienes somos</a></li>
+          <li><a href="#somos">Nosotros</a></li>
           <li><a href="#cobertura">Cobertura</a></li>
           <li><a href="#" data-drawer-open="reclutamiento-drawer">Trabaja con nosotros</a></li>
           <li><a href="/contacto/">Contacto</a></li>
@@ -955,9 +958,9 @@ if(!/\.netlify\.app$/.test(location.hostname)){
         <ul>
           <li><a href="#express">Moto Express</a></li>
           <li><a href="#gestion">Moto Gestión</a></li>
-          <li><a href="#corporativo">Moto Corporativo</a></li>
           <li><a href="#financiero">Moto Financiero</a></li>
-        </ul>
+        <li><a href="#corporativo">Moto Corporativo</a></li>
+          </ul>
       </div>
       <div class="footer-col">
         <h5>Contacto</h5>
