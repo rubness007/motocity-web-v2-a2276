@@ -127,6 +127,7 @@
     function(){ initCounters(reduced); },
     function(){ initBackToTop(); },
     function(){ initQuoteForm(); },
+    function(){ initLandingForms(); },
     function(){ initWhatsAppFloat(); }
   ].forEach(function(fn){ deferNonCritical(fn); });
 })();
@@ -188,6 +189,34 @@ function initQuoteForm(){
     }).catch(function(){
       if(btn){ btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
       area.insertAdjacentHTML('beforeend', '<p class="form-error">No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.</p>');
+    });
+  });
+}
+
+/* Same fetch-intercept pattern as initQuoteForm(), but generic for the Google Ads landing
+   pages' embedded quote forms (.lp-form, one per /landing/<slug>/ page) — swaps the whole
+   form for an inline "gracias" message instead of Netlify's default full-page redirect. */
+function initLandingForms(){
+  document.querySelectorAll('.lp-form').forEach(function(form){
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var btn = form.querySelector('button');
+      if(btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+
+      var data = new FormData(form);
+      var body = new URLSearchParams(data).toString();
+
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body
+      }).then(function(res){
+        if(!res.ok) throw new Error('bad status');
+        form.innerHTML = '<p class="form-success">¡Gracias! Nuestro equipo comercial se pondrá en contacto contigo a la brevedad.</p>';
+      }).catch(function(){
+        if(btn){ btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
+        form.insertAdjacentHTML('beforeend', '<p class="form-error">No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.</p>');
+      });
     });
   });
 }
