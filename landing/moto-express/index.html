@@ -43,6 +43,11 @@ section{padding:52px 0;}
   -webkit-mask:url(../../assets/tecnologia/moto-scroll-icon.png?v=1786493200) no-repeat center/contain;
   mask:url(../../assets/tecnologia/moto-scroll-icon.png?v=1786493200) no-repeat center/contain;
 }
+/* .service-cta-final p{color:rgba(255,255,255,.75)} (shared style.css) otherwise beats
+   .form-success/.form-error's own color by specificity, washing the submit-result message
+   out against the section's dark-blue background. */
+.service-cta-final .form-success{color:var(--blue-dark);}
+.service-cta-final .form-error{color:#ffd7c2;}
 </style>
 <script type="application/ld+json">
 {
