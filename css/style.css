@@ -1081,6 +1081,11 @@ section{padding:96px 0;}
 .article-page h2 + h3{margin-top:12px;}
 .article-page li{margin-bottom:6px;}
 .article-page p a,.article-page li a{color:var(--blue);text-decoration:underline;}
+.article-table-wrap{overflow-x:auto;margin:0 0 20px;border-radius:var(--radius-md);border:1px solid var(--border);}
+.article-page table{width:100%;border-collapse:collapse;font-size:14.5px;}
+.article-page th,.article-page td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--border);color:var(--ink-soft);vertical-align:top;}
+.article-page th{background:var(--blue-tint);color:var(--blue-dark);font-weight:700;white-space:nowrap;}
+.article-page tr:last-child td{border-bottom:none;}
 .article-cta .btn{color:#fff;}
 .article-cta{
   margin-top:40px;padding:28px;border-radius:var(--radius-lg);background:var(--blue-tint);
