@@ -128,7 +128,8 @@
     function(){ initBackToTop(); },
     function(){ initQuoteForm(); },
     function(){ initLandingForms(); },
-    function(){ initWhatsAppFloat(); }
+    function(){ initWhatsAppFloat(); },
+    function(){ initWhatsAppClickTracking(); }
   ].forEach(function(fn){ deferNonCritical(fn); });
 })();
 
@@ -162,6 +163,31 @@ function initWhatsAppFloat(){
   }
 }
 
+/* Fires a GA4 "generate_lead" event on a successful form submission, tagged with which form
+   sent it (form_name) so Contacto vs. each landing page's own form can be told apart in GA4 /
+   Google Ads once this event is imported there as a conversion. gtag itself only loads on the
+   real motocity.cl domain (see the GA4 snippet in <head>), so this is a no-op elsewhere. */
+function trackLeadConversion(formName){
+  if(typeof gtag === 'function'){
+    gtag('event', 'generate_lead', { form_name: formName });
+  }
+}
+
+/* Fires a GA4 "whatsapp_click" event for every WhatsApp link on the site (site-wide floating
+   button, header CTAs, service-page CTAs, footer, landing pages — 190+ links across ~40 pages),
+   via a single delegated click listener instead of touching every page/button individually.
+   Matches any wa.me link regardless of phone number, since several distinct numbers are used
+   (main sales line vs. "ya soy cliente" coordination line, etc.) — all count as WhatsApp intent. */
+function initWhatsAppClickTracking(){
+  document.addEventListener('click', function(e){
+    var link = e.target.closest && e.target.closest('a[href*="wa.me/"]');
+    if(!link) return;
+    if(typeof gtag === 'function'){
+      gtag('event', 'whatsapp_click', { link_url: link.href });
+    }
+  });
+}
+
 /* Netlify Forms normally does a full-page POST + redirect on submit. We intercept it and
    submit via fetch instead so we can swap the button for an inline "gracias" message in the
    same spot, without navigating away from the page. */
@@ -186,6 +212,7 @@ function initQuoteForm(){
       if(!res.ok) throw new Error('bad status');
       area.innerHTML = '<p class="form-success">¡Gracias! Te contactaremos lo antes posible.</p>';
       form.reset();
+      trackLeadConversion('cotizacion');
     }).catch(function(){
       if(btn){ btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
       area.insertAdjacentHTML('beforeend', '<p class="form-error">No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.</p>');
@@ -213,6 +240,7 @@ function initLandingForms(){
       }).then(function(res){
         if(!res.ok) throw new Error('bad status');
         form.innerHTML = '<p class="form-success">¡Gracias! Nuestro equipo comercial se pondrá en contacto contigo a la brevedad. Mientras tanto, puedes revisar todos nuestros servicios en <a href="https://www.motocity.cl">www.motocity.cl</a>.</p>';
+        trackLeadConversion(form.getAttribute('name') || 'landing');
       }).catch(function(){
         if(btn){ btn.disabled = false; btn.textContent = 'Enviar solicitud'; }
         form.insertAdjacentHTML('beforeend', '<p class="form-error">No pudimos enviar tu solicitud. Intenta de nuevo o escríbenos por WhatsApp.</p>');
