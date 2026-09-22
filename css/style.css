@@ -136,12 +136,8 @@ section{padding:96px 0;}
 }
 .nav{display:flex;align-items:center;justify-content:space-between;height:76px;}
 .nav-logo img{height:50px;width:auto;transition:opacity .2s ease;}
-/* Fiestas Patrias (Sept 2026): small flag next to the wordmark — remove this
-   rule plus the <svg class="nav-logo-flag"> markup in every header once the
-   week is over, nothing else depends on it. */
 .nav-logo{display:inline-flex;align-items:center;flex-shrink:0;}
 .nav-logo img{flex-shrink:0;}
-.nav-logo-flag{width:22px;height:15px;flex-shrink:0;margin-left:1px;border-radius:1px;box-shadow:0 0 0 1px rgba(255,255,255,0.25);}
 .nav-links{display:flex;align-items:center;gap:28px;margin-left:32px;}
 .nav-mega{position:relative;}
 .nav-mega-trigger{display:inline-flex;align-items:center;gap:5px;background:none;border:none;padding:0;margin:0;font-family:inherit;cursor:pointer;}
