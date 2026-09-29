@@ -50,6 +50,20 @@ section{padding:52px 0;}
 .service-cta-final .form-success a{color:var(--blue);text-decoration:underline;font-weight:600;}
 .service-cta-final .form-error{color:#ffd7c2;}
 </style>
+<!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
+     para no mezclar tráfico de pruebas con los datos reales. -->
+<script>
+if(!/\.netlify\.app$/.test(location.hostname)){
+  var gaScript=document.createElement('script');
+  gaScript.async=true;
+  gaScript.src='https://www.googletagmanager.com/gtag/js?id=G-8DS6V0P03X';
+  document.head.appendChild(gaScript);
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8DS6V0P03X');
+}
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
