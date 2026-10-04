@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Centro de Ayuda para clientes Motocity</title><meta name="description" content="Resuelve tus dudas sobre servicios, solicitudes, plataforma, horarios, pagos y facturas de Motocity."><link rel="stylesheet" href="styles.css">
+<meta name="robots" content="noindex, nofollow">
+<script>
+if(!/\.netlify\.app$/.test(location.hostname)){
+  var gaScript=document.createElement('script');
+  gaScript.async=true;
+  gaScript.src='https://www.googletagmanager.com/gtag/js?id=G-8DS6V0P03X';
+  document.head.appendChild(gaScript);
+  window.dataLayer=window.dataLayer||[];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-8DS6V0P03X');
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#contenido">Ir al contenido</a>
+<header><div class="header-inner"><a href="#" class="brand" aria-label="Inicio del Centro de Ayuda Motocity"><img src="assets/motocity.png" alt="Motocity" width="170" height="53"></a><span class="header-label">CENTRO DE AYUDA</span><a class="portal-link" href="https://clientes.motocity.cl/cost_centers/sign_in">Ir a la plataforma <span aria-hidden="true">↗</span></a></div></header>
+<main id="contenido">
+<section class="hero"><div class="hero-inner"><span class="eyebrow">PARA CLIENTES MOTOCITY</span><h1>¿En qué podemos ayudarte?</h1><p>Guías claras para que tu mensajería avance.</p><form id="search-form" role="search"><label class="sr" for="search">Buscar en el Centro de Ayuda</label><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><input id="search" type="search" placeholder="Busca: cotización, estados, facturas…" autocomplete="off"><button type="submit">Buscar</button></form><div class="suggestions"><span>Consultas frecuentes:</span><button type="button" data-query="cotización">Cotización</button><button type="button" data-query="estados">Estados</button><button type="button" data-query="facturas">Facturas</button></div></div></section>
+<div class="content-wrap"><section class="hours" aria-label="Horario de solicitudes"><span class="hours-icon" aria-hidden="true">◷</span><p><strong>Ingreso de solicitudes: 08:00 a 17:00 hrs.</strong><span>Los ingresos posteriores se programan para el próximo día hábil.</span></p></section>
+<section class="categories-section" aria-labelledby="categories-title"><div class="section-heading"><h2 id="categories-title">Encuentra tu respuesta</h2><span>6 categorías · 24 artículos</span></div><div class="category-grid" id="categories"></div></section>
+<section class="knowledge" aria-labelledby="articles-title"><aside><span class="nav-label">EXPLORAR AYUDA</span><nav id="category-nav" aria-label="Categorías de ayuda"></nav><div class="side-help"><strong>¿Tu consulta es sobre un servicio en curso?</strong><p>Comparte su ID con Coordinación para facilitar la revisión.</p><a href="https://wa.me/56950105659" target="_blank" rel="noopener noreferrer">Hablar por WhatsApp ↗</a></div></aside><div class="article-area"><div class="section-heading articles-heading"><div><span class="eyebrow small" id="list-eyebrow">COMIENZA AQUÍ</span><h2 id="articles-title">Preguntas frecuentes</h2></div><button class="reset" id="reset" type="button" hidden>Ver todas las categorías</button></div><p class="result-count" id="results" role="status" aria-live="polite"></p><div id="articles"></div><div id="empty" hidden><h3>No encontramos una respuesta con esos términos.</h3><p>Prueba con una palabra más breve o consulta con nuestro equipo.</p><button class="button" id="empty-reset" type="button">Ver preguntas frecuentes</button></div></div></section>
+<section class="contact-section" aria-labelledby="contact-title"><div class="contact-heading"><span class="eyebrow small">ESTAMOS PARA AYUDARTE</span><h2 id="contact-title">¿Necesitas hablar con nosotros?</h2><p>Elige el equipo que corresponde a tu consulta.</p></div><div class="contact-grid"><div class="contact-card"><h3>Coordinación</h3><p>Solicitudes, cambios y seguimiento de servicios.</p><div class="email-row"><strong>contacto@motocity.cl</strong><button class="copy" data-email="contacto@motocity.cl" type="button" aria-label="Copiar correo de Coordinación">Copiar</button><span class="sr copy-status" role="status"></span></div><a class="button whatsapp" href="https://wa.me/56950105659" target="_blank" rel="noopener noreferrer">WhatsApp · +56 9 5010 5659 ↗</a></div><div class="contact-card"><h3>Finanzas</h3><p>Consultas sobre pagos, facturas y comprobantes.</p><div class="email-row"><strong>facturacion@motocity.cl</strong><button class="copy" data-email="facturacion@motocity.cl" type="button" aria-label="Copiar correo de Finanzas">Copiar</button><span class="sr copy-status" role="status"></span></div><span class="finance-note">Indica tu empresa y el documento relacionado.</span></div></div></section>
+</div></main>
+<footer><strong>Motocity</strong><span>Rápido. Seguro. Confiable.</span><a href="https://clientes.motocity.cl/cost_centers/sign_in">Ingresar a la plataforma ↗</a></footer>
+<dialog id="article-dialog" aria-labelledby="dialog-title"><div class="dialog-top"><span id="dialog-category"></span><button id="close-dialog" type="button" aria-label="Cerrar artículo">×</button></div><article id="article-content"></article><div class="article-actions"><button id="share-article" class="copy" type="button">Copiar enlace del artículo</button><span id="share-status" role="status"></span></div></dialog>
+<script src="content.js"></script><script src="app.js"></script>
+</body></html>
