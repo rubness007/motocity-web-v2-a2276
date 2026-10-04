@@ -15,7 +15,7 @@ function render(){
  document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.category===selected?'true':'false'));
 }
 function selectCategory(id,scroll=true){selected=id;query='';$('#search').value='';render();if(scroll)document.querySelector('.knowledge').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
-$('#categories').innerHTML=CATEGORIES.map(c=>`<button class="category-card" type="button" data-category="${c.id}" aria-pressed="false"><span class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true">${icons[c.icon]}</svg></span><span><h3>${esc(c.name)}</h3><p>${esc(c.description)}</p><small>4 artículos →</small></span></button>`).join('');
+$('#categories').innerHTML=CATEGORIES.map(c=>`<button class="category-card" type="button" data-category="${c.id}" aria-pressed="false"><span class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true">${icons[c.icon]}</svg></span><span><h3>${esc(c.name)}</h3><p>${esc(c.description)}</p><small>${ARTICLES.filter(x=>x.category===c.id).length} artículos →</small></span></button>`).join('');
 function doSearch(scroll=false){query=$('#search').value.trim();selected='all';render();if(scroll)document.querySelector('.knowledge').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
 $('#search-form').addEventListener('submit',e=>{e.preventDefault();doSearch(true);});
 $('#search').addEventListener('input',()=>doSearch());
