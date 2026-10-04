@@ -16,7 +16,6 @@ function render(){
 }
 function selectCategory(id,scroll=true){selected=id;query='';$('#search').value='';render();if(scroll)document.querySelector('.knowledge').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
 $('#categories').innerHTML=CATEGORIES.map(c=>`<button class="category-card" type="button" data-category="${c.id}" aria-pressed="false"><span class="icon-tile"><svg viewBox="0 0 24 24" aria-hidden="true">${icons[c.icon]}</svg></span><span><h3>${esc(c.name)}</h3><p>${esc(c.description)}</p><small>4 artículos →</small></span></button>`).join('');
-$('#category-nav').innerHTML='<button type="button" data-category="all" aria-pressed="true">Preguntas frecuentes</button>'+CATEGORIES.map(c=>`<button type="button" data-category="${c.id}" aria-pressed="false">${esc(c.name)}</button>`).join('');
 function doSearch(scroll=false){query=$('#search').value.trim();selected='all';render();if(scroll)document.querySelector('.knowledge').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});}
 $('#search-form').addEventListener('submit',e=>{e.preventDefault();doSearch(true);});
 $('#search').addEventListener('input',()=>doSearch());
