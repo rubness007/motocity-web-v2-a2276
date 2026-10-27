@@ -1,0 +1,34 @@
+#mc-video-hero{font-family:Arial,Helvetica,sans-serif;color:#081939;--office:url('assets/plataforma.jpg')}#mc-video-hero *{box-sizing:border-box}#mc-video-hero .hero{display:grid;grid-template-columns:44% 56%;background:#fff;border-radius:14px;overflow:hidden}#mc-video-hero .copy{align-self:center;padding:40px 22px 40px 28px}#mc-video-hero .tag{font-size:12px;letter-spacing:1.6px;color:#0265bc;margin-bottom:22px}#mc-video-hero h1{font-size:clamp(28px,3.4vw,40px);font-weight:750;line-height:1.13;letter-spacing:-1px;margin:0 0 22px}#mc-video-hero h1 span{color:#0265bc}#mc-video-hero p{font-size:15px;line-height:1.55;color:#596579;margin:0 0 25px}#mc-video-hero .actions{display:flex;gap:10px;flex-wrap:wrap}#mc-video-hero .cta{padding:13px 15px;border:1px solid #0265bc;border-radius:7px;background:#0265bc;color:#fff;font-size:12px;font-weight:600}#mc-video-hero .secondary{background:#fff;color:#0265bc}#mc-video-hero .scene{position:relative;min-height:490px;background:linear-gradient(135deg,#f1f7fa,#dce9ef)}#mc-video-hero .office{position:absolute;left:0;right:0;bottom:0;height:46%;background-image:var(--office);background-size:100% 100%;border-radius:16px 0 0 0}#mc-video-hero .delivery{position:absolute;left:3%;top:8%;width:60%;aspect-ratio:16/9;border:2px solid white;border-radius:14px;overflow:hidden;box-shadow:0 8px 24px #163c5a26;z-index:2;background:#dce9ef}#mc-video-hero video{display:block;width:100%;height:100%;object-fit:cover}#mc-video-hero .status{position:absolute;left:67%;right:3%;top:11%;padding:14px 9px;border-radius:11px;background:#fff;box-shadow:0 8px 20px #193b5e14;z-index:3;transform-origin:center;opacity:0}#mc-video-hero .check{display:flex;width:26px;height:26px;align-items:center;justify-content:center;background:#0265bc;color:white;border-radius:50%;margin-bottom:8px;font-size:18px}#mc-video-hero strong{display:block;font-size:13px;line-height:1.25}#mc-video-hero time{display:block;font-size:11px;line-height:1.6;color:#5a677b;font-variant-numeric:tabular-nums;margin-top:5px}#mc-video-hero .wires{position:absolute;inset:0;width:100%;height:100%;z-index:4;pointer-events:none;overflow:visible}#mc-video-hero .wire{fill:none;stroke:#0265bc;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}#mc-video-hero .dot{fill:#0265bc;stroke:white;stroke-width:2;opacity:0}#mc-video-hero .complete .one{animation:mc-v-draw .5s ease forwards}#mc-video-hero .complete .status{animation:mc-v-card .3s .5s ease forwards}#mc-video-hero .complete .two{animation:mc-v-draw .9s .8s ease forwards}#mc-video-hero .complete .dot{animation:mc-v-card .2s 1.6s forwards}#mc-video-hero .controls{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:12px 2px;color:#637186;font-size:11px}#mc-video-hero .replay{font:inherit;border:1px solid #cbd7e3;padding:11px 14px;background:#fff;color:#0265bc;border-radius:7px;white-space:nowrap}@keyframes mc-v-draw{to{stroke-dashoffset:0}}@keyframes mc-v-card{from{opacity:0}to{opacity:1}}@media(max-width:580px){#mc-video-hero .hero{grid-template-columns:1fr}#mc-video-hero .copy{padding:32px 24px 26px}#mc-video-hero h1{font-size:33px}#mc-video-hero .scene{min-height:410px}#mc-video-hero .status{left:65%;padding:12px 8px}#mc-video-hero strong{font-size:12px}#mc-video-hero time{font-size:11px}}@media(prefers-reduced-motion:reduce){#mc-video-hero .complete *{animation:none!important}#mc-video-hero .complete .wire{stroke-dashoffset:0}#mc-video-hero .complete .status,#mc-video-hero .complete .dot{opacity:1}}
+
+#mc-video-hero .office{container-type:inline-size}
+#mc-video-hero .platform-status{position:absolute;left:45.4%;top:19.6%;width:11.4%;height:7.1%;background:#f4f8fc;display:flex;align-items:center;gap:4%;transform:rotate(-1.4deg);padding:0.6%;color:#0265bc}
+#mc-video-hero .platform-badge{display:flex;align-items:center;justify-content:center;width:80%;height:89%;border-radius:4px;background:#badcff;font-size:1.2cqw;font-weight:600;white-space:nowrap;transition:background .3s,color .3s}
+#mc-video-hero .platform-tick{color:#16865b;font-size:1.65cqw;font-weight:700;opacity:0;transform:scale(.65);transition:opacity .25s,transform .25s}
+#mc-video-hero .finalized .platform-badge{background:#bcebdc;color:#16865b}
+#mc-video-hero .finalized .platform-tick{opacity:1;transform:scale(1)}
+
+#mc-video-hero .cta{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;min-height:44px;font-family:inherit;}
+#mc-video-hero .cta:focus-visible{outline:3px solid #72b9ff;outline-offset:3px;}
+
+/* Integración en motocity.cl: el header es fixed (76px) y queda azul sólido sobre este hero blanco */
+.mc-hero-wrap{padding-top:76px;background:#fff}
+.mc-hero-wrap #mc-video-hero{max-width:1440px;margin:0 auto}
+.mc-hero-wrap #mc-video-hero .hero{border-radius:0}
+
+/* La foto de la plataforma (1794x877) conserva su proporción: antes se deformaba al cambiar el ancho */
+.mc-hero-wrap #mc-video-hero .scene{aspect-ratio:1/.95;min-height:0}
+.mc-hero-wrap #mc-video-hero .office{height:auto;aspect-ratio:1794/877}
+
+/* Animación de la línea: la secuencia la maneja hero.js en una sola línea de tiempo continua */
+#mc-video-hero .wire{stroke-dasharray:1;stroke-dashoffset:1;opacity:0;filter:drop-shadow(0 0 2.5px rgba(2,101,188,.45))}
+#mc-video-hero .dot{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.2);transition:opacity .25s ease,transform .45s cubic-bezier(.34,1.56,.64,1)}
+#mc-video-hero .dot.on{opacity:1;transform:scale(1)}
+#mc-video-hero .head{fill:#fff;stroke:#0265bc;stroke-width:2.5;opacity:0;filter:drop-shadow(0 0 5px rgba(2,101,188,.65))}
+#mc-video-hero .ring{fill:none;stroke:#0265bc;stroke-width:2;opacity:0;transform-box:fill-box;transform-origin:center}
+#mc-video-hero .ring.pulse{animation:mc-v-ring 1.1s ease-out 2}
+#mc-video-hero .status{transform:scale(.9) translateY(6px);transition:opacity .35s ease,transform .55s cubic-bezier(.34,1.56,.64,1)}
+#mc-video-hero .show-card .status{opacity:1;transform:none}
+#mc-video-hero .show-card .check{animation:mc-v-pop .5s .12s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes mc-v-ring{0%{transform:scale(1);opacity:.55}100%{transform:scale(4.2);opacity:0}}
+@keyframes mc-v-pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
+@media(prefers-reduced-motion:reduce){#mc-video-hero .status,#mc-video-hero .dot{transition:none}#mc-video-hero .ring.pulse,#mc-video-hero .show-card .check{animation:none}}
