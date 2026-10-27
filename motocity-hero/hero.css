@@ -32,3 +32,22 @@
 @keyframes mc-v-ring{0%{transform:scale(1);opacity:.55}100%{transform:scale(4.2);opacity:0}}
 @keyframes mc-v-pop{0%{transform:scale(.3);opacity:0}100%{transform:scale(1);opacity:1}}
 @media(prefers-reduced-motion:reduce){#mc-video-hero .status,#mc-video-hero .dot{transition:none}#mc-video-hero .ring.pulse,#mc-video-hero .show-card .check{animation:none}}
+
+/* Pantalla: checks de las filas finalizadas (suben de abajo hacia arriba) y cambio de estado más visible */
+#mc-video-hero .row-tick{position:absolute;color:#16865b;font-size:1.5cqw;font-weight:700;line-height:1;opacity:0;transform:translate(-50%,-50%) scale(.4);transition:opacity .25s ease,transform .5s cubic-bezier(.34,1.56,.64,1);pointer-events:none}
+#mc-video-hero .row-tick.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+#mc-video-hero .platform-badge{transition:background .45s ease,color .45s ease}
+#mc-video-hero .platform-tick{transition:opacity .3s ease,transform .5s cubic-bezier(.34,1.56,.64,1)}
+@media(prefers-reduced-motion:reduce){#mc-video-hero .row-tick,#mc-video-hero .platform-badge,#mc-video-hero .platform-tick{transition:none}}
+
+/* Botón «Ver de nuevo»: solo ícono, pequeño y semitransparente en la esquina del video */
+#mc-video-hero .replay-btn{position:absolute;right:6px;top:6px;z-index:5;display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;padding:0;border:0;border-radius:50%;background:rgba(8,25,57,.32);color:#fff;font-family:inherit;cursor:pointer;opacity:0;visibility:hidden;transition:opacity .4s ease,background .2s,visibility 0s .4s}
+#mc-video-hero .replay-btn::after{content:"";position:absolute;inset:-9px}
+#mc-video-hero .replay-btn.show{opacity:.7;visibility:visible;transition:opacity .4s ease,background .2s,visibility 0s}
+#mc-video-hero .replay-btn.show:hover,#mc-video-hero .replay-btn.show:focus-visible{opacity:1;background:rgba(2,101,188,.85)}
+#mc-video-hero .replay-btn:focus-visible{outline:2px solid #72b9ff;outline-offset:2px}
+#mc-video-hero .replay-btn span{font-size:15px;line-height:1;margin-top:-1px}
+@media(prefers-reduced-motion:reduce){#mc-video-hero .replay-btn{transition:none}}
+
+/* Video un poco más angosto: más separación con la tarjeta y la línea respira */
+.mc-hero-wrap #mc-video-hero .delivery{width:57%}

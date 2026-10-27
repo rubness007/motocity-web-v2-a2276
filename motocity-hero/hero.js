@@ -16,6 +16,27 @@
   const ring = mk('ring'), head = mk('head');
   svg.append(ring, head);
 
+  /* Checks de las filas ya finalizadas (#1038, #1040, #1041), sobre la foto de la plataforma.
+     Posiciones en % de la foto (1794x877); van de abajo hacia arriba y la fila #1042 cierra. */
+  const rowTicks = [[56.0, 57.1], [55.2, 40.1], [54.9, 31.8]].map(([x, y]) => {
+    const t = document.createElement('span');
+    t.className = 'row-tick'; t.setAttribute('aria-hidden', 'true'); t.textContent = '✓';
+    t.style.left = x + '%'; t.style.top = y + '%';
+    office.appendChild(t);
+    return t;
+  });
+  let screenTimers = [];
+
+  /* Botón «Ver de nuevo»: la secuencia se ve una sola vez; al terminar aparece este botón en la
+     esquina del video y reproduce la secuencia completa otra vez cuando el visitante lo pide. */
+  const replayBtn = document.createElement('button');
+  replayBtn.type = 'button';
+  replayBtn.className = 'replay-btn';
+  replayBtn.setAttribute('aria-label', 'Ver la animación de nuevo');
+  replayBtn.title = 'Ver de nuevo';
+  replayBtn.innerHTML = '<span aria-hidden="true">↻</span>';
+  delivery.appendChild(replayBtn);
+
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* Reloj de la tarjeta: fecha y hora local del visitante */
@@ -33,6 +54,8 @@
   const MIN_SEG = 0.55;       // duración mínima de un tramo (s)
   const CARD_LEAD = 0.12;     // la tarjeta aparece un instante antes de que la línea llegue
   const GAP = 0.05;           // pausa entre llegar a la tarjeta y salir de ella
+  const SCREEN_DELAY = 550;   // ms entre que la línea toca el monitor y empieza el cambio en pantalla
+  const ROW_STEP = 170;       // ms entre cada check (de abajo hacia arriba)
   const EARLY = 0.3;          // la línea parte este tiempo antes de que termine el video (s)
   const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * t);   // easeInOutSine
   const clamp = t => Math.min(1, Math.max(0, t));
@@ -51,8 +74,10 @@
     const w = scene.clientWidth, h = scene.clientHeight;
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
     const sx = delivery.offsetLeft + delivery.offsetWidth,
-          sy = delivery.offsetTop + delivery.offsetHeight * .3,
-          tx = status.offsetLeft,
+          sy = delivery.offsetTop + delivery.offsetHeight * .3;
+    /* La tarjeta se centra a la altura de salida de la línea: el primer tramo sale recto, sin escalón */
+    status.style.top = Math.round(sy - status.offsetHeight / 2) + 'px';
+    const tx = status.offsetLeft,
           ty = status.offsetTop + status.offsetHeight * .5;
     first.setAttribute('d', route(sx, sy, tx, ty, (sx + tx) / 2));
 
@@ -94,8 +119,12 @@
     hero.classList.add('show-card');
     finish.classList.add('on');
     ring.classList.remove('pulse'); void ring.getBoundingClientRect(); ring.classList.add('pulse');
-    badge.textContent = 'Finalizado';
-    hero.classList.add('finalized');
+    rowTicks.forEach((t, i) => screenTimers.push(setTimeout(() => t.classList.add('on'), SCREEN_DELAY + i * ROW_STEP)));
+    screenTimers.push(setTimeout(() => {
+      badge.textContent = 'Finalizado';
+      hero.classList.add('finalized');
+      if (!reduced) replayBtn.classList.add('show');
+    }, SCREEN_DELAY + rowTicks.length * ROW_STEP));
   }
 
   function frame(now) {
@@ -127,6 +156,9 @@
 
   function reset() {
     cancelAnimationFrame(raf);
+    screenTimers.forEach(clearTimeout); screenTimers = [];
+    replayBtn.classList.remove('show');
+    rowTicks.forEach(t => t.classList.remove('on'));
     state = 'idle';
     hero.classList.remove('show-card', 'finalized');
     start.classList.remove('on'); finish.classList.remove('on'); ring.classList.remove('pulse');
@@ -140,6 +172,7 @@
     start.classList.add('on');
     hero.classList.add('show-card');
     finish.classList.add('on');
+    rowTicks.forEach(t => t.classList.add('on'));
     badge.textContent = 'Finalizado';
     hero.classList.add('finalized');
     state = 'done';
@@ -162,7 +195,7 @@
   video.addEventListener('ended', begin);
   video.addEventListener('error', () => { if (state === 'idle') begin(); });
 
-  $('.replay')?.addEventListener('click', play);
+  replayBtn.addEventListener('click', play);
   new IntersectionObserver((entries, obs) => {
     if (entries.some(e => e.isIntersecting)) { play(); obs.disconnect(); }
   }, { threshold: .25 }).observe(hero);
