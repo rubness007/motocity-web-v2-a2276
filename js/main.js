@@ -142,7 +142,29 @@ function initWhatsAppFloat(){
   var btn = document.getElementById('whatsappFloat');
   if(!btn) return;
 
-  function show(){ btn.classList.add('is-visible'); }
+  /* The commercial team only answers Monday–Friday, 08:00–19:00 Chile time (America/Santiago,
+     regardless of the visitor's own timezone) — outside that window the button is hidden
+     entirely (visibility, so it also leaves the tab order). Re-checked every minute so it
+     appears/disappears on its own without a reload. If Intl can't resolve the timezone,
+     fail open and keep the button available. */
+  function inBusinessHours(){
+    try{
+      var parts = new Intl.DateTimeFormat('en-US',{timeZone:'America/Santiago',weekday:'short',hour:'numeric',hourCycle:'h23'}).formatToParts(new Date());
+      var wd = '', hr = -1;
+      parts.forEach(function(p){ if(p.type === 'weekday') wd = p.value; if(p.type === 'hour') hr = parseInt(p.value, 10); });
+      if(hr === 24) hr = 0;
+      return ['Mon','Tue','Wed','Thu','Fri'].indexOf(wd) !== -1 && hr >= 8 && hr < 19;
+    }catch(e){ return true; }
+  }
+
+  var ready = false;
+  function update(){
+    var open = ready && inBusinessHours();
+    btn.style.visibility = (ready && !inBusinessHours()) ? 'hidden' : '';
+    btn.classList.toggle('is-visible', open);
+  }
+  function show(){ ready = true; update(); }
+  setInterval(update, 60000);
 
   var header = document.getElementById('siteHeader');
   var hasHero = document.getElementById('motocityHeroSequence');
