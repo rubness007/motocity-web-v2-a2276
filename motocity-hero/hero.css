@@ -82,13 +82,15 @@
 /* Clientes va justo después del fondo continuo: se quita su velo azul superior para que no haga corte */
 .mc-top-bg + .clients-section::before{display:none}
 
-/* Encabezado de clientes: mismo patrón que servicios (rótulo azul con guion naranja + título), centrado sobre el carrusel */
-.mc-clients-head{text-align:center;padding:0 24px;margin:0 auto 26px;max-width:760px}
-.mc-clients-eyebrow{display:flex;align-items:center;justify-content:center;gap:10px;font-size:11px;letter-spacing:2.3px;font-weight:700;color:#0265bc;margin-bottom:12px}
-.mc-clients-eyebrow::before,.mc-clients-eyebrow::after{content:'';display:block;width:24px;height:3px;border-radius:3px;background:#c15f3c}
-.mc-clients-head h2{text-wrap:balance;font-size:28px;line-height:1.18;letter-spacing:-.9px;font-weight:750;color:#101f3b;margin:0}
+/* Encabezado de clientes: mismo patrón que servicios (rótulo azul con guion naranja + título), alineado a la izquierda
+   con los rótulos de servicios y nuestra gente para que la línea azul los recorra sobre la misma vertical */
+.mc-clients-head{text-align:left;padding:0 30px;margin:0 0 26px;max-width:none}
+.mc-clients-eyebrow{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:2.3px;font-weight:700;color:#0265bc;margin-bottom:12px}
+.mc-clients-eyebrow::before{content:'';display:block;width:24px;height:3px;border-radius:3px;background:#c15f3c}
+.mc-clients-head h2{text-wrap:balance;font-size:28px;line-height:1.18;letter-spacing:-.9px;font-weight:750;color:#101f3b;margin:0;max-width:640px}
 .mc-clients-head h2 span{color:#0265bc}
-@media(max-width:520px){.mc-clients-head h2{font-size:24px}}
+@media(max-width:520px){.mc-clients-head{padding:0 18px}.mc-clients-head h2{font-size:24px}}
+.clients-section .clients-marquee{position:relative;z-index:25}
 
 /* ===== LOGOS DE CLIENTES MÁS GRANDES (+28%) — para volver atrás, borrar solo este bloque =====
    Valores anteriores: base 34px/120px, boost y size-boost 42/148, xl 54/180, sm 27/95; opacidad 0.62 (boost 0.75, xl 0.6);
@@ -113,3 +115,9 @@
 }
 @media(prefers-reduced-motion:reduce){.clients-section .clients-track{animation:none}}
 /* ===== fin logos más grandes ===== */
+.mc-link-branch{transition:stroke-dashoffset .45s ease,opacity .2s ease}
+@media(prefers-reduced-motion:reduce){.mc-link-branch{transition:none}}
+/* Boca del túnel: la línea pasa bajo la franja de logos de clientes sin tapar ninguno */
+.mc-link-mouth{fill:none;stroke:#0265bc;stroke-width:3;stroke-linecap:round;opacity:0;transition:opacity .3s ease}
+.mc-link-mouth.on{opacity:1}
+@media(prefers-reduced-motion:reduce){.mc-link-mouth{transition:none}}

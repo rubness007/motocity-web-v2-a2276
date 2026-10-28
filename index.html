@@ -138,8 +138,9 @@ if(/\.netlify\.app$/.test(location.hostname)){
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/style.css?v=1787200000">
-<link rel="stylesheet" href="/motocity-hero/hero.css?v=1789100000">
+<link rel="stylesheet" href="/motocity-hero/hero.css?v=1789600000">
 <link rel="stylesheet" href="/motocity-servicios/servicios.css?v=1788200000">
+<link rel="stylesheet" href="/motocity-nuestra-gente/nuestra-gente.css?v=1789800000">
 
 <!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
      para no mezclar tráfico de pruebas con los datos reales. -->
@@ -246,7 +247,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 
 <!-- ============ CLIENTES ============ -->
 <section class="clients-section" style="background:var(--bg-soft);padding-top:56px;padding-bottom:40px;">
-  <div class="mc-clients-head rv"><div class="mc-clients-eyebrow">NUESTROS CLIENTES</div><h2><span>12 años</span> movilizando la confianza de grandes empresas.</h2></div>
+  <div class="w"><div class="mc-clients-head rv"><div class="mc-clients-eyebrow">NUESTROS CLIENTES</div><h2><span>12 años</span> movilizando la confianza de grandes empresas.</h2></div></div>
   <div class="clients-marquee rv">
    <div class="clients-track">
     <ul class="clients-row">
@@ -304,6 +305,42 @@ if(!/\.netlify\.app$/.test(location.hostname)){
    </div>
   </div>
 </section>
+
+<!-- ============ NUESTRA GENTE ============ -->
+<div class="mc-gente-wrap" style="background:var(--bg-soft);padding:24px 0 72px;">
+  <div class="w">
+<section id="mc-people-accordion" aria-label="Nuestra gente Motocity">
+
+<div class="eyebrow">NUESTRA GENTE</div>
+<h2>Tecnología que conecta.<br><span>Personas que resuelven.</span></h2>
+<p class="intro">Detrás de cada envío y cada trámite hay un motorista Motocity: alguien que conoce la ciudad, entiende tu encargo y tiene la disposición para resolverlo.</p>
+<div class="layout">
+<div class="visual"><div class="video-heading">Conócenos en 360° <span class="video-hint">gira con el scroll o arrastrando</span></div><div class="video-panel"><video muted playsinline preload="none" poster="/motocity-nuestra-gente/assets/poster.jpg" aria-label="Motorista Motocity con su mochila junto a una moto, visto en 360 grados"><source src="/motocity-nuestra-gente/assets/motorista-360-scrub.mp4" type="video/mp4"></video><div class="video-controls"><button class="video-control pause " type="button" hidden aria-label="Ver de nuevo" title="Ver de nuevo"><span class="replay-symbol" aria-hidden="true">↻</span></button></div></div></div>
+<div class="groups" aria-label="Atributos de nuestro equipo">
+<details class="group" name="mc-people-groups" open><summary class=""><span class="group-number">01</span><span class="group-title">Personas preparadas</span><span class="chevron" aria-hidden="true">+</span></summary><div class="items">
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Sabemos quién va por ti.</strong><p>Motoristas identificados y contratados directamente.</p></div></div>
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Criterio para resolver en terreno.</strong><p>Experiencia e iniciativa para llevar adelante tus gestiones.</p></div></div>
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>La ciudad es su terreno.</strong><p>Conocen Santiago y saben cómo moverse por la ciudad.</p></div></div>
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Buena disposición, siempre.</strong><p>Trato amable y ganas de ayudarte en cada servicio.</p></div></div>
+</div></details>
+<details class="group" name="mc-people-groups"><summary class=""><span class="group-number">02</span><span class="group-title">Seguridad y formalidad</span><span class="chevron" aria-hidden="true">+</span></summary><div class="items">
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Respaldo laboral y previsional.</strong><p>Contratación formal, con certificados F30 y F30-1.</p></div></div>
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Equipados para trabajar seguros.</strong><p>Elementos de protección personal para su labor.</p></div></div>
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Tus documentos, bien resguardados.</strong><p>Mochila o caja de transporte para protegerlos durante el recorrido.</p></div></div>
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Todo en regla.</strong><p>Licencia de conducir y documentación al día.</p></div></div>
+</div></details>
+<details class="group" name="mc-people-groups"><summary class=""><span class="group-number">03</span><span class="group-title">Un equipo detrás</span><span class="chevron" aria-hidden="true">+</span></summary><div class="items">
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Tu operación sigue en marcha.</strong><p>Motorista de respaldo ante ausencias o desperfectos mecánicos.</p></div></div>
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>Coordinación que te acompaña.</strong><p>Un equipo para resolver dudas y apoyar cada servicio.</p></div></div>
+<div class="item"><span class="check" aria-hidden="true">✓</span><div><strong>APP inteligente de asistencia y rutas.</strong><p>Apoyo digital para organizar la jornada y las rutas de cada motorista.</p></div></div>
+</div></details>
+</div>
+</div>
+<p class="closing">Detrás de cada motorista hay un equipo y una operación que lo respaldan.</p>
+
+</section>
+  </div>
+</div>
 
 <section class="billing-section" style="background:var(--bg-soft);">
   <div class="w">
@@ -894,7 +931,8 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
 <script src="js/main.js?v=1787300000"></script>
 <script src="/motocity-hero/hero.js?v=1789200000" defer></script>
-<script src="/motocity-hero/conector.js?v=1788100000" defer></script>
+<script src="/motocity-hero/conector.js?v=1789600000" defer></script>
 <script src="/motocity-servicios/servicios.js?v=1788000000" defer></script>
+<script src="/motocity-nuestra-gente/nuestra-gente.js?v=1789700000" defer></script>
 </body>
 </html>
