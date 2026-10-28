@@ -26,6 +26,9 @@
     return t;
   });
   let screenTimers = [];
+  let animDone = false, videoEnded = false, watcher = 0;
+  /* «Ver de nuevo» aparece solo cuando terminaron la animación Y el video completo */
+  function maybeShowReplay() { if (!reduced && animDone && videoEnded) replayBtn.classList.add('show'); }
 
   /* Botón «Ver de nuevo»: la secuencia se ve una sola vez; al terminar aparece este botón en la
      esquina del video y reproduce la secuencia completa otra vez cuando el visitante lo pide. */
@@ -56,7 +59,7 @@
   const GAP = 0.05;           // pausa entre llegar a la tarjeta y salir de ella
   const SCREEN_DELAY = 550;   // ms entre que la línea toca el monitor y empieza el cambio en pantalla
   const ROW_STEP = 170;       // ms entre cada check (de abajo hacia arriba)
-  const EARLY = 0.3;          // la línea parte este tiempo antes de que termine el video (s)
+  const START_AT = 3;         // la animación de la línea se activa a los 3 s del video, que sigue corriendo
   const ease = t => 0.5 - 0.5 * Math.cos(Math.PI * t);   // easeInOutSine
   const clamp = t => Math.min(1, Math.max(0, t));
 
@@ -123,7 +126,8 @@
     screenTimers.push(setTimeout(() => {
       badge.textContent = 'Finalizado';
       hero.classList.add('finalized');
-      if (!reduced) replayBtn.classList.add('show');
+      animDone = true;
+      maybeShowReplay();
     }, SCREEN_DELAY + rowTicks.length * ROW_STEP));
   }
 
@@ -158,6 +162,7 @@
     cancelAnimationFrame(raf);
     screenTimers.forEach(clearTimeout); screenTimers = [];
     replayBtn.classList.remove('show');
+    animDone = false; videoEnded = false; clearInterval(watcher);
     rowTicks.forEach(t => t.classList.remove('on'));
     state = 'idle';
     hero.classList.remove('show-card', 'finalized');
@@ -185,15 +190,21 @@
     video.currentTime = 0;
     draw();
     if (reduced) { showFinal(); return; }
-    try { await video.play(); } catch (e) { begin(); }
+    try { await video.play(); watch(); } catch (e) { videoEnded = true; begin(); }
   }
 
-  /* La línea parte un poco antes del final del video para que se sienta continua con la entrega */
-  video.addEventListener('timeupdate', () => {
-    if (state === 'idle' && video.duration && video.duration - video.currentTime <= EARLY) begin();
-  });
-  video.addEventListener('ended', begin);
-  video.addEventListener('error', () => { if (state === 'idle') begin(); });
+  /* Vigila el tiempo del video (cada 50 ms, más fino que timeupdate) hasta llegar a START_AT */
+  function watch() {
+    clearInterval(watcher);
+    watcher = setInterval(() => {
+      if (state !== 'idle') { clearInterval(watcher); return; }
+      if (video.currentTime >= START_AT) { clearInterval(watcher); begin(); }
+    }, 50);
+  }
+
+  /* Si el video termina antes de llegar a START_AT (o falla), la animación arranca igual */
+  video.addEventListener('ended', () => { videoEnded = true; begin(); maybeShowReplay(); });
+  video.addEventListener('error', () => { videoEnded = true; if (state === 'idle') begin(); });
 
   replayBtn.addEventListener('click', play);
   new IntersectionObserver((entries, obs) => {
