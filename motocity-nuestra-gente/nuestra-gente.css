@@ -24,11 +24,3 @@
 #mc-people-accordion .replay-symbol{font-size:15px;line-height:1;margin-top:-1px}
 @media(pointer:coarse){#mc-people-accordion .video-control{width:26px;height:26px;min-height:26px}}
 @keyframes mcpeople-replay-in{from{opacity:0}to{opacity:.7}}
-
-/* Video 360° controlado por el scroll y por arrastre */
-#mc-people-accordion .video-panel{cursor:grab;touch-action:pan-y;-webkit-user-select:none;user-select:none}
-#mc-people-accordion .video-panel.is-dragging{cursor:grabbing}
-#mc-people-accordion .video-panel video{pointer-events:none}
-#mc-people-accordion .video-hint{font-weight:500;color:#7a8ba1;font-size:12px}
-#mc-people-accordion .video-hint::before{content:'· '}
-@media(max-width:540px){#mc-people-accordion .video-hint{display:block;margin-top:2px}#mc-people-accordion .video-hint::before{content:none}}
