@@ -46,8 +46,18 @@ if(!/\.netlify\.app$/.test(location.hostname)){
   gtag('config', 'G-8DS6V0P03X');
 }
 </script>
+<!-- Píxel de Meta: solo se carga en los dominios reales de motocity.cl (no en el preview de Netlify ni en local),
+     para no mezclar tráfico de pruebas con los datos de las campañas. -->
+<script>
+if(!/\.netlify\.app$|^localhost$|^127\.0\.0\.1$/.test(location.hostname)){
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','433017331768458');
+fbq('track','PageView');
+}
+</script>
 </head>
 <body>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=433017331768458&ev=PageView&noscript=1" alt=""/></noscript>
 
 <header class="site-header" id="siteHeader">
   <div class="w nav">
@@ -112,6 +122,8 @@ if(!/\.netlify\.app$/.test(location.hostname)){
       <li>Mensaje o detalle de tu solicitud</li>
     </ul>
     <p>Adicionalmente, nuestro sitio utiliza <strong>Google Analytics 4</strong>, una herramienta de analítica que emplea cookies para entender de forma agregada y anónima cómo se usa el sitio (páginas visitadas, tiempo de navegación, dispositivo). Además, utilizamos <strong>Google Ads</strong> y sus funciones de remarketing. Esto nos permite mostrar anuncios de Motocity a personas que visitaron nuestro sitio, en la Búsqueda de Google y en otros sitios y servicios de Google. Para ello, Google puede usar cookies propias para reconocer tu visita anterior. No compartimos tus datos de contacto (nombre, correo o teléfono) con Google para estos fines. Puedes desactivar la publicidad personalizada de Google en cualquier momento desde <a href="https://adssettings.google.com" target="_blank" rel="noopener">adssettings.google.com</a>, o bloquear las cookies desde la configuración de tu navegador.</p>
+
+    <p>También utilizamos el <strong>Píxel de Meta</strong> (Meta Platforms, Inc.), que nos permite medir el resultado de nuestras campañas en Facebook e Instagram y mostrar anuncios de Motocity a personas que visitaron nuestro sitio. El píxel registra tu visita y acciones como enviar el formulario de contacto, hacer clic en un botón de cotización o abrir un chat de WhatsApp, y para ello Meta puede usar cookies propias. No enviamos a Meta tus datos de contacto (nombre, correo o teléfono) para estos fines. Puedes gestionar los anuncios que ves en Facebook e Instagram desde la <a href="https://www.facebook.com/adpreferences/ad_settings" target="_blank" rel="noopener">configuración de preferencias de anuncios de Meta</a>, o bloquear las cookies desde la configuración de tu navegador.</p>
 
     <h2>2. Para qué usamos tus datos</h2>
     <p>Usamos la información recibida exclusivamente para responder tu solicitud de cotización o contacto, contactarte por correo, teléfono o WhatsApp, y evaluar la mejor forma de prestarte nuestros servicios de mensajería. No vendemos ni compartimos tus datos con terceros para fines comerciales distintos a estos.</p>
@@ -188,7 +200,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
     <div class="footer-bottom">
       <span>© Motocity 2026 — Todos los derechos reservados.</span>
     </div>
-    <p class="footer-cookienote">Este sitio usa cookies de analítica y de publicidad (Google Analytics y Google Ads). Más información en nuestra <a href="/politica-de-privacidad/">Política de Privacidad</a>.</p>
+    <p class="footer-cookienote">Este sitio usa cookies de analítica y de publicidad (Google Analytics, Google Ads y Meta). Más información en nuestra <a href="/politica-de-privacidad/">Política de Privacidad</a>.</p>
   </div>
 </footer>
 
@@ -202,6 +214,6 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 
 <script src="https://unpkg.com/gsap@3.12.7/dist/gsap.min.js"></script>
 <script src="https://unpkg.com/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
-<script src="../js/main.js?v=1787300000"></script>
+<script src="../js/main.js?v=1789200000"></script>
 </body>
 </html>

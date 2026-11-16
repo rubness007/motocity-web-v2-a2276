@@ -129,7 +129,8 @@
     function(){ initQuoteForm(); },
     function(){ initLandingForms(); },
     function(){ initWhatsAppFloat(); },
-    function(){ initWhatsAppClickTracking(); }
+    function(){ initWhatsAppClickTracking(); },
+    function(){ initMetaEvents(); }
   ].forEach(function(fn){ deferNonCritical(fn); });
 })();
 
@@ -193,6 +194,54 @@ function trackLeadConversion(formName){
   if(typeof gtag === 'function'){
     gtag('event', 'generate_lead', { form_name: formName });
   }
+  metaTrack('Lead', { content_name: formName, content_category: 'formulario' });
+}
+
+/* Píxel de Meta: eventos estándar para las campañas de Facebook/Instagram. `fbq` solo existe en los
+   dominios reales (ver el snippet del <head>): en el preview de Netlify y en local esto no hace nada. */
+function metaTrack(eventName, params){
+  if(typeof fbq === 'function'){ fbq('track', eventName, params || {}); }
+}
+function metaTrackCustom(eventName, params){
+  if(typeof fbq === 'function'){ fbq('trackCustom', eventName, params || {}); }
+}
+/* Qué botón de WhatsApp es, para segmentar en Meta (cotización urgente, cliente, convenio…). */
+function whatsappButtonLabel(link){
+  var t = (link.textContent || '').toLowerCase();
+  if(link.id === 'whatsappFloat') return 'whatsapp_flotante';
+  if(t.indexOf('convenio') > -1) return 'convenio_mensajeria';
+  if(t.indexOf('urgente') > -1) return 'cotizacion_urgente';
+  if(t.indexOf('ya soy cliente') > -1 || t.indexOf('ya eres cliente') > -1) return 'cliente_pedir_servicio';
+  if(t.indexOf('coordinaci') > -1) return 'coordinacion_servicios';
+  return 'whatsapp_otro';
+}
+/* ViewContent en las páginas de servicio y landing; CotizarClick (evento propio) en cualquier botón
+   "Cotizar…" que lleve a /contacto/, para poder armar audiencias de quien hizo clic pero no envió el formulario. */
+function initMetaEvents(){
+  var names = {
+    '/mensajeria-express-santiago/':'Moto Express',
+    '/gestion-tramites-empresas/':'Moto Gestión',
+    '/mensajeria-sector-financiero/':'Moto Financiero',
+    '/motorista-corporativo/':'Moto Corporativo',
+    '/landing/moto-express/':'Moto Express',
+    '/landing/moto-gestion/':'Moto Gestión',
+    '/landing/moto-financiero/':'Moto Financiero',
+    '/landing/moto-corporativo/':'Moto Corporativo',
+    '/landing/mensajeria-empresas/':'Mensajería para empresas'
+  };
+  var path = location.pathname.replace(/index\.html$/, '');
+  if(path.slice(-1) !== '/') path += '/';
+  if(names[path]){
+    metaTrack('ViewContent', { content_name: names[path], content_category: 'Servicio' });
+  }
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="/contacto"]');
+    if(!a) return;
+    var txt = (a.textContent || '').replace(/\s+/g, ' ').trim();
+    if(/cotiz/i.test(txt)){
+      metaTrackCustom('CotizarClick', { origen: path, boton: txt.slice(0, 60) });
+    }
+  });
 }
 
 /* Fires a GA4 "whatsapp_click" event for every WhatsApp link on the site (site-wide floating
@@ -206,6 +255,11 @@ function initWhatsAppClickTracking(){
     if(!link) return;
     if(typeof gtag === 'function'){
       gtag('event', 'whatsapp_click', { link_url: link.href });
+    }
+    var label = whatsappButtonLabel(link);
+    metaTrack('Contact', { content_name: label, content_category: 'whatsapp' });
+    if(label === 'convenio_mensajeria'){
+      metaTrack('Lead', { content_name: label, content_category: 'whatsapp_convenio' });
     }
   });
 }
