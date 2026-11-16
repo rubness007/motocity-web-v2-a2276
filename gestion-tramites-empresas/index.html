@@ -93,7 +93,7 @@ if(/\.netlify\.app$/.test(location.hostname)){
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/style.css?v=1787200000">
+<link rel="stylesheet" href="../css/style.css?v=1789100000">
 
 <!-- GA4: solo se carga en los dominios reales de motocity.cl, nunca en el preview de Netlify,
      para no mezclar tráfico de pruebas con los datos reales. -->
@@ -183,6 +183,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
         <source srcset="/assets/services/motocity-gestion-tramites-empresas.webp?v=1786590000" type="image/webp">
         <img src="/assets/services/motocity-gestion-tramites-empresas.jpg?v=1786590000" alt="Mensajero de Motocity entregando documentos en el mesón de atención de una oficina de trámites, con su número de fila en la mano" width="1200" height="1200" fetchpriority="high" decoding="async">
       </picture>
+      <img class="service-emblem" src="/assets/services/emblem-gestion.webp?v=1789000000" alt="" width="480" height="480" decoding="async">
     </div>
   </div>
 </section>
@@ -280,14 +281,17 @@ if(!/\.netlify\.app$/.test(location.hostname)){
     <h2>Otros servicios de Motocity</h2>
     <div class="service-related-grid">
       <a class="service-related-card" href="/mensajeria-express-santiago/">
+        <img class="service-related-ic" src="/assets/services/emblem-white-express.webp?v=1789000000" alt="" width="72" height="72" loading="lazy" decoding="async">
         <h3>Moto Express</h3>
         <p>Conoce envíos urgentes dentro de Santiago.</p>
       </a>
       <a class="service-related-card" href="/motorista-corporativo/">
+        <img class="service-related-ic" src="/assets/services/emblem-white-corporativo.webp?v=1789000000" alt="" width="72" height="72" loading="lazy" decoding="async">
         <h3>Moto Corporativo</h3>
         <p>Conoce un motorista dedicado si tus trámites son recurrentes.</p>
       </a>
       <a class="service-related-card" href="/mensajeria-sector-financiero/">
+        <img class="service-related-ic" src="/assets/services/emblem-white-financiero.webp?v=1789000000" alt="" width="72" height="72" loading="lazy" decoding="async">
         <h3>Moto Financiero</h3>
         <p>Conoce operaciones presenciales para el sector financiero.</p>
       </a>
@@ -297,6 +301,7 @@ if(!/\.netlify\.app$/.test(location.hostname)){
 
 <section class="service-cta-final">
   <div class="w">
+    <img class="service-cta-emblem" src="/assets/services/emblem-white-gestion.webp?v=1789000000" alt="" width="112" height="112" loading="lazy" decoding="async">
     <h2>Deja el trámite en nuestras manos</h2>
     <p>Cuéntanos qué necesitas resolver y coordinaremos una solución en terreno ajustada a tu operación.</p>
     <a href="/contacto/" class="btn btn--primary">Cotizar Moto Gestión</a>
